@@ -1,0 +1,337 @@
+:root {
+  --bg-dark: #0b1019;
+  --bg-panel: #121b28;
+  --bg-card: #172333;
+  --border-soft: #29384c;
+  --gold-lldm: #dfbb6a;
+  --gold-light: #f0d69d;
+  --text-muted: #afbbcd;
+}
+.list-rotation-duration { display: grid; gap: 5px; font-size: 11px; color: var(--text-muted); min-width: 0; }
+.list-rotation-duration input { width: 140px; max-width: 100%; min-height: 40px; padding: 8px 10px; color: #f4f7fb; background: #0e1724; border: 1px solid #45566d; border-radius: 8px; font: inherit; font-size: 14px; }
+[hidden] { display: none !important; }
+html { height: 100%; }
+body { min-width: 0; background: radial-gradient(ellipse at top left, #162337 0, #0b1019 65%); }
+header { position: relative; flex: 0 0 auto; background: #101925; border-bottom: 1px solid var(--border-soft); box-shadow: none; padding: 14px 24px; gap: 16px; }
+.brand-section, .brand-title, .header-controls { min-width: 0; }
+.brand-official-logo { width: 82px; height: 66px; flex-shrink: 0; object-fit: contain; }
+.brand-title h1 { font-size: 20px; letter-spacing: -.5px; line-height: 1.4; }
+.brand-title p { color: var(--text-muted); font-size: 12px; }
+.header-controls { flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+.tabs-bar { position: relative; flex: 0 0 auto; top: auto; background: #101925; border-bottom: 1px solid var(--border-soft); padding: 0 24px; gap: 6px; }
+.tab-item { appearance: none; font: inherit; color: var(--text-muted); background: transparent; border: 0; border-bottom: 3px solid transparent; border-radius: 0; padding: 16px; font-size: 13px; white-space: nowrap; }
+.tab-item.active { color: var(--gold-light); background: #1b2735; border-bottom-color: var(--gold-lldm); }
+.app-layout { width: 100%; max-width: 2048px; margin: 0 auto; padding: 20px 24px; gap: 24px; grid-template-columns: minmax(0, 1.2fr) minmax(340px, .85fr); align-items: start; }
+.left-controls-column, .right-monitor-column, .control-card, .tab-pane { min-width: 0; }
+.left-controls-column { gap: 16px; }
+.tab-pane { gap: 16px; }
+.right-monitor-column { top: 20px; }
+.control-card, .monitor-card { background: var(--bg-panel); border: 1px solid var(--border-soft); box-shadow: none; border-radius: 14px; }
+.control-card { padding: 20px; }
+.card-title { font-size: 15px; text-transform: none; letter-spacing: 0; border-bottom: 0; padding-bottom: 0; margin-bottom: 18px; }
+.monitor-card { padding: 18px; border-top: 3px solid #5bd5ad; }
+.monitor-card-header { gap: 8px; margin-bottom: 16px; }
+.monitor-title { min-width: 0; align-items: center; }
+.monitor-icon { width: 38px; height: 30px; flex-shrink: 0; object-fit: contain; }
+.tv-monitor-title { color: #f4f7fb; font-size: 19px; letter-spacing: -.4px; }
+.preview-frame { width: 100%; min-width: 0; aspect-ratio: 16 / 9; border: 1px solid #344457; border-radius: 8px; box-shadow: none; }
+.preview-frame iframe { pointer-events: none; }
+.preview-frame.output-unconfirmed { outline: 2px solid #d8a349; }
+.connection-notice { margin-top: 10px; color: #edc27d; background: #d9a34a12; padding: 9px 11px; border-radius: 6px; font-size: 11px; line-height: 1.5; }
+.monitor-quick-actions { margin-top: 16px; gap: 8px; }
+.monitor-quick-actions button { min-height: 40px; }
+.monitor-ip-pill { display: none; }
+.hymn-search-box, .search-inputs { min-width: 0; }
+.hymn-search-input, .search-input { min-width: 0; min-height: 46px; border-radius: 8px; background: #0e1622; border-color: #34465c; font-size: 14px; }
+.hymn-results-list, .choir-results-list { max-height: 360px; align-content: start; grid-auto-rows: 44px; overscroll-behavior: contain; }
+.hymn-result-item, .choir-result-item { min-width: 0; height: 44px; min-height: 44px; max-height: 44px; border-radius: 7px; border: 1px solid transparent; margin: 0; padding: 8px 12px; align-self: start; overflow: hidden; }
+.hymn-item-title, .choir-item-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hymn-result-item:hover, .choir-result-item:hover { border-color: #4c5f78; background: #1e2c3e; }
+.hymn-selected-header, .choir-selected-header { min-width: 0; flex-direction: column; align-items: stretch; background: #1b293b; border: 1px solid #3d5069; border-radius: 10px; padding: 14px; gap: 12px; }
+.hymn-selected-info, .choir-selected-info { min-width: 0; width: 100%; }
+.hymn-selected-info h3, .choir-selected-info h3, #selectedPresentationTitle { line-height: 1.5; font-size: 15px; overflow-wrap: anywhere; }
+.hymn-project-actions, .choir-project-actions, .hymn-selected-actions { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.hymn-project-actions button, .choir-project-actions button { min-width: 0; flex: 1 1 128px; min-height: 44px; font-size: 12px; justify-content: center; }
+.btn-gold { background: #e5c276; color: #142033; border: 1px solid #e5c276; box-shadow: none; }
+.btn-gold:hover { background: #f3d69b; }
+.btn-overlay-obs { background: #253451; border: 1px solid #516996; color: #d6e3ff; box-shadow: none; }
+.btn-danger { background: #263142; border: 1px solid #435168; color: #d2dce9; box-shadow: none; }
+button:disabled { opacity: .4; cursor: default; transform: none; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, .slide-card:focus-visible { outline: 3px solid #8cbbff; outline-offset: 3px; }
+.slides-preview-grid, .presentation-slides-grid { min-width: 0; min-height: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); align-content: start; grid-auto-rows: max-content; gap: 12px; padding: 3px; overscroll-behavior: contain; }
+.slides-preview-grid:empty { display: none; }
+.slide-card { min-width: 0; height: auto; align-self: start; border-radius: 9px; box-shadow: none; }
+.slide-card-lines { overflow-wrap: break-word; }
+.slide-card.active-slide { border-color: #5bd5ad; box-shadow: 0 0 0 2px #5bd5ad; }
+.slide-card.active-slide::after { content: 'EN TV'; display: block; color: #83ebc3; font-size: 10px; font-weight: 800; letter-spacing: 1px; margin-top: 8px; }
+.presentation-slides-grid { display: grid; }
+.hymn-search-header-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
+.presentation-result-item { min-width: 0; }
+.presentation-upload-dropzone { min-height: 100px; }
+.presentation-upload-dropzone:hover { transform: none; }
+.overlay-preview-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 8px; border: 1px solid #3c506e; margin-top: 16px; background: repeating-conic-gradient(#263244 0% 25%, #202b3c 0% 50%) 50% / 24px 24px; }
+.overlay-preview-frame iframe { position: absolute; width: 100%; height: 100%; border: 0; transform-origin: top left; pointer-events: none; }
+
+/* CARTELERÍA Y LISTA DE ORACIONES INTEGRADA */
+.carteleria-header-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+.carteleria-title-group { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.carteleria-week-badge { background: rgba(223, 187, 106, 0.14); border: 1px solid rgba(223, 187, 106, 0.4); color: var(--gold-light); font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+.prayer-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.prayer-actions a { text-decoration: none; }
+.prayer-actions button, .prayer-actions a { min-height: 40px; padding: 8px 14px; font-size: 12px; }
+.carteleria-slides-grid { min-height: 0; max-height: none; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 10px; margin-top: 8px; overflow: visible; }
+.carteleria-slide-card { padding: 10px 12px; gap: 4px; }
+.carteleria-slide-card-title { font-size: 13px; font-weight: 800; color: #ffffff; }
+.carteleria-embed-wrapper { width: 100%; border-radius: 14px; overflow: hidden; background: transparent; }
+#carteleria-editor-frame { width: 100%; min-height: 680px; height: 780px; border: 0; display: block; background: transparent; }
+
+.theme-card .search-inputs { display: grid; grid-template-columns: 1fr 1fr auto; }
+.theme-card #themeInput { grid-column: 1 / -1; width: 100%; }
+#bibleSearchInputs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(80px, .35fr) minmax(120px, .5fr); }
+#bibleSearchInputs .input-wrapper-relative { min-width: 0; }
+#bibleSearchInputs input { width: 100%; }
+.search-inputs button { min-height: 44px; }
+#presentationSearchInput { width: 100%; }
+.shortcuts-modal-card, .lyrics-modal-window { min-width: 0; }
+.shortcuts-modal-card { display: flex; flex-direction: column; max-height: calc(100vh - 32px); max-height: calc(100dvh - 32px); }
+.shortcuts-modal-body { flex: 1; min-height: 0; max-height: none; }
+.shortcuts-modal-header { flex-shrink: 0; }
+.lyrics-modal-toolbar, .lyrics-modal-footer, .section-card-header { flex-wrap: wrap; }
+.lyrics-modal-body { min-height: 0; overscroll-behavior: contain; }
+.lyrics-title-input-group { min-width: 0; flex: 1 1 240px; }
+.lyrics-title-input { min-width: 0; width: 100%; }
+.section-card-header > *, .section-header-left, .section-header-right { min-width: 0; }
+.section-textarea, .section-label-input { min-width: 0; max-width: 100%; }
+
+/* Desktop and landscape tablets: viewport height is shared by the library and live output. */
+@media (min-width: 900px) and (min-height: 600px) {
+  body { height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+  .app-layout { flex: 1; min-height: 0; align-items: stretch; overflow: hidden; }
+  .left-controls-column { min-height: 0; overflow-y: auto; padding: 3px; scrollbar-gutter: stable; }
+  .right-monitor-column { position: static; min-height: 0; overflow-y: auto; padding: 3px; }
+  #tab-himnario, #tab-coro { height: 100%; min-height: 0; }
+  #tab-himnario > .control-card, #tab-coro > .control-card { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+  #tab-himnario > .control-card > :not(.slides-preview-grid):not(.hymn-results-list), #tab-coro > .control-card > :not(.slides-preview-grid):not(.choir-results-list) { flex-shrink: 0; }
+  #hymnResultsList, #choirResultsList { flex: 1 1 auto; min-height: 0; max-height: none; align-content: start; grid-auto-rows: 44px; }
+  #hymnSlidesGrid, #choirSlidesGrid { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; align-content: start; grid-auto-rows: max-content; }
+}
+@media (min-width: 1600px) {
+  #tab-presentacion > .hymn-layout { display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.2fr); gap: 16px; }
+}
+@media (max-width: 1199px) {
+  header { padding: 12px 18px; }
+  .brand-section { gap: 10px; }
+  .brand-official-logo { width: 64px; height: 51px; }
+  .brand-title h1 { font-size: 17px; }
+  .brand-title p { display: none; }
+  .header-controls { gap: 8px; }
+  .btn-shortcuts-toggle { display: none; }
+  .tabs-bar { padding: 0 14px; gap: 0; }
+  .tab-item { flex: 1; justify-content: center; padding: 14px 8px; font-size: 12px; white-space: normal; }
+  .app-layout { gap: 16px; padding: 16px; grid-template-columns: minmax(0, 1.15fr) minmax(310px, .85fr); }
+  .control-card, .monitor-card { padding: 16px; }
+  .hymn-project-actions button, .choir-project-actions button { flex-basis: 110px; }
+  .slides-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hymn-search-input, .search-input, .section-textarea, .section-label-input { font-size: 16px; }
+  .tv-monitor-title { font-size: 17px; }
+  .btn-stage-toggle { min-height: 44px; }
+  .monitor-quick-actions button { min-height: 44px; }
+}
+@media (max-width: 899px) {
+  header { flex-wrap: wrap; padding: 12px 16px; }
+  .brand-title h1 { font-size: 16px; }
+  .header-controls { justify-content: flex-start; flex-wrap: wrap; gap: 8px; }
+  #btn-toggle-idle { display: none; }
+  .ip-badge-pill { max-width: 100%; font-size: 11px; padding: 7px 10px; }
+  .status-badge { font-size: 11px; padding: 7px 10px; }
+  .tabs-bar { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 10px; }
+  .tab-item { min-width: 0; gap: 7px; padding: 13px 4px; }
+  .tab-label-desktop { display: none; }
+  .tab-label-mobile { display: inline; white-space: normal; font-weight: 700; }
+  .app-layout { display: flex; flex-direction: column; padding: 14px; }
+  .left-controls-column { width: 100%; }
+  .right-monitor-column { position: static; order: -1; width: 100%; }
+  .monitor-icon { width: 34px; height: 27px; }
+  .btn-pip-toggle { display: inline-flex; min-width: 36px; min-height: 36px; }
+  .monitor-card.pip-collapsed .monitor-mobile-body { display: none; }
+  .monitor-card.pip-collapsed .btn-pip-toggle svg { transform: rotate(180deg); }
+  .monitor-card-header { margin-bottom: 12px; }
+  .monitor-mobile-body { display: block; }
+  .preview-frame { width: 100%; min-width: 0; height: auto; }
+  .hymn-selected-header, .choir-selected-header { padding: 12px; }
+  .hymn-project-actions, .choir-project-actions { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .hymn-project-actions button, .choir-project-actions button { min-height: 46px; padding: 10px 8px; font-size: 12px; }
+  .hymn-project-actions #btnProjectHymnWithLyrics, .choir-project-actions #btnProjectChoirWithLyrics { grid-column: span 2; order: -1; }
+  .slides-preview-grid { min-height: 0; max-height: none; overflow: visible; }
+  .hymn-results-list, .choir-results-list { max-height: 320px; }
+  .theme-card .search-inputs { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  #generateThemeButton { grid-column: 1 / -1; }
+  #bibleSearchInputs { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+  #bibleSearchInputs .input-wrapper-relative, #generateButton { grid-column: 1 / -1; }
+  #tab-overlay .search-inputs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  #tab-overlay .search-inputs input { grid-column: 1 / -1; width: 100%; }
+  .btn-shortcuts-pill { display: none; }
+  .shortcuts-modal-backdrop, .lyrics-modal-backdrop { padding: 12px; }
+  .shortcuts-modal-card { width: 100%; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
+  .lyrics-modal-window { height: calc(100vh - 24px); height: calc(100dvh - 24px); max-height: none; }
+  .lyrics-modal-header, .lyrics-modal-toolbar, .lyrics-modal-footer { padding: 12px; gap: 10px; }
+  .lyrics-footer-left, .lyrics-footer-right { flex-wrap: wrap; gap: 8px; }
+  .lyrics-modal-header .privacy-badge { display: none; }
+  .btn-modal-close { min-width: 44px; min-height: 44px; }
+  .section-card-header { padding: 10px; gap: 8px; }
+  .section-header-left { flex-wrap: wrap; }
+  .section-label-input { width: 100%; }
+}
+/* Portrait tablets keep the output and its controls together without a tall empty sidebar. */
+@media (min-width: 600px) and (max-width: 899px) and (min-height: 600px) {
+  .monitor-card { display: grid; grid-template-columns: minmax(0, 360px) minmax(170px, 1fr); column-gap: 18px; align-items: start; }
+  .monitor-card-header { grid-column: 1 / -1; }
+  .monitor-quick-actions { margin-top: 0; }
+  .monitor-card.pip-collapsed { display: block; }
+  .monitor-card.pip-collapsed .monitor-quick-actions { display: none; }
+  .slides-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 599px) {
+  html { scroll-padding-bottom: calc(156px + env(safe-area-inset-bottom)); }
+  .search-input, .hymn-search-input, .section-textarea { scroll-margin-bottom: 156px; }
+  .brand-official-logo { width: 60px; height: 48px; }
+  .brand-title h1 { font-size: 15px; }
+  .header-controls { width: 100%; }
+  .app-layout { padding: 12px 12px calc(156px + env(safe-area-inset-bottom)); gap: 16px; }
+  .control-card, .monitor-card { padding: 14px; }
+  .card-title { margin-bottom: 16px; }
+  .tab-item { font-size: 11px; }
+  .monitor-quick-actions { display: flex; margin-top: 12px; }
+  .monitor-quick-actions .btn-mon-nav { display: none; }
+  .monitor-quick-actions .btn-mon-idle-wide { width: 100%; min-height: 44px; }
+  .slides-preview-grid { grid-template-columns: minmax(0, 1fr); }
+  .slide-card-lines { font-size: 14px; line-height: 1.5; }
+  .search-inputs .input-wrapper-relative { min-width: 0; }
+  .lyrics-modal-title-box { min-width: 0; }
+  .lyrics-modal-title-box h3 { font-size: 15px; }
+  .lyrics-modal-footer button { min-height: 44px; }
+  .lyrics-footer-left, .lyrics-footer-right { width: 100%; }
+  .lyrics-footer-right { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .safe-proj-check { grid-column: 1 / -1; }
+  .full-text-textarea { min-height: 180px; }
+}
+/* Short landscape viewports use two scrollable columns instead of stacking a full screen monitor. */
+@media (max-width: 1199px) and (max-height: 599px) and (min-width: 600px) {
+  body { height: 100vh; height: 100dvh; min-height: 0; overflow: hidden; }
+  header { padding: 6px 12px; flex-wrap: nowrap; }
+  .brand-official-logo { width: 40px; height: 32px; }
+  .brand-title h1 { font-size: 12px; }
+  .header-controls { width: auto; flex-wrap: nowrap; }
+  #btn-toggle-idle { display: none; }
+  .ip-badge-pill { font-size: 10px; }
+  .tabs-bar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); padding: 0 8px; }
+  .tab-item { font-size: 10px; padding: 9px 2px; gap: 4px; }
+  .tab-label-desktop { display: none; }
+  .tab-label-mobile { display: inline; white-space: normal; }
+  .app-layout { display: grid; flex: 1; min-height: 0; padding: 10px; gap: 10px; grid-template-columns: minmax(0, 1fr) minmax(230px, .7fr); grid-template-rows: minmax(0, 1fr); align-items: stretch; overflow: hidden; }
+  .left-controls-column, .right-monitor-column { order: 0; min-height: 0; overflow-y: auto; position: static; padding: 3px; }
+  .control-card, .monitor-card { padding: 12px; }
+  .monitor-quick-actions { margin-top: 10px; }
+  .monitor-card-header { margin-bottom: 8px; }
+  .tv-monitor-title { font-size: 14px; }
+  .monitor-icon { width: 26px; height: 22px; }
+  .monitor-quick-actions button { min-height: 36px; }
+  footer { display: none; }
+}
+
+@media (max-height: 599px) {
+  .lyrics-modal-header, .lyrics-modal-toolbar, .lyrics-modal-footer { padding: 8px 12px; gap: 8px; }
+  .lyrics-modal-title-box p, .privacy-badge { display: none; }
+  .lyrics-modal-body { padding: 12px; }
+}
+
+/* Floating output & bottom remote control for phones and touch tablets. Desktop keeps its full monitor. */
+#footer-btn-background { display: none; }
+@media (max-width: 899px), (pointer: coarse) and (max-width: 1366px) {
+  html { height: auto; scroll-padding-top: 100px; scroll-padding-bottom: calc(156px + env(safe-area-inset-bottom)); }
+  body { height: auto; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; overflow-y: auto; }
+  body > header { display: none; }
+  .tabs-bar { position: sticky; top: 0; z-index: 90; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 8px; gap: 0; }
+  .tab-item { min-width: 0; min-height: 44px; padding: 11px 4px; gap: 6px; font-size: 11px; white-space: normal; }
+  .tab-label-desktop { display: none; }
+  .tab-label-mobile { display: inline; white-space: normal; font-weight: 700; }
+  .app-layout { display: block; flex: none; min-height: 0; max-width: none; overflow: visible; padding: 12px 12px calc(156px + env(safe-area-inset-bottom)); }
+  .left-controls-column { width: 100%; height: auto; max-height: none; overflow: visible; padding: 0; scrollbar-gutter: auto; }
+  #tab-himnario, #tab-coro, #tab-himnario > .control-card, #tab-coro > .control-card { height: auto; }
+  #hymnResultsList, #choirResultsList { max-height: min(42vh, 380px); }
+  #hymnSlidesGrid, #choirSlidesGrid { max-height: none; overflow: visible; }
+  .right-monitor-column { position: fixed; z-index: 110; right: 10px; bottom: calc(148px + env(safe-area-inset-bottom)); top: auto; left: auto; width: var(--mobile-preview-width, clamp(168px, 44vw, 220px)); pointer-events: none; height: auto; min-height: 0; max-height: none; display: block; padding: 0; overflow: visible; margin: 0; }
+  .right-monitor-column .monitor-card { display: block; width: 100%; padding: 0; border: 1px solid #435168; border-radius: 10px; box-shadow: 0 8px 28px #0008; background: #101925; overflow: hidden; }
+  .right-monitor-column .monitor-card-header { display: flex; align-items: center; justify-content: space-between; gap: 4px; min-height: 36px; margin: 0; padding: 0 3px 0 10px; border: 0; cursor: grab; pointer-events: auto; touch-action: none; user-select: none; }
+  .right-monitor-column.is-dragging .monitor-card-header { cursor: grabbing; }
+  .right-monitor-column .monitor-title { gap: 0; }
+  .right-monitor-column .monitor-icon, .right-monitor-column .monitor-ip-pill, .right-monitor-column .status-badge,
+  .right-monitor-column .monitor-quick-actions, .right-monitor-column .btn-shortcuts-pill { display: none; }
+  .right-monitor-column .tv-monitor-title { font-size: 11px; letter-spacing: .4px; line-height: 1.3; }
+  .right-monitor-column .btn-pip-toggle { display: inline-flex; width: 32px; min-width: 32px; height: 34px; min-height: 34px; padding: 6px; border: 0; background: transparent; }
+  .right-monitor-column .monitor-mobile-body { display: block; width: 100%; }
+  .right-monitor-column .preview-frame { width: 100%; aspect-ratio: 16 / 9; height: auto; max-height: var(--pip-preview-max-height, none); border: 0; border-radius: 0; box-shadow: none; }
+  .right-monitor-column .connection-notice { margin: 0; padding: 6px; border-radius: 0; text-align: center; font-size: 10px; }
+  .right-monitor-column .monitor-card.pip-collapsed .monitor-mobile-body { display: none; }
+  .right-monitor-column.pip-minimized { width: 144px; }
+  .right-monitor-column .monitor-card.pip-collapsed .btn-pip-toggle svg { transform: rotate(180deg); }
+  footer { display: flex; position: fixed; inset: auto 0 0; z-index: 99; padding: 8px 10px calc(10px + env(safe-area-inset-bottom)); background: rgba(11, 16, 25, 0.98); border-top: 2px solid var(--gold-lldm); box-shadow: 0 -8px 28px rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); }
+  .footer-nav-buttons { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); width: 100%; max-width: 820px; margin: 0 auto; gap: 8px; }
+  .footer-nav-buttons .mobile-only-btn { display: inline-flex; }
+  .footer-nav-buttons button { min-width: 0; justify-content: center; }
+
+  /* Fila superior secundaria: Estrofa Ant., Sig. Estrofa y Fondo */
+  .footer-nav-buttons #footer-btn-prev-sec { grid-column: 1 / 3; grid-row: 1; min-height: 38px; padding: 6px 8px; font-size: 11px; }
+  .footer-nav-buttons #footer-btn-next-sec { grid-column: 3 / 5; grid-row: 1; min-height: 38px; padding: 6px 8px; font-size: 11px; }
+  #footer-btn-background { display: inline-flex; grid-column: 5 / 7; grid-row: 1; min-height: 38px; padding: 6px 8px; font-size: 11px; gap: 6px; }
+
+  /* Fila inferior hasta el fondo: Botones GIGANTES de Anterior y Siguiente */
+  .footer-nav-buttons #footer-btn-prev-slide {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    min-height: 68px;
+    padding: 14px 12px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border-radius: 10px;
+    background: #1b2c47;
+    border: 2px solid var(--gold-lldm);
+    color: #ffffff;
+    gap: 10px;
+  }
+  .footer-nav-buttons #footer-btn-next-slide {
+    grid-column: 4 / 7;
+    grid-row: 2;
+    min-height: 68px;
+    padding: 14px 12px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f3d69b, #dfbb6a);
+    border: 2px solid #f5dd9d;
+    color: #0b1324;
+    box-shadow: 0 4px 14px rgba(223, 187, 106, 0.35);
+    gap: 10px;
+  }
+  .footer-nav-buttons #footer-btn-prev-slide .icon,
+  .footer-nav-buttons #footer-btn-next-slide .icon {
+    width: 26px;
+    height: 26px;
+    stroke-width: 2.8;
+  }
+}
+@media (min-width: 600px) and (max-width: 899px), (min-width: 600px) and (pointer: coarse) and (max-width: 1366px) {
+  .tabs-bar { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .tab-item .icon { display: none; }
+}
+
+@media (max-height: 500px) { .right-monitor-column { --mobile-preview-width: 168px; } }
+
+.song-progress { color: #8eebc8; background: #16352f; border: 1px solid #376756; padding: 12px 14px; border-radius: 8px; margin: 0; font-size: 14px; line-height: 1.5; font-weight: 700; }
+.song-progress[hidden] { display: none; }
+.song-end-marker { border-top: 1px solid #607187; padding-top: 8px; margin-top: 6px; color: #e5c276; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+
+.choir-item-num { display: none !important; }
+.choir-result-item .choir-item-title { flex: 1; font-size: 13px; }

@@ -1,0 +1,125 @@
+/* Compact architectural panels echo the crossed edges of the TV background. */
+body { font-family: 'Montserrat', 'Segoe UI', sans-serif; }
+:root { --graphic-paper: #101e36; --graphic-ink: #f1d58c; --graphic-highlight: #fff9eb; --graphic-line: #b89442; --graphic-facet: #263b58; }
+:root[data-banner-tone="ivory"] { --graphic-paper: #fffdf7; --graphic-ink: #8b6a24; --graphic-highlight: #10213d; --graphic-line: #c4a45a; --graphic-facet: #e9e4d8; }
+:root[data-banner-tone="burgundy"] { --graphic-paper: #361e2b; --graphic-ink: #f2d494; --graphic-highlight: #fff7e8; --graphic-line: #ba9252; --graphic-facet: #613747; }
+[data-banner-style="angular"] .banner-wrapper { max-width: 65rem; border-radius: 0; filter: none; }
+[data-banner-style="angular"] .badge-bar { display: none; }
+[data-banner-style="angular"] .banner-content,
+[data-banner-style="angular"] .drone-card {
+  --angular-outline: polygon(0.9375rem 0,calc(100% - 1.6875rem) 0,100% 50%,calc(100% - 1.6875rem) 100%,0.9375rem 100%,0 50%);
+  isolation: isolate; background: transparent; border: 0; border-radius: 0;
+  padding: 1.125rem 3.625rem 1.125rem 2.75rem; max-width: 65rem; min-height: 4.5rem;
+  box-shadow: none; clip-path: var(--angular-outline); overflow: hidden;
+  mask-image: linear-gradient(#000,#000); mask-repeat: no-repeat; mask-position: center; mask-size: 100% 100%;
+  filter: none;
+}
+[data-banner-style="angular"] .banner-content::before,
+[data-banner-style="angular"] .banner-content::after,
+[data-banner-style="angular"] .drone-card::before,
+[data-banner-style="angular"] .drone-card::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  clip-path: polygon(0.9375rem 0,calc(100% - 1.6875rem) 0,100% 50%,calc(100% - 1.6875rem) 100%,0.9375rem 100%,0 50%);
+  background: linear-gradient(110deg,var(--graphic-line) 15%,#fff2c7 35%,var(--graphic-line) 48%,var(--graphic-facet) 75%,var(--graphic-line));
+  background-size: 260% 100%; z-index: -2;
+}
+[data-banner-style="angular"] .banner-content::after,
+[data-banner-style="angular"] .drone-card::after {
+  inset: 0.09375rem 0.125rem; background: linear-gradient(115deg,color-mix(in srgb,var(--graphic-facet) 30%,var(--graphic-paper)),var(--graphic-paper) 28% 78%,color-mix(in srgb,var(--graphic-facet) 25%,var(--graphic-paper)));
+  z-index: -1;
+}
+.angular-facets, .angular-lines { display: none; }
+[data-banner-style="angular"] .angular-lines {
+  display: block; position: absolute; inset: 0.125rem; z-index: 0; pointer-events: none;
+  mask-image: linear-gradient(90deg,#000 0%,#0009 22%,#0002 52%,#0008 82%,#000 100%);
+}
+[data-banner-style="angular"] .angular-lines::before,
+[data-banner-style="angular"] .angular-lines::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(125deg,transparent 0 0.625rem,var(--graphic-line) 0.625rem 0.6875rem,transparent 0.6875rem 1.125rem);
+  opacity: .24;
+}
+[data-banner-style="angular"] .angular-lines::after {
+  background: linear-gradient(100deg,transparent 25%,#fff0c0 48%,transparent 70%);
+  background-size: 250% 100%;
+  mask-image: repeating-linear-gradient(125deg,transparent 0 0.625rem,#000 0.625rem 0.6875rem,transparent 0.6875rem 1.125rem);
+  animation: angular-lines-flow 10s linear 1s infinite; opacity: 0;
+}
+[data-banner-style="angular"] .angular-facets { display: block; position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+[data-banner-style="angular"] .angular-facets::before,
+[data-banner-style="angular"] .angular-facets::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 2rem;
+  background: linear-gradient(110deg,transparent 10%,color-mix(in srgb,var(--graphic-line) 32%,var(--graphic-facet)) 100%);
+  clip-path: polygon(0.9375rem 0,100% 0,0.8125rem 50%,100% 100%,0.9375rem 100%,0 50%);
+  opacity: .75;
+}
+[data-banner-style="angular"] .angular-facets::before { left: 0; }
+[data-banner-style="angular"] .angular-facets::after { right: 0; width: 2.625rem; transform: scaleX(-1); opacity: .55; }
+[data-banner-style="angular"] .banner-wrapper.active .banner-content { animation: angular-unfold 1.4s cubic-bezier(.65,0,.2,1) both; }
+[data-banner-style="angular"] :is(.pos-top-left,.pos-bottom-left) { --angular-direction: -1; }
+[data-banner-style="angular"] :is(.pos-top-right,.pos-bottom-right) .banner-content { transform-origin: center right; }
+[data-banner-style="angular"] :is(.pos-top-left,.pos-bottom-left) .banner-content { transform-origin: center left; }
+[data-banner-style="angular"] .banner-wrapper.exiting .banner-content { animation: angular-fold .9s cubic-bezier(.6,0,.35,1) both; }
+[data-banner-style="angular"] :is(.banner-wrapper.active,.drone-wrapper.active) .angular-facets::before { animation: angular-left-open 1.4s cubic-bezier(.65,0,.2,1) both; }
+[data-banner-style="angular"] :is(.banner-wrapper.active,.drone-wrapper.active) .angular-facets::after { animation: angular-right-open 1.4s cubic-bezier(.65,0,.2,1) both; }
+[data-banner-style="angular"] :is(.banner-wrapper.exiting,.drone-wrapper.exiting) .angular-facets::before { animation: angular-left-close .9s cubic-bezier(.6,0,.35,1) both; }
+[data-banner-style="angular"] :is(.banner-wrapper.exiting,.drone-wrapper.exiting) .angular-facets::after { animation: angular-right-close .9s cubic-bezier(.6,0,.35,1) both; }
+[data-banner-style="angular"] .banner-wrapper.active .banner-content::before,
+[data-banner-style="angular"] .drone-wrapper.active .drone-card::before { animation: angular-edge-light 12s ease-in-out 1s infinite; }
+[data-banner-style="angular"] #bannerBody { opacity: 1; transform: none; transition: none; }
+[data-banner-style="angular"] .drone-wrapper.active .drone-card { animation: angular-unfold 1.4s cubic-bezier(.65,0,.2,1) both; }
+[data-banner-style="angular"] .drone-wrapper.exiting .drone-card { animation: angular-fold .9s cubic-bezier(.6,0,.35,1) both; }
+[data-banner-style="angular"] .banner-wrapper.active #bannerBody,
+[data-banner-style="angular"] .drone-wrapper.active :is(.drone-header,.drone-title) { animation: angular-caption .65s ease .68s both; }
+[data-banner-style="angular"] .banner-wrapper.exiting #bannerBody,
+[data-banner-style="angular"] .drone-wrapper.exiting :is(.drone-header,.drone-title) { animation: angular-caption-out .24s ease both; }
+@keyframes angular-unfold {
+  from { mask-size: 0% 100%; clip-path: polygon(50% 0,50% 0,50% 50%,50% 100%,50% 100%,50% 50%); }
+  to { mask-size: 100% 100%; clip-path: var(--angular-outline); }
+}
+@keyframes angular-fold {
+  from { mask-size: 100% 100%; clip-path: var(--angular-outline); }
+  to { mask-size: 0% 100%; clip-path: polygon(50% 0,50% 0,50% 50%,50% 100%,50% 100%,50% 50%); }
+}
+@keyframes angular-caption { from { opacity: 0; transform: translateY(0.3125rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes angular-caption-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes angular-left-open { from { left: calc(50% - 1rem); opacity: 1; } to { left: 0; opacity: .75; } }
+@keyframes angular-right-open { from { right: calc(50% - 1.3125rem); opacity: 1; } to { right: 0; opacity: .55; } }
+@keyframes angular-left-close { from { left: 0; opacity: .75; } to { left: calc(50% - 1rem); opacity: 1; } }
+@keyframes angular-right-close { from { right: 0; opacity: .55; } to { right: calc(50% - 1.3125rem); opacity: 1; } }
+@keyframes angular-edge-light { 0%,65% { background-position: 100% 0; } 90%,100% { background-position: 0 0; } }
+@keyframes angular-lines-flow {
+  0% { background-position: 100% 0; opacity: 0; }
+  15% { opacity: .65; }
+  70% { opacity: .65; }
+  85%,100% { background-position: 0 0; opacity: 0; }
+}
+[data-banner-style="angular"] #bannerBody { position: relative; z-index: 1; }
+[data-banner-style="angular"] :is(.main-title,.hymn-title,.bible-book,.drone-title) { font-family: 'Montserrat', sans-serif; font-size: 2.125rem; font-weight: 700; letter-spacing: 0.00625rem; color: var(--graphic-ink); }
+[data-banner-style="angular"] :is(.category-tag,.drone-tag,.sub-detail) { font-family: 'Montserrat', sans-serif; color: var(--graphic-highlight); }
+[data-banner-style="angular"] .category-tag { font-size: 0.75rem; letter-spacing: 0.1rem; margin-bottom: 0.375rem; }
+[data-banner-style="angular"] :is(.hymn-num,.bible-verse) { color: var(--graphic-highlight); font-family: 'Montserrat',sans-serif; font-size: 2.125rem; font-weight: 800; }
+[data-banner-style="angular"] .hymn-num { padding: 0.125rem 0.75rem; border: 0.0625rem solid var(--graphic-line); border-radius: 0.1875rem; }
+[data-banner-style="angular"] .hymn-layout { align-items: center; }
+[data-banner-style="angular"] .shimmer-sweep { display: none; }
+[data-banner-style="angular"] .drone-wrapper { max-width: 75rem; }
+.logo-box { width: var(--obs-logo-size, 13.4375rem); height: calc(var(--obs-logo-size, 13.4375rem) * .7953); }
+.logo-img { opacity: 1; }
+.logo-tint { position: absolute; inset: 0; display: none; mask: url('/logo_lldm_oficial.svg') center / contain no-repeat; background: var(--obs-logo-tint); }
+[data-logo-color]:not([data-logo-color="official"]) .logo-img { opacity: 0; }
+[data-logo-color]:not([data-logo-color="official"]) .logo-tint { display: block; }
+[data-logo-color="gold"] { --obs-logo-tint: linear-gradient(120deg, #9c762d, #fff0b0 48%, #b48a36); }
+[data-logo-color="white"] { --obs-logo-tint: #fff; }
+[data-logo-color="navy"] { --obs-logo-tint: #101f3b; }
+[data-logo-color="silver"] { --obs-logo-tint: linear-gradient(120deg,#8997ab,#f4f8ff 48%,#a5b1c2); }
+.test-panel { max-width: calc(100% - 2rem); width: max-content; flex-wrap: wrap; max-height: 40dvh; overflow: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .broadcast-watermark { transition: none; }
+  .shimmer-sweep, .logo-shimmer-overlay, .logo-star-sparkle { display: none; }
+  [data-banner-style="angular"] :is(.banner-content,.drone-card,.drone-header,.drone-title,#bannerBody),
+  [data-banner-style="angular"] .angular-facets::before,
+  [data-banner-style="angular"] .angular-facets::after { animation-duration: .01s !important; animation-delay: 0s !important; }
+  [data-banner-style="angular"] :is(.banner-content,.drone-card)::before { animation: none !important; }
+  [data-banner-style="angular"] .angular-lines::after { animation: none; }
+  [data-banner-style="angular"] #bannerBody { transition-duration: .01s; transition-delay: 0s; }
+}

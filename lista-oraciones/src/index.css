@@ -1,0 +1,597 @@
+/* Admin Dashboard UI Styling — Integrated with LLDMProyectorOBS Cabin Theme */
+:root {
+  --admin-bg: #0e1622;
+  --admin-card: #121b28;
+  --admin-card-elevated: #172333;
+  --admin-border: #29384c;
+  --admin-text: #f8fafc;
+  --admin-text-muted: #afbbcd;
+  --admin-gold: #dfbb6a;
+  --admin-gold-hover: #f0d69d;
+  --admin-blue-accent: #1b2e56;
+
+  /* LLDM Templates Variables (Preserved for 4K Flyers & Signage Slides) */
+  --color-bg-light: #FAF7EE;
+  --color-bg-white: #FFFFFF;
+  --color-navy: #0A1931;
+  --color-gold-dark: #9B824A;
+  --color-gold-light: #DDCD72;
+  --color-gold-accent: #B7922F;
+  --color-text-dark: #0F121C;
+  --color-border: #D9D4C2;
+
+  --font-title: 'Outfit', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-accent: 'Playfair Display', serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+  font-family: 'Montserrat', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.embed-root {
+  background: transparent;
+}
+
+header.admin-header {
+  background-color: #101925;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.admin-titles h1 {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.admin-titles p {
+  font-size: 0.72rem;
+  color: var(--admin-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+/* Tabs Navigation */
+.svg-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.2px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-tab {
+  background: var(--admin-card-elevated);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-tab:hover,
+.nav-tab.active {
+  color: #142033;
+  background-color: var(--admin-gold);
+  border-color: var(--admin-gold);
+}
+
+.nav-tab.signage-btn {
+  background: linear-gradient(135deg, #1c3266, #111f40);
+  color: var(--admin-gold-hover);
+  border-color: var(--admin-gold);
+}
+
+.nav-tab.signage-btn:hover {
+  background: linear-gradient(135deg, #25448c, #16284f);
+  color: #ffffff;
+}
+
+/* Main Workspace Panel */
+.admin-container {
+  flex: 1;
+  padding: 1.25rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.admin-container.embed-container {
+  padding: 0;
+  max-width: none;
+}
+
+/* Sidebar Control Center */
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-card {
+  background-color: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 1.1rem;
+  position: relative;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+.sidebar-card h3 {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-gold-hover);
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 0.55rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+}
+
+.form-group input,
+.form-group select {
+  background-color: var(--admin-bg);
+  border: 1px solid #34465c;
+  color: var(--admin-text);
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.86rem;
+  outline: none;
+  transition: all 0.2s ease;
+  color-scheme: dark;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+  border-color: rgba(223, 187, 106, 0.5);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--admin-gold);
+  box-shadow: 0 0 0 2px rgba(223, 187, 106, 0.2);
+}
+
+.action-btn {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  margin-bottom: 0.65rem;
+}
+
+.btn-gold {
+  background-color: #e5c276;
+  color: #142033;
+  border-color: #e5c276;
+}
+
+.btn-gold:hover {
+  background-color: #f3d69b;
+}
+
+.btn-outline {
+  background: var(--admin-card-elevated);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text);
+}
+
+.btn-outline:hover {
+  border-color: var(--admin-gold);
+  color: var(--admin-gold-hover);
+  background: #1e2c3e;
+}
+
+.history-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background-color: var(--admin-card-elevated);
+  border: 1px solid var(--admin-border);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.history-item:hover {
+  border-color: var(--admin-gold);
+  background-color: #1e2c3e;
+}
+
+.history-item .delete-history {
+  color: #f87171;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.history-item .delete-history:hover {
+  background-color: rgba(239, 68, 68, 0.18);
+}
+
+/* Main Form Area */
+.admin-main-panel {
+  background-color: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  min-width: 0;
+}
+
+/* List Sections Navigation */
+.list-sections-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--admin-border);
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.section-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--admin-text-muted);
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.section-tab:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.section-tab.active {
+  color: var(--admin-gold-hover);
+  background: #1b2735;
+  border-bottom-color: var(--admin-gold);
+}
+
+.form-section-container {
+  display: none;
+}
+
+.form-section-container.active {
+  display: block;
+}
+
+/* Form grids layout */
+.form-row-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-day-card {
+  background-color: var(--admin-card-elevated);
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  padding: 0.85rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.form-day-card:hover {
+  border-color: rgba(223, 187, 106, 0.55);
+}
+
+.form-day-card h4 {
+  font-size: 0.82rem;
+  color: var(--admin-gold-hover);
+  margin-bottom: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.form-subgroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.prayer-field {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+  color: var(--admin-text-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.form-subgroup input {
+  background-color: var(--admin-bg);
+  border: 1px solid #34465c;
+  color: var(--admin-text);
+  padding: 0.5rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  outline: none;
+  width: 100%;
+  font-family: var(--font-body);
+}
+
+.form-subgroup input:focus {
+  border-color: var(--admin-gold);
+  box-shadow: 0 0 0 2px rgba(223, 187, 106, 0.2);
+}
+
+.form-subgroup input::placeholder {
+  color: rgba(175, 187, 205, 0.55);
+}
+
+/* Stack for Flowers and Food Sales */
+.form-vertical-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stack-item-card {
+  background-color: var(--admin-card-elevated);
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  padding: 1.1rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.stack-item-card:hover {
+  border-color: rgba(223, 187, 106, 0.45);
+}
+
+.stack-item-card h4 {
+  font-size: 0.86rem;
+  color: var(--admin-gold-hover);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stack-item-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1.25rem;
+}
+
+.stack-item-grid textarea {
+  background-color: var(--admin-bg);
+  border: 1px solid #34465c;
+  color: var(--admin-text);
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  min-height: 96px;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.stack-item-grid textarea:focus {
+  border-color: var(--admin-gold);
+  box-shadow: 0 0 0 2px rgba(223, 187, 106, 0.2);
+}
+
+/* ---------------------------------------------------- */
+/* TEMPLATES RENDER AREA (Hidden offscreen)             */
+/* Used to compile the flyers to canvases in background */
+/* ---------------------------------------------------- */
+.render-offscreen {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+}
+
+/* ---------------------------------------------------- */
+/* SIGNAGE PLAYER WINDOW (Full Screen Slideshow)       */
+/* ---------------------------------------------------- */
+#signage-player {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #FAF7EE;
+  z-index: 99999;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+.signage-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FAF7EE;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+  z-index: 1;
+  opacity: 0;
+}
+
+.signage-slide.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  z-index: 3;
+}
+
+.signage-slide.next {
+  opacity: 0;
+  transform: translateX(100%) scale(0.98);
+  z-index: 2;
+}
+
+.signage-slide.prev {
+  opacity: 0;
+  transform: translateX(-100%) scale(0.98);
+  z-index: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(11, 19, 36, 0.7);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.45);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.85);
+}
+
+.sync-error {
+  position: sticky;
+  top: 0;
+  z-index: 100000;
+  padding: 10px 14px;
+  background: rgba(217, 163, 74, 0.15);
+  border: 1px solid #d8a349;
+  border-radius: 8px;
+  color: #edc27d;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 1100px) {
+  .admin-container {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    gap: 14px;
+  }
+  .admin-container.embed-container {
+    padding: 0;
+  }
+  .admin-sidebar,
+  .admin-main-panel {
+    width: 100%;
+    min-width: 0;
+  }
+  .admin-header {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px;
+  }
+  .admin-nav,
+  .list-sections-tabs {
+    flex-wrap: wrap;
+  }
+  .admin-sidebar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 12px;
+  }
+  .stack-item-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

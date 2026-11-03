@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
+  <defs>
+    <!-- Gradientes Metálicos Dorados Premium -->
+    <linearGradient id="goldLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#CA9E3C"/>
+      <stop offset="25%" stop-color="#FFF3BD"/>
+      <stop offset="50%" stop-color="#D4AF37"/>
+      <stop offset="75%" stop-color="#8F6E1C"/>
+      <stop offset="100%" stop-color="#DFBC5E"/>
+    </linearGradient>
+
+    <linearGradient id="goldBevel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBE0"/>
+      <stop offset="40%" stop-color="#E5C158"/>
+      <stop offset="70%" stop-color="#B38722"/>
+      <stop offset="100%" stop-color="#6F500B"/>
+    </linearGradient>
+
+    <!-- Gradiente para el barrido de brillo cada 3 minutos -->
+    <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(45)">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="60%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Filtro de Sombra de Emisión para Transmisión -->
+    <filter id="broadcastShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+
+    <filter id="goldGleamFilter" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes sweepAnimation {
+      0% { transform: translateX(-150%) rotate(25deg); opacity: 0; }
+      1.5% { opacity: 0.9; }
+      3% { transform: translateX(150%) rotate(25deg); opacity: 0; }
+      100% { transform: translateX(150%) rotate(25deg); opacity: 0; }
+    }
+
+    @keyframes starSparkle {
+      0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+      1% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+      2% { transform: scale(0.8) rotate(90deg); opacity: 0.8; }
+      3% { transform: scale(0) rotate(135deg); opacity: 0; }
+    }
+
+    .shimmer-bar {
+      transform-origin: center;
+      animation: sweepAnimation 180s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .star-flare {
+      transform-origin: 435px 185px;
+      animation: starSparkle 180s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+  </style>
+
+  <g id="logo-layer" filter="url(#broadcastShadow)">
+    <!-- Base de Alta Definición del Logo Centenario LLDM -->
+    <image href="logo-100.png" x="25" y="25" width="550" height="550" preserveAspectRatio="xMidYMid meet"/>
+
+    <!-- Máscara de Brillo / Destello Metálico -->
+    <g clip-path="url(#circleClip)" opacity="0.8">
+      <rect class="shimmer-bar" x="-100" y="-100" width="800" height="800" fill="url(#shimmerGradient)" pointer-events="none" />
+    </g>
+
+    <clipPath id="circleClip">
+      <circle cx="300" cy="300" r="230"/>
+    </clipPath>
+
+    <!-- Destello estelar tipo estrella de 4 puntas en el aro superior -->
+    <g class="star-flare" transform="translate(435, 185)">
+      <path d="M 0,-22 Q 0,0 22,0 Q 0,0 0,22 Q 0,0 -22,0 Q 0,0 0,-22 Z" fill="#FFFFFF" filter="url(#goldGleamFilter)"/>
+      <circle cx="0" cy="0" r="4" fill="#FFFCE6"/>
+    </g>
+  </g>
+</svg>

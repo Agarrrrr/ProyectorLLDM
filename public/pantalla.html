@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cabina de Proyección LLDM - Salida de TV · 16:9</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=lldm-completo">
+  <meta name="theme-color" content="#101925">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/pantalla/styles.css">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/output-viewport.css">
+</head>
+<body>
+
+  <div id="viewport" data-output-canvas>
+    <!-- FASE 1: IDLE (REPOSO) -->
+    <div id="stage-idle">
+      <iframe id="idle-frame" src="about:blank" title="Fondo en Reposo LLDM"></iframe>
+    </div>
+
+    <!-- FASE 2: ACTIVA (FONDO INSTITUCIONAL CON DOBLE CAPA PARA FUNDIDO SUAVE) -->
+    <div id="stage-active">
+      <div id="layer-a" class="crossfade-layer active"></div>
+      <div id="layer-b" class="crossfade-layer"></div>
+    </div>
+
+    <!-- FASE 3: CARTELERÍA NATIVA (HTML SLIDESHOW) -->
+    <div id="stage-carteleria" class="hidden">
+      <iframe id="carteleria-frame" src="about:blank" title="Cartelería Semanal LLDM"></iframe>
+    </div>
+  </div>
+
+  <script src="/output-viewport.js" defer></script>
+  <script src="/pantalla/app.js" defer></script>
+</body>
+</html>

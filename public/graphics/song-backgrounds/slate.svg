@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs><radialGradient id="base" cx=".5" cy=".42" r=".8"><stop stop-color="#293442"/><stop offset="1" stop-color="#10151f"/></radialGradient>
+<linearGradient id="edge" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#b7c6d6" stop-opacity=".42"/><stop offset=".46" stop-color="#b7c6d6" stop-opacity=".05"/><stop offset="1" stop-color="#b7c6d6" stop-opacity=".25"/></linearGradient>
+<linearGradient id="glass" x1="0" x2="1"><stop stop-color="#293442" stop-opacity=".7"/><stop offset="1" stop-color="#10151f" stop-opacity=".1"/></linearGradient></defs>
+<path fill="url(#base)" d="M0 0h1920v1080H0z"/>
+<g fill="none" stroke="#b7c6d6"><path opacity=".15" stroke-width="2" d="M-80 930C380 410 900 1370 2000 740"/><path opacity=".09" stroke-width="30" d="M-80 975C380 455 900 1415 2000 785"/><path opacity=".17" d="M-80 1010C380 490 900 1450 2000 820"/><path opacity=".11" d="M-80 1050C380 530 900 1490 2000 860"/><path opacity=".12" stroke-width="2" d="M-100 160C450-200 1280 490 2020 0"/></g>
+<path fill="none" stroke="#b7c6d6" opacity=".12" d="M34 34h1852v1012H34z"/>
+</svg>

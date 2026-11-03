@@ -1,0 +1,25 @@
+/* Operator feedback only. This file is never loaded by TV or OBS outputs. */
+:root { --ui-ease: cubic-bezier(.2,.8,.2,1); }
+button, [role="button"], summary { transition: background-color .16s, border-color .16s, color .16s, box-shadow .18s, filter .12s; }
+button:enabled:active, [role="button"]:active { filter: brightness(.86); box-shadow: inset 0 2px 6px #0004; }
+input, textarea, select { transition: border-color .18s, box-shadow .18s, background-color .18s; }
+input:focus, textarea:focus, select:focus { border-color: #dfbb6a; box-shadow: 0 0 0 3px #dfbb6a20; }
+.tab-pane.active { animation: ui-content-in .24s var(--ui-ease) both; }
+.list-editor-panel, .list-preview-panel { animation: ui-content-in .24s var(--ui-ease) both; }
+.slide-card.active-slide, .hymn-result-item.selected, .choir-result-item.selected, .presentation-result-item.selected { animation: ui-selection .32s ease-out; }
+.settings-message:not(:empty), .list-image-preview { animation: ui-content-in .2s ease-out; }
+.toast { transition: opacity .22s, bottom .25s var(--ui-ease); }
+.graphics-preview-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.graphics-preview-actions button { flex: 1 1 160px; }
+[data-closing="true"] { pointer-events: none; }
+@keyframes ui-content-in { from { opacity: 0; translate: 0 5px; } to { opacity: 1; translate: 0 0; } }
+@keyframes ui-selection { from { box-shadow: inset 0 0 0 2px #f1d697aa; } to { box-shadow: inset 0 0 0 2px transparent; } }
+@media (hover: hover) {
+  .hymn-result-item:hover, .choir-result-item:hover, .presentation-result-item:hover, .slide-card:hover { border-color: #aa9261; background-color: #22324a; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab-pane.active, .list-editor-panel, .list-preview-panel, .slide-card.active-slide,
+  .hymn-result-item.selected, .choir-result-item.selected, .presentation-result-item.selected,
+  .settings-message:not(:empty), .list-image-preview { animation: none; }
+  button, [role="button"], summary, input, textarea, select, .toast { transition: none !important; }
+}

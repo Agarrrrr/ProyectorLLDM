@@ -1,0 +1,578 @@
+/* Admin Dashboard UI Styling */
+        :root {
+            --admin-bg: #0B0F19;
+            --admin-card: #151D30;
+            --admin-border: #233253;
+            --admin-text: #E2E8F0;
+            --admin-text-muted: #94A3B8;
+            --admin-gold: #DDCD72;
+            --admin-gold-hover: #B7922F;
+            --admin-blue-accent: #3B82F6;
+            
+            /* LLDM Templates Variables */
+            --color-bg-light: #FAF7EE;
+            --color-bg-white: #FFFFFF;
+            --color-navy: #0A1931;
+            --color-gold-dark: #9B824A;
+            --color-gold-light: #DDCD72;
+            --color-gold-accent: #B7922F;
+            --color-text-dark: #0F121C;
+            --color-border: #D9D4C2;
+            
+            --font-title: 'Cinzel', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --font-accent: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            color: var(--admin-text);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header.admin-header {
+            background-color: var(--admin-card);
+            border-bottom: 2px solid var(--admin-border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-logo-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+        }
+
+        .admin-titles h1 {
+            font-family: var(--font-title);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--admin-gold);
+            letter-spacing: 0.05em;
+        }
+
+        .admin-titles p {
+            font-size: 0.7rem;
+            color: var(--admin-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Tabs Navigation */
+        .svg-icon {
+            width: 16px;
+            height: 16px;
+            stroke-width: 2.2px;
+            flex-shrink: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .admin-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tab {
+            background: none;
+            border: 1.5px solid var(--admin-border);
+            color: var(--admin-text-muted);
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            color: var(--admin-bg);
+            background-color: var(--admin-gold);
+            border-color: var(--admin-gold);
+        }
+
+        .nav-tab.signage-btn {
+            background-color: var(--admin-blue-accent);
+            color: white;
+            border-color: var(--admin-blue-accent);
+        }
+
+        .nav-tab.signage-btn:hover {
+            background-color: #2563EB;
+            border-color: #2563EB;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Main Workspace Panel */
+        .admin-container {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar Control Center */
+        .admin-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sidebar-card {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            position: relative;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .sidebar-card::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 1px solid rgba(155, 130, 74, 0.15); /* Thin inner gold border */
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        .sidebar-card h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--admin-gold);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--admin-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--admin-text-muted);
+        }
+
+        .form-group input, .form-group select {
+            background-color: var(--admin-bg);
+            border: 1.5px solid var(--admin-border);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .form-group input:hover, .form-group select:hover {
+            border-color: rgba(221, 205, 114, 0.4);
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--admin-gold);
+            box-shadow: 0 0 0 3px rgba(221, 205, 114, 0.15);
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 5px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 0.8rem;
+        }
+
+        .btn-gold {
+            background-color: var(--admin-gold);
+            color: var(--admin-bg);
+        }
+
+        .btn-gold:hover {
+            background-color: var(--admin-gold-hover);
+        }
+
+        .btn-outline {
+            background: none;
+            border: 1.5px solid var(--admin-border);
+            color: var(--admin-text);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--admin-border);
+        }
+
+        .history-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 0.5rem;
+            border-radius: 4px;
+            background-color: var(--admin-bg);
+            border: 1px solid var(--admin-border);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            border-color: var(--admin-gold);
+        }
+
+        .history-item .delete-history {
+            color: #EF4444;
+            cursor: pointer;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .history-item .delete-history:hover {
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Main Form Area */
+        .admin-main-panel {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4);
+        }
+        .admin-main-panel::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(155, 130, 74, 0.15); /* Thin inner gold border */
+            border-radius: 5px;
+            pointer-events: none;
+        }
+
+        /* List Sections Navigation */
+        .list-sections-tabs {
+            display: flex;
+            border-bottom: 2px solid var(--admin-border);
+            gap: 1.5rem;
+        }
+
+        .section-tab {
+            background: none;
+            border: none;
+            color: var(--admin-text-muted);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 0.8rem 0.2rem;
+            cursor: pointer;
+            position: relative;
+            outline: none;
+        }
+
+        .section-tab.active {
+            color: var(--admin-gold);
+        }
+
+        .section-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2.5px;
+            background-color: var(--admin-gold);
+        }
+
+        .form-section-container {
+            display: none;
+        }
+
+        .form-section-container.active {
+            display: block;
+        }
+
+        /* Form grids layout */
+        .form-row-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-day-card {
+            background-color: var(--admin-bg);
+            border: 1.5px solid var(--admin-border);
+            border-radius: 6px;
+            padding: 0.8rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .form-day-card::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            border: 1px dashed rgba(155, 130, 74, 0.1);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        .form-day-card:hover {
+            border-color: rgba(155, 130, 74, 0.5);
+            box-shadow: 0 4px 12px rgba(155, 130, 74, 0.05);
+        }
+
+        .form-day-card h4 {
+            font-size: 0.8rem;
+            color: var(--admin-gold);
+            margin-bottom: 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid var(--admin-border);
+            padding-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .form-subgroup {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-subgroup input {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            color: white;
+            padding: 0.4rem;
+            border-radius: 4px;
+            font-size: 0.78rem;
+            outline: none;
+            width: 100%;
+        }
+
+        /* Accordion for Flowers and Food Sales */
+        .form-vertical-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .stack-item-card {
+            background-color: var(--admin-bg);
+            border: 1.5px solid var(--admin-border);
+            border-radius: 8px;
+            padding: 1.2rem;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        .stack-item-card::before {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            right: 3px;
+            bottom: 3px;
+            border: 1px dashed rgba(155, 130, 74, 0.1);
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        .stack-item-card:hover {
+            border-color: rgba(155, 130, 74, 0.4);
+        }
+
+        .stack-item-card h4 {
+            font-size: 0.85rem;
+            color: var(--admin-gold);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stack-item-grid {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1.5rem;
+        }
+
+        .stack-item-grid textarea {
+            background-color: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            color: white;
+            padding: 0.6rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            min-height: 100px;
+            outline: none;
+            resize: vertical;
+        }
+
+        /* ---------------------------------------------------- */
+        /* TEMPLATES RENDER AREA (Hidden offscreen)             */
+        /* Used to compile the flyers to canvases in background */
+        /* ---------------------------------------------------- */
+        .render-offscreen {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+        }
+
+        /* ---------------------------------------------------- */
+        /* SIGNAGE PLAYER WINDOW (Full Screen Slideshow)       */
+        /* ---------------------------------------------------- */
+        #signage-player {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            z-index: 99999;
+            overflow: hidden;
+            perspective: 1200px; /* Essential for 3D flip animations */
+        }
+
+        .signage-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #050505;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        /* Active slide */
+        .signage-slide.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            z-index: 3;
+        }
+
+        /* Next slide */
+        .signage-slide.next {
+            opacity: 0;
+            transform: translateX(100%) scale(0.98);
+            z-index: 2;
+        }
+
+        /* Prev slide */
+        .signage-slide.prev {
+            opacity: 0;
+            transform: translateX(-100%) scale(0.98);
+            z-index: 1;
+        }
+
+        /* Close Signage Button Overlay */
+        .signage-exit-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 25, 49, 0.8);
+            border: 2px solid var(--color-gold-light);
+            color: #FFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 100000;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            transition: all 0.2s;
+        }
+
+        .signage-exit-btn:hover {
+            background-color: var(--color-gold-accent);
+            color: var(--color-navy);
+        }
+
+        /* Full Screen Template Frame inside the Slide */
+        .signage-frame {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Custom scrollbar for history list */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--admin-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--admin-border);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--admin-gold);
+        }

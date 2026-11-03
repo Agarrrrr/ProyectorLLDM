@@ -1,0 +1,415 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000000;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120rem;
+  height: 67.5rem;
+  overflow: hidden;
+}
+
+/* ==============================================================
+   FASE 1: IDLE (REPOSO) - FONDO ANIMADO OFICIAL
+   ============================================================== */
+#stage-idle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120rem;
+  height: 67.5rem;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
+}
+
+#stage-idle.hidden {
+  opacity: 1;
+}
+
+#idle-frame {
+  width: 120rem;
+  height: 67.5rem;
+  border: none;
+  pointer-events: none;
+}
+
+/* ==============================================================
+   FASE 2: ACTIVA (PROYECCIÓN) - FONDO INSTITUCIONAL OFICIAL
+   ============================================================== */
+#stage-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120rem;
+  height: 67.5rem;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  background: url('/fondo1b.jpg') center center / cover no-repeat;
+  pointer-events: none;
+}
+
+#stage-active.visible {
+  opacity: 1;
+}
+
+/* CONTENEDORES DE DOBLE CAPA PARA FUNDIDO SUAVE ENTRE DIAPOSITIVAS */
+.crossfade-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120rem;
+  height: 67.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 4.375rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.38s ease-in-out;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.crossfade-layer.active {
+  opacity: 1;
+}
+
+/* ==============================================================
+   HIMNARIO LLDM: LETRA MASIVA EN PANTALLA CON AUTO-AJUSTE
+   ============================================================== */
+.hymn-lines-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 111.25rem;
+  gap: 1rem;
+}
+
+/* Indicador legible y sobrio de Estrofa / Coro */
+.hymn-subtle-indicator {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.625rem;
+  font-weight: 700;
+  letter-spacing: 0.21875rem;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.96), 0 0.125rem 0.375rem rgba(0, 0, 0, 1);
+  line-height: 1.05;
+}
+
+.hymn-subtle-indicator.first-part {
+  color: rgba(238, 198, 92, 0.92);
+}
+
+.hymn-subtle-indicator.continuation-part {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.hymn-subtle-indicator .part-suffix {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.hymn-line {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  color: #ffffff;
+  text-shadow: 0 0.375rem 1.625rem rgba(0, 0, 0, 0.98), 0 0.125rem 0.375rem rgba(0, 0, 0, 1);
+  text-wrap: balance;
+  text-wrap: pretty;
+  word-break: normal;
+  overflow-wrap: break-word;
+  width: 100%;
+  max-width: 111.25rem;
+  letter-spacing: 0.03125rem;
+}
+
+/* Escala masiva ampliada 1.5x (150%) para proyección en templo (máximo 4 líneas reales) */
+.lines-count-1 .hymn-line { font-size: 12.9375rem; line-height: 1.12; }
+.lines-count-2 .hymn-line { font-size: 11.4375rem; line-height: 1.13; }
+.lines-count-3 .hymn-line { font-size: 10.5rem; line-height: 1.13; }
+.lines-count-4 .hymn-line { font-size: 9.75rem; line-height: 1.14; }
+.lines-count-5 .hymn-line { font-size: 8.625rem; line-height: 1.14; }
+.lines-count-6 .hymn-line { font-size: 7.5rem; line-height: 1.15; }
+.lines-count-more .hymn-line { font-size: 6.5625rem; line-height: 1.15; }
+
+/* ==============================================================
+   HIMNO - SOLO NÚMERO Y TÍTULO (CARÁTULA LIMPIA)
+   ============================================================== */
+.hymn-title-only-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 111.25rem;
+  gap: 1.125rem;
+}
+
+.hymn-cover-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 7.8125rem;
+  font-weight: 900;
+  color: #ffdf88;
+  letter-spacing: 0.375rem;
+  text-transform: uppercase;
+  text-shadow: 0 0.375rem 1.5rem rgba(0, 0, 0, 0.96);
+}
+
+.hymn-cover-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 5.9375rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #ffffff;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  text-shadow: 0 0.375rem 1.75rem rgba(0, 0, 0, 0.98);
+  text-wrap: nowrap;
+  white-space: nowrap;
+}
+
+/* ==============================================================
+   SANTA BIBLIA - SOLO CITA (FORMATO ORIGINAL DE MAIN.HTML)
+   Libro arriba muy grande en texto (oro/blanco) y número abajo igual de grande
+   ============================================================== */
+.bible-display-original {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 113.75rem;
+}
+
+.display-book-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(8.75rem, 14vw, 15rem);
+  color: #cc9900;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
+  line-height: 1.05;
+  text-shadow: 0 0.375rem 1.75rem rgba(0, 0, 0, 0.96);
+  white-space: nowrap;
+}
+
+.display-chapter-verse-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(10rem, 17vw, 18.125rem);
+  color: #ffffff;
+  font-weight: 900;
+  line-height: 1.05;
+  margin-top: -0.625rem;
+  text-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.98);
+  white-space: nowrap;
+}
+
+/* ==============================================================
+   TEMAS OFICIALES Y CARTAS APOSTÓLICAS
+   Tipografía Masiva para Proyección en Templo y Sin Palabras Huérfanas
+   ============================================================== */
+.theme-display-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 113.75rem;
+  padding: 0 2.5rem;
+  box-sizing: border-box;
+  gap: 1.75rem;
+  text-align: center;
+}
+
+.theme-main-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  text-shadow: 0 0.5rem 2.25rem rgba(0, 0, 0, 0.98), 0 0.1875rem 0.5rem rgba(0, 0, 0, 1);
+  text-wrap: balance;
+  text-wrap: pretty;
+  width: 100%;
+  max-width: 112.5rem;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* Escalado tipográfico masivo para proyección según extensión del texto */
+.theme-size-giant {
+  font-size: 10.3125rem;
+  line-height: 1.08;
+  letter-spacing: 0.1875rem;
+}
+
+.theme-size-large {
+  font-size: 8.625rem;
+  line-height: 1.10;
+  letter-spacing: 0.125rem;
+}
+
+.theme-size-medium {
+  font-size: 7.375rem;
+  line-height: 1.14;
+  letter-spacing: 0.09375rem;
+}
+
+.theme-size-regular {
+  font-size: 6.25rem;
+  line-height: 1.01;
+  letter-spacing: 0.0625rem;
+}
+
+.theme-church-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #ffdf88;
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+  text-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.95);
+  margin-top: 0.375rem;
+}
+
+.theme-date-footer {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.15625rem;
+  text-transform: uppercase;
+  text-shadow: 0 0.1875rem 0.625rem rgba(0, 0, 0, 0.9);
+}
+
+/* CARTA O PRESENTACIÓN APOSTÓLICA */
+.special-display-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 111.25rem;
+  gap: 1.375rem;
+}
+
+.special-main-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 6.875rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff;
+  letter-spacing: 0.1875rem;
+  text-shadow: 0 0.375rem 1.75rem rgba(0, 0, 0, 0.96);
+  text-transform: uppercase;
+}
+
+.special-date {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 4.6875rem;
+  font-weight: 700;
+  color: #ffdf88;
+  letter-spacing: 0.125rem;
+  text-shadow: 0 0.25rem 1.125rem rgba(0, 0, 0, 0.92);
+}
+
+.special-location {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3.125rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: 0.125rem;
+  text-shadow: 0 0.1875rem 0.75rem rgba(0, 0, 0, 0.85);
+}
+
+/* ==============================================================
+   PRESENTACIÓN POWERPOINT / PDF / DIAPOSITIVAS
+   ============================================================== */
+.presentation-display-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.presentation-slide-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  box-shadow: 0 0 2.5rem rgba(0, 0, 0, 0.95);
+}
+
+#stage-carteleria {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120rem;
+  height: 67.5rem;
+  background: #faf7ee;
+  z-index: 50;
+  overflow: hidden;
+  display: flex;
+}
+
+#stage-carteleria.hidden {
+  display: none !important;
+}
+#stage-carteleria:not(.hidden) { animation: list-stage-in .4s ease-in-out both; }
+@keyframes list-stage-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { #stage-carteleria:not(.hidden) { animation: none; } }
+
+#carteleria-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #faf7ee;
+}
+
+/* Song stanzas preserve source lines and wrap only between complete words. */
+.song-layout { gap: 0.1875rem; }
+.song-layout .hymn-line {
+  font-size: var(--song-font-size);
+  line-height: 1.01;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.song-layout .hymn-subtle-indicator { position: absolute; top: 0.5rem; left: 0; width: 100%; margin: 0; text-align: center; }
+
+.song-layout .hymn-line { font-family: var(--song-family, Montserrat), sans-serif; font-variation-settings: var(--song-variation, normal); color: var(--song-color, #fff); }
+.song-layout .hymn-subtle-indicator { color: var(--song-indicator, #d4af37); }

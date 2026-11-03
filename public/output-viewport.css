@@ -1,0 +1,4 @@
+/* A broadcast composition is 16:9, not a fixed-resolution bitmap.
+   One rem represents 16 design units; the browser lays out at the native size.
+   At 1920×1080 the reference proportions are unchanged. */
+:root { font-size: min(0.833333333333vw, 1.481481481481vh); }

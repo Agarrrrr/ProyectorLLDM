@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente dorado idéntico al de Fondo.jpg -->
+    <linearGradient id="lldmGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C77A" />
+      <stop offset="25%" stop-color="#CA9E3C" />
+      <stop offset="50%" stop-color="#FFF4C2" />
+      <stop offset="75%" stop-color="#A88022" />
+      <stop offset="100%" stop-color="#D4AF37" />
+    </linearGradient>
+
+    <!-- Gradiente dorado más suave para textos -->
+    <linearGradient id="lldmGoldText" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#BFA04A" />
+      <stop offset="50%" stop-color="#9A7822" />
+      <stop offset="100%" stop-color="#7C5E13" />
+    </linearGradient>
+
+    <!-- Filtro para sutileza de brillo -->
+    <filter id="goldShine" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#CA9E3C" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <g id="logo-lldm-group" filter="url(#goldShine)">
+    <!-- 1. Antorcha / Copa en la Cúspide -->
+    <!-- Base y copa de la antorcha -->
+    <path d="M 240,118 L 260,118 L 254,136 L 246,136 Z" fill="url(#lldmGold)" />
+    <!-- Llama de fuego sagrado ondeante (3 lenguas estilizadas) -->
+    <path d="M 246,116 C 242,108 244,98 248,90 C 251,82 249,74 246,66 C 253,72 258,82 256,92 C 259,88 261,80 259,72 C 265,80 268,92 263,104 C 260,110 255,114 254,116 Z" fill="url(#lldmGold)" />
+
+    <!-- 2. Haces de Rayos de Luz Piramidales Superiores (desde la base de la antorcha: 250, 136) -->
+    <g stroke="url(#lldmGold)" stroke-width="1.6" stroke-linecap="round" opacity="0.95">
+      <!-- Centro -->
+      <line x1="250" y1="138" x2="250" y2="170" stroke-width="2.2" />
+      
+      <!-- Hacia la izquierda -->
+      <line x1="248" y1="138" x2="242" y2="170" />
+      <line x1="246" y1="138" x2="232" y2="171" />
+      <line x1="244" y1="139" x2="222" y2="172" />
+      <line x1="242" y1="139" x2="210" y2="174" />
+      <line x1="240" y1="140" x2="198" y2="176" />
+      <line x1="238" y1="140" x2="186" y2="179" />
+      <line x1="236" y1="141" x2="174" y2="183" />
+      <line x1="234" y1="141" x2="160" y2="187" />
+
+      <!-- Hacia la derecha -->
+      <line x1="252" y1="138" x2="258" y2="170" />
+      <line x1="254" y1="138" x2="268" y2="171" />
+      <line x1="256" y1="139" x2="278" y2="172" />
+      <line x1="258" y1="139" x2="290" y2="174" />
+      <line x1="260" y1="140" x2="302" y2="176" />
+      <line x1="262" y1="140" x2="314" y2="179" />
+      <line x1="264" y1="141" x2="326" y2="183" />
+      <line x1="266" y1="141" x2="340" y2="187" />
+    </g>
+
+    <!-- 3. Gran Arco Curvo del Horizonte Terrestre (Lente Esférica) -->
+    <!-- Curva superior gruesa que se afina hacia los extremos -->
+    <path d="M 15,250 Q 250,150 485,250 Q 250,166 15,250 Z" fill="url(#lldmGold)" />
+
+    <!-- 4. Rayos de Luz Expandidos Debajo del Arco Curvo (proyectados desde 250, 136 hacia el mundo) -->
+    <g stroke="url(#lldmGold)" stroke-width="1.6" stroke-linecap="round" opacity="0.95">
+      <!-- Centro vertical -->
+      <line x1="250" y1="174" x2="250" y2="254" stroke-width="2.2" />
+
+      <!-- Rayos lado izquierdo -->
+      <line x1="239" y1="176" x2="232" y2="252" />
+      <line x1="228" y1="178" x2="214" y2="250" />
+      <line x1="216" y1="181" x2="194" y2="248" />
+      <line x1="203" y1="184" x2="172" y2="246" />
+      <line x1="190" y1="188" x2="148" y2="244" />
+      <line x1="176" y1="193" x2="122" y2="242" />
+      <line x1="162" y1="198" x2="94" y2="242" />
+      <line x1="146" y1="204" x2="64" y2="244" />
+      <line x1="128" y1="211" x2="35" y2="250" />
+
+      <!-- Rayos lado derecho -->
+      <line x1="261" y1="176" x2="268" y2="252" />
+      <line x1="272" y1="178" x2="286" y2="250" />
+      <line x1="284" y1="181" x2="306" y2="248" />
+      <line x1="297" y1="184" x2="328" y2="246" />
+      <line x1="310" y1="188" x2="352" y2="244" />
+      <line x1="324" y1="193" x2="378" y2="242" />
+      <line x1="338" y1="198" x2="406" y2="242" />
+      <line x1="354" y1="204" x2="436" y2="244" />
+      <line x1="372" y1="211" x2="465" y2="250" />
+    </g>
+
+    <!-- Rayos menores/intermedios para dar riqueza y densidad visual fiel -->
+    <g stroke="url(#lldmGold)" stroke-width="1.1" stroke-linecap="round" opacity="0.6">
+      <line x1="244" y1="175" x2="241" y2="225" />
+      <line x1="256" y1="175" x2="259" y2="225" />
+      <line x1="222" y1="179" x2="204" y2="228" />
+      <line x1="278" y1="179" x2="296" y2="228" />
+      <line x1="197" y1="186" x2="162" y2="230" />
+      <line x1="303" y1="186" x2="338" y2="230" />
+      <line x1="169" y1="195" x2="110" y2="232" />
+      <line x1="331" y1="195" x2="390" y2="232" />
+    </g>
+
+    <!-- 5. Tipografía Oficial: LA LUZ DEL MUNDO -->
+    <!-- Fila 1: LA LUZ DEL -->
+    <text x="250" y="306" text-anchor="middle" fill="url(#lldmGoldText)" font-family="'Times New Roman', 'Cinzel', serif" font-size="44" font-weight="700" letter-spacing="4.5">LA LUZ DEL</text>
+
+    <!-- Fila 2: MUNDO -->
+    <text x="250" y="354" text-anchor="middle" fill="url(#lldmGoldText)" font-family="'Times New Roman', 'Cinzel', serif" font-size="52" font-weight="700" letter-spacing="6">MUNDO</text>
+
+    <!-- Fila 3: Restauración de la Primitiva -->
+    <text x="250" y="380" text-anchor="middle" fill="url(#lldmGoldText)" font-family="'Segoe UI', 'Montserrat', Arial, sans-serif" font-size="15" font-weight="600" letter-spacing="1.2">Restauración de la Primitiva</text>
+
+    <!-- Fila 4: Iglesia Cristiana -->
+    <text x="250" y="401" text-anchor="middle" fill="url(#lldmGoldText)" font-family="'Segoe UI', 'Montserrat', Arial, sans-serif" font-size="15.5" font-weight="600" letter-spacing="1.2">Iglesia Cristiana</text>
+
+    <!-- 6. Emblema de las Hojas / Alas Escalonadas de la Iglesia Primitiva -->
+    <g fill="url(#lldmGold)" transform="translate(250, 420)">
+      <!-- Barra superior de alas -->
+      <path d="M -28,-6 L -4,-6 L -7,-1 L -25,-1 Z" />
+      <path d="M 4,-6 L 28,-6 L 25,-1 L 7,-1 Z" />
+      <!-- Barra intermedia -->
+      <path d="M -23,1 L -4,1 L -7,5 L -20,5 Z" />
+      <path d="M 4,1 L 23,1 L 20,5 L 7,5 Z" />
+      <!-- Barra inferior -->
+      <path d="M -18,7 L -4,7 L -7,11 L -15,11 Z" />
+      <path d="M 4,7 L 18,7 L 15,11 L 7,11 Z" />
+      <!-- Cita bíblica EF 2:20 -->
+      <text x="0" y="21" text-anchor="middle" fill="url(#lldmGoldText)" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="700" letter-spacing="1">EF 2:20</text>
+    </g>
+  </g>
+</svg>

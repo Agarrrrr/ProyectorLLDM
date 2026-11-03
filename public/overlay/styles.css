@@ -1,0 +1,793 @@
+
+:root {
+    --oro-lldm: #8E763F;
+    --oro-brillante: #D4AF37;
+    --azul-lldm: #111F40;
+    --blanco: #FFFFFF;
+    --sombra-broadcast: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3), 0 0.1875rem 0.5rem rgba(0, 0, 0, 0.18);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    overflow: hidden;
+    font-family: 'Times New Roman', 'Segoe UI', serif;
+}
+
+/* Contenedor principal: NUNCA estira los elementos en Y */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120rem;
+    height: 67.5rem;
+    pointer-events: none;
+    display: flex;
+}
+
+/* Posiciones controladas con padding y alineación fija */
+.pos-top-right {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 3.125rem 3.75rem;
+}
+
+.pos-bottom-right {
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 3.75rem;
+}
+
+.pos-bottom-left {
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 3.75rem;
+}
+
+.pos-top-left {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 3.125rem 3.75rem;
+}
+
+/* Contenedor del Faldón (Banner): Con límites de largo y alto (Escala 1.3x) */
+.banner-wrapper {
+    display: inline-flex;
+    align-items: stretch;
+    height: auto;
+    max-height: 9.6875rem;
+    max-width: 71.5rem; /* Límite para que no se extienda sin control */
+    filter: drop-shadow(0 0.625rem 1.375rem rgba(0, 0, 0, 0.32)) drop-shadow(0 0.1875rem 0.375rem rgba(0, 0, 0, 0.18));
+    border-radius: 0.5rem;
+    opacity: 0;
+    pointer-events: none;
+    position: relative;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Tanto activo como saliendo DEBEN tener opacidad 1 para ver la animación */
+.banner-wrapper.active,
+.banner-wrapper.exiting {
+    opacity: 1;
+}
+
+/* ----------------------------------------------------
+   PASO 1: BARRA DECORATIVA IZQUIERDA (2.0625rem = 1.5625rem * 1.3)
+   Mitad superior oro, mitad inferior azul marino.
+   ---------------------------------------------------- */
+.badge-bar {
+    width: 2.0625rem;
+    min-width: 2.0625rem;
+    flex-shrink: 0;
+    border-radius: 0.5rem 0 0 0.5rem;
+    background: linear-gradient(180deg, var(--oro-lldm) 50%, var(--azul-lldm) 50%);
+    position: relative;
+    z-index: 5;
+    transform: scaleY(0);
+    transform-origin: center;
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+.banner-wrapper.active .badge-bar {
+    animation: badgeEntrance 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+@keyframes badgeEntrance {
+    0% {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+}
+
+/* ----------------------------------------------------
+   PASO 2: CONTENEDOR BLANCO EXPANDIBLE
+   Se extiende suavemente a 60fps con aceleración GPU.
+   ---------------------------------------------------- */
+.banner-content {
+    background-color: var(--blanco);
+    border-radius: 0 0.5rem 0.5rem 0;
+    border-top: 0.1875rem solid var(--oro-lldm);
+    border-bottom: 0.09375rem solid rgba(0, 0, 0, 0.08);
+    padding: 0.625rem 1.9375rem 0.625rem 1.4375rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+    max-width: 69.375rem; /* Límite máximo de ancho */
+    white-space: nowrap;
+    z-index: 2;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    will-change: clip-path, opacity;
+    transform: translateZ(0);
+}
+
+.banner-wrapper.active .banner-content {
+    animation: contentExpand 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+}
+
+@keyframes contentExpand {
+    0% {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        opacity: 0.9;
+    }
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        opacity: 1;
+    }
+}
+
+/* Entrada suave del texto interno */
+#bannerBody {
+    opacity: 0;
+    transform: translateX(-0.625rem);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.45s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
+    will-change: transform, opacity;
+}
+
+.banner-wrapper.active #bannerBody {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ----------------------------------------------------
+   PASO 3: DESTELLO DE LUZ DORADO (SHIMMER)
+   Acelerado por GPU (translate3d), 3.5s lento y repite cada 10s.
+   ---------------------------------------------------- */
+.shimmer-sweep {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(212, 175, 55, 0.15) 25%,
+        rgba(255, 245, 210, 0.85) 50%,
+        rgba(212, 175, 55, 0.15) 75%,
+        transparent 100%
+    );
+    transform: translate3d(-130%, 0, 0) skewX(-25deg);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.banner-wrapper.active .shimmer-sweep {
+    animation: shimmerLoop 10s cubic-bezier(0.28, 0.85, 0.45, 1) 1.0s infinite;
+}
+
+@keyframes shimmerLoop {
+    0% {
+        transform: translate3d(-130%, 0, 0) skewX(-25deg);
+        opacity: 0;
+    }
+    2% {
+        opacity: 1;
+    }
+    34% {
+        transform: translate3d(250%, 0, 0) skewX(-25deg);
+        opacity: 1;
+    }
+    35% {
+        transform: translate3d(250%, 0, 0) skewX(-25deg);
+        opacity: 0;
+    }
+    100% {
+        transform: translate3d(-130%, 0, 0) skewX(-25deg);
+        opacity: 0;
+    }
+}
+
+/* ----------------------------------------------------
+   PASO 4: SALIDA (RETRACTAR CONTENIDO Y RETIRAR BARRA)
+   ---------------------------------------------------- */
+.banner-wrapper.exiting {
+    pointer-events: none;
+}
+
+.banner-wrapper.exiting .shimmer-sweep {
+    opacity: 0 !important;
+    animation: none !important;
+}
+
+/* 1. El cuadro blanco se retrae hacia la barra lateral */
+.banner-wrapper.exiting .banner-content {
+    animation: contentRetract 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* 2. La barra lateral se retira saliendo de la pantalla */
+.banner-wrapper.exiting .badge-bar {
+    animation: badgeSlideExit 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+/* Salida hacia la derecha para posiciones en el lado derecho */
+.pos-top-right .banner-wrapper.exiting .badge-bar,
+.pos-bottom-right .banner-wrapper.exiting .badge-bar {
+    animation-name: badgeSlideExitRight;
+}
+
+/* Salida hacia la izquierda para posiciones en el lado izquierdo */
+.pos-top-left .banner-wrapper.exiting .badge-bar,
+.pos-bottom-left .banner-wrapper.exiting .badge-bar {
+    animation-name: badgeSlideExitLeft;
+}
+
+@keyframes contentRetract {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+        opacity: 0;
+    }
+}
+
+@keyframes badgeSlideExitRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(15.625rem);
+        opacity: 0;
+    }
+}
+
+@keyframes badgeSlideExitLeft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-15.625rem);
+        opacity: 0;
+    }
+}
+
+@keyframes badgeSlideExit {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(15.625rem);
+        opacity: 0;
+    }
+}
+
+/* --- TIPOGRAFÍA Y TEXTOS CON RECORTE CONTROLADO (Escala 1.3x) --- */
+
+/* --- TIPOGRAFÍA TOTALMENTE UNIFICADA EN 2.5rem (Textos, Himnarios, Temas) --- */
+
+.category-tag {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.125rem;
+    text-transform: uppercase;
+    color: var(--oro-lldm);
+    margin-bottom: 0.125rem;
+    line-height: 1.15;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Título unificado a 2.5rem para Temas, Cartas, Presentaciones y textos generales */
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--azul-lldm);
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.0375rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.main-title.single-line {
+    font-size: 2.5rem;
+}
+
+.sub-detail {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-top: 0.125rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.icon-svg {
+    display: inline-block;
+    vertical-align: middle;
+    fill: var(--oro-lldm);
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+}
+
+/* Citas Bíblicas (Unificado a 2.5rem) */
+.bible-layout {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.bible-book {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--azul-lldm);
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.15;
+}
+
+.bible-verse {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--oro-lldm);
+    flex-shrink: 0;
+    line-height: 1.15;
+}
+
+/* Cantos del Himnario (Unificado a 2.5rem, idéntico a Biblia y Temas) */
+.hymn-layout {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.hymn-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--oro-lldm);
+    flex-shrink: 0;
+    line-height: 1.15;
+}
+
+.hymn-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--azul-lldm);
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.15;
+}
+
+/* --- CUADRO CENTRADO PARA CÁMARAS DE DRON Y TOMAS AÉREAS --- */
+.drone-wrapper {
+    position: absolute;
+    bottom: 4.0625rem;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    z-index: 85;
+    pointer-events: none;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.drone-card {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 0.875rem 2.625rem 1rem 2.625rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    filter: drop-shadow(0 0.5rem 1rem rgba(0, 0, 0, 0.4)) drop-shadow(0 0.125rem 0.25rem rgba(0, 0, 0, 0.22));
+    border: 0.15625rem solid var(--oro-lldm);
+    box-shadow: inset 0 0 0 0.125rem rgba(212, 175, 55, 0.35);
+    clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+    will-change: clip-path, opacity, transform;
+    white-space: nowrap;
+    max-width: 112.5rem;
+}
+
+/* Animación de entrada centrada para Dron - Lenta, majestuosa y cinematográfica */
+.drone-wrapper.active {
+    opacity: 1;
+}
+
+.drone-wrapper.active .drone-card {
+    animation: droneCardExpand 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.drone-wrapper.active .drone-header,
+.drone-wrapper.active .drone-title {
+    animation: droneTextFade 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes droneCardExpand {
+    0% {
+        clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes droneTextFade {
+    0% {
+        opacity: 0;
+        transform: translateY(0.375rem);
+    }
+    25% {
+        opacity: 0;
+        transform: translateY(0.375rem);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animación de salida centrada para Dron - Pausada y elegante */
+.drone-wrapper.exiting {
+    opacity: 1;
+}
+
+.drone-wrapper.exiting .drone-card {
+    animation: droneCardRetract 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.drone-wrapper.exiting .shimmer-sweep {
+    opacity: 0 !important;
+    animation: none !important;
+}
+
+@keyframes droneCardRetract {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        transform: scale(1);
+        opacity: 1;
+    }
+    65% {
+        opacity: 0.85;
+    }
+    100% {
+        clip-path: polygon(50% 0, 50% 0, 50% 100%, 50% 100%);
+        transform: scale(0.95);
+        opacity: 0;
+    }
+}
+
+/* Elementos internos del Cuadro Dron */
+.drone-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.drone-pin-icon {
+    width: 1.0625rem;
+    height: 1.0625rem;
+    fill: var(--oro-lldm);
+    flex-shrink: 0;
+}
+
+.drone-tag {
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.1375rem;
+    text-transform: uppercase;
+    color: var(--oro-lldm);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    line-height: 1.2;
+}
+
+.drone-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--azul-lldm);
+    text-transform: uppercase;
+    letter-spacing: 0.04375rem;
+    line-height: 1.15;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* Panel de Pruebas */
+.test-panel {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(17, 31, 64, 0.95);
+    border: 0.0625rem solid var(--oro-lldm);
+    border-radius: 0.625rem;
+    padding: 0.625rem 1.125rem;
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    z-index: 9999;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(0.5rem);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.test-panel.hidden {
+    display: none !important;
+}
+
+.test-panel button, .test-panel select {
+    background: var(--oro-lldm);
+    color: var(--blanco);
+    border: none;
+    padding: 0.4375rem 0.8125rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.test-panel button:hover, .test-panel select:hover {
+    background: #a38747;
+}
+
+.test-panel .btn-hide {
+    background: #c9302c;
+}
+
+.test-panel .btn-close {
+    background: #444;
+    padding: 0.4375rem 0.625rem;
+}
+
+.test-panel select {
+    background: #192744;
+    border: 0.0625rem solid var(--oro-lldm);
+}
+
+/* --- MOSCA DE TRANSMISIÓN / LOGO OFICIAL LLDM SIEMPRE VISIBLE --- */
+.broadcast-watermark {
+    position: absolute;
+    z-index: 90;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.watermark-top-left {
+    top: 2.1875rem;
+    left: 2.8125rem;
+}
+
+.watermark-top-right {
+    top: 2.1875rem;
+    right: 2.8125rem;
+}
+
+.watermark-bottom-left {
+    bottom: 2.8125rem;
+    left: 3.125rem;
+}
+
+.watermark-bottom-right {
+    bottom: 2.8125rem;
+    right: 3.125rem;
+}
+
+/* El contenedor del Logo con aceleración por hardware */
+.logo-box {
+    position: relative;
+    width: 13.4375rem;
+    height: 10.6875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0.25rem 0.625rem rgba(0, 0, 0, 0.45)) drop-shadow(0 0.125rem 0.1875rem rgba(0, 0, 0, 0.25));
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: filter, transform;
+    transition: filter 0.8s ease;
+}
+
+/* Pulso de aura dorada brillante durante la animación */
+.logo-box.gleam-active {
+    filter: drop-shadow(0 0.25rem 0.5rem rgba(0, 0, 0, 0.5))
+            drop-shadow(0 0 0.3125rem rgba(212, 175, 55, 0.75))
+            drop-shadow(0 0 0.125rem rgba(255, 245, 195, 0.9));
+}
+
+.logo-box .logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Máscara del logo oficial: el haz baña los trazos dorados del emblema */
+.logo-shimmer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2;
+    -webkit-mask-image: url('/logo_lldm_oficial.svg');
+    mask-image: url('/logo_lldm_oficial.svg');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.logo-box.gleam-active .logo-shimmer-overlay {
+    opacity: 1;
+}
+
+/* Barra de luz brillante diagonal idéntica a la original */
+.logo-shimmer-beam {
+    position: absolute;
+    top: -50%;
+    left: -160%;
+    width: 70%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 248, 220, 0.2) 20%,
+        rgba(255, 255, 255, 0.95) 50%,
+        rgba(255, 248, 220, 0.2) 80%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+.logo-box.gleam-active .logo-shimmer-beam {
+    animation: beamPass 2.2s cubic-bezier(0.25, 1, 0.35, 1) forwards;
+}
+
+@keyframes beamPass {
+    0% {
+        left: -160%;
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        left: 170%;
+        opacity: 0;
+    }
+}
+
+/* Destello estelar de 4 puntas centrado en la llama de la antorcha */
+.logo-star-sparkle {
+    position: absolute;
+    top: 2%;
+    left: 49%;
+    width: 2.125rem;
+    height: 2.125rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%) scale(0) rotate(0deg);
+    z-index: 3;
+}
+
+.logo-box.gleam-active .logo-star-sparkle {
+    animation: sparklePulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+}
+
+@keyframes sparklePulse {
+    0% {
+        transform: translateX(-50%) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    30% {
+        transform: translateX(-50%) scale(1.3) rotate(45deg);
+        opacity: 1;
+    }
+    60% {
+        transform: translateX(-50%) scale(0.9) rotate(90deg);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateX(-50%) scale(0) rotate(135deg);
+        opacity: 0;
+    }
+}
+
+/* Preserve the approved 16:9 composition and proportional safe margins. */
+#broadcast-stage { position: absolute; width: 120rem; height: 67.5rem; transform-origin: top left; overflow: hidden; }
+.banner-wrapper { min-width: 0; max-height: none; }
+.banner-content { min-width: 0; flex: 0 1 auto; }
+#bannerBody { min-width: 0; max-width: 100%; align-self: stretch; }
+.main-title, .hymn-title, .bible-book, .sub-detail, .drone-title, .drone-tag {
+    min-width: 0; max-width: 100%; white-space: normal; overflow: visible;
+    text-overflow: clip; overflow-wrap: anywhere;
+}
+.main-title, .hymn-title, .bible-book, .bible-verse, .hymn-num, .drone-title { line-height: 1.2; padding-block: 0.125rem; }
+.hymn-layout, .bible-layout { min-width: 0; overflow: visible; }
+.hymn-title, .bible-book { flex: 1 1 auto; }
+.sub-detail { flex-wrap: wrap; }
+.drone-wrapper { width: max-content; max-width: 112.5rem; }
+.drone-card { min-width: 0; }
+.drone-header { min-width: 0; max-width: 100%; }

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Listas y Cartelería LLDM Centenario</title>
+    
+    <!-- Google Fonts for Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- html2canvas and JSZip libraries via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+</head>
+<body>
+
+    <!-- Header Panel -->
+    <header class="admin-header">
+        <div class="admin-logo-title">
+            <img class="admin-logo" src="data:image/png;base64,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" alt="Logo LLDM">
+            <div class="admin-titles">
+                <h1>LLDM Centenario</h1>
+                <p>Gestor de Listas de Actividades & Cartelería</p>
+            </div>
+        </div>
+        <nav class="admin-nav">
+            <button class="nav-tab signage-btn" onclick="startSignage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"></svg> Iniciar Cartelería (Bucle 16:9)
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="admin-container">
+        
+        <!-- Sidebar Control Panel -->
+        <aside class="admin-sidebar">
+            
+            <!-- Dates & Configuration -->
+            <div class="sidebar-card">
+                <h3>Configuración Semana</h3>
+                <div class="form-group">
+                    <label for="week-start">Fecha de Inicio (Domingo)</label>
+                    <input type="date" id="week-start" onchange="handleDateChange()">
+                </div>
+                <div class="form-group">
+                    <label for="week-end">Fecha de Fin (Sábado)</label>
+                    <input type="date" id="week-end" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="sales-starting-sunday">Grupo Inicial Venta Comida</label>
+                    <select id="sales-starting-sunday" onchange="generateVentasRotation()">
+                        <option value="0">Dom 1: Jóvenes</option>
+                        <option value="1">Dom 2: Casadas Medianas</option>
+                        <option value="2" selected>Dom 3: Casadas Grandes (19 Jul)</option>
+                        <option value="3">Dom 4: Solas/Solos/Medianos</option>
+                        <option value="4">Dom 5: Casados/Casadas Chicas</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Operations -->
+            <div class="sidebar-card">
+                <h3>Acciones</h3>
+                <button class="action-btn btn-gold" onclick="saveCurrentWeek()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"></svg> Guardar Semana
+                </button>
+                <button class="action-btn btn-outline" onclick="downloadAllFlyersZip()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/><line x1="12" y1="12" x2="20.5" y2="7.05"/><line x1="12" y1="12" x2="3.5" y2="7.05"></svg> Descargar ZIP 4K (6 Flyers)
+                </button>
+            </div>
+
+            <!-- History of Saved Weeks -->
+            <div class="sidebar-card">
+                <h3>Historial de Semanas</h3>
+                <ul class="history-list" id="saved-weeks-list">
+                    <!-- Loaded dynamically via JS -->
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Form Panel -->
+        <section class="admin-main-panel">
+            
+            <!-- Subsections Navigation -->
+            <div class="list-sections-tabs">
+                <button class="section-tab active" onclick="switchSectionTab('oraciones-tab', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon" style="margin-right:6px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></svg> Oraciones</button>
+                <button class="section-tab" onclick="switchSectionTab('flores-tab', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon" style="margin-right:6px;"><circle cx="12" cy="12" r="3"/><path d="M12 2a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M12 14a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4z"/><path d="M6 12a4 4 0 0 0 4-4 4 4 0 0 0 4 4 4 4 0 0 0-4 4 4 4 0 0 0-4-4z"/><path d="M14 12a4 4 0 0 0 4-4 4 4 0 0 0 4 4 4 4 0 0 0-4 4 4 4 0 0 0-4-4z"></svg> Flores</button>
+                <button class="section-tab" onclick="switchSectionTab('ventas-tab', this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="svg-icon" style="margin-right:6px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"></svg> Venta de Comida</button>
+            </div>
+
+            <!-- SECTION 1: ORACIONES FORM -->
+            <div class="form-section-container active" id="oraciones-tab">
+                <div class="form-row-grid" id="oraciones-form-grid">
+                    <!-- Day cards (Lunes-Domingo) will be loaded dynamically here -->
+                </div>
+            </div>
+
+            <!-- SECTION 2: FLORES FORM -->
+            <div class="form-section-container" id="flores-tab">
+                <div class="form-vertical-stack" id="flores-form-grid">
+                    <!-- 3 Sundays cards will be loaded dynamically here -->
+                </div>
+            </div>
+
+            <!-- SECTION 3: VENTA DE COMIDA FORM -->
+            <div class="form-section-container" id="ventas-tab">
+                <div class="form-vertical-stack" id="ventas-form-grid">
+                    <!-- 5 Sundays Rotation card inputs loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ---------------------------------------------------- -->
+    /* DYNAMIC SIGNAGE Loop Screen (Loops in 16:9 full screen) */
+    <!-- ---------------------------------------------------- -->
+    <div id="signage-player">
+        <!-- Invisible bottom-left corner close box to exit signage loop -->
+        <div onclick="exitSignage()" style="position: fixed; bottom: 0; left: 0; width: 85px; height: 85px; cursor: default; z-index: 100000; opacity: 0; background: red;"></div>
+        
+        <!-- Slide 1: Oraciones 5 AM -->
+        <div class="signage-slide active" id="slide-oraciones-5">
+            <div class="signage-frame" id="frame-oraciones-5"></div>
+        </div>
+
+        <!-- Slide 2: Oraciones 9 AM -->
+        <div class="signage-slide next" id="slide-oraciones-9">
+            <div class="signage-frame" id="frame-oraciones-9"></div>
+        </div>
+
+        <!-- Slide 3: Oraciones Tarde -->
+        <div class="signage-slide next" id="slide-oraciones-tarde">
+            <div class="signage-frame" id="frame-oraciones-tarde"></div>
+        </div>
+
+        <!-- Slide 4: Flores -->
+        <div class="signage-slide next" id="slide-flores">
+            <div class="signage-frame" id="frame-flores"></div>
+        </div>
+
+        <!-- Slide 5: Ventas -->
+        <div class="signage-slide next" id="slide-ventas">
+            <div class="signage-frame" id="frame-ventas"></div>
+        </div>
+    </div>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- OFFSCREEN COMPILED FLYERS FOR 4K DOWNLOAD GENERATION -->
+    <!-- ---------------------------------------------------- -->
+    <div class="render-offscreen" id="offscreen-render-area">
+        <!-- Temporary rendered elements will be loaded here dynamically via JS during zip compiling -->
+    </div>
+
+    <!-- ---------------------------------------------------- -->
+    <!-- JAVASCRIPT LOGIC & APP ENGINE                        -->
+    <!-- ---------------------------------------------------- -->
+    <script src="js/app.js"></script>
+</body>
+</html>

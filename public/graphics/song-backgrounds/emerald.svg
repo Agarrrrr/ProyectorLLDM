@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+<defs><radialGradient id="base" cx=".5" cy=".42" r=".8"><stop stop-color="#123f3b"/><stop offset="1" stop-color="#061b1b"/></radialGradient>
+<linearGradient id="edge" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#c8b985" stop-opacity=".42"/><stop offset=".46" stop-color="#c8b985" stop-opacity=".05"/><stop offset="1" stop-color="#c8b985" stop-opacity=".25"/></linearGradient>
+<linearGradient id="glass" x1="0" x2="1"><stop stop-color="#123f3b" stop-opacity=".7"/><stop offset="1" stop-color="#061b1b" stop-opacity=".1"/></linearGradient></defs>
+<path fill="url(#base)" d="M0 0h1920v1080H0z"/>
+<g fill="url(#glass)"><path d="M0 0h430L0 530z"/><path d="M1920 1080h-450l450-570z"/><path opacity=".5" d="M0 1080V850l650 230z"/><path opacity=".5" d="M1920 0v200l-580-200z"/></g>
+<g fill="none" stroke="url(#edge)" stroke-width="2"><path d="M-120 620L420-30M-75 620L465-30M-30 620L510-30"/><path d="M2040 470l-550 640m505-640l-550 640m505-640l-550 640"/></g>
+<path fill="none" stroke="#c8b985" opacity=".2" d="M0 58h280L58 330M1920 1022h-280l222-272"/>
+<path fill="none" stroke="#c8b985" opacity=".12" d="M34 34h1852v1012H34z"/>
+</svg>

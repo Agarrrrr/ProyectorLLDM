@@ -1,0 +1,28 @@
+node_modules/
+.work/
+backups/
+config/*.local.json
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+
+lista-oraciones/node_modules/
+
+# Solo data/factory se distribuye como catálogo de fábrica.
+data/*.json
+data/song-assets/
+public/uploads/
+data/*.tmp
+data/backups/
+data/restore-pending/
+data/restore-completed-*/
+data/.updates-*
+data/update-status.json
+
+# Local tooling and intermediate documentation renders
+.agents/
+.codex/
+tmp/
+output/

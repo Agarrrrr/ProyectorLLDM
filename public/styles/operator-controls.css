@@ -1,0 +1,86 @@
+/* Scoped controls: shared by the cabin and lists editor, never the TV/OBS canvas.
+   The scope outranks legacy resets even when Vite loads its CSS afterwards. */
+.operator-ui, .lists-app {
+  --ui-surface: #152130;
+  --ui-field: #0e1724;
+  --ui-control: #213249;
+  --ui-control-hover: #2c415b;
+  --ui-line: #465e79;
+  --ui-text: #edf3fb;
+  --ui-secondary: #b7c7da;
+  --ui-accent: #e5c276;
+  --ui-accent-hover: #f0d59a;
+  --ui-accent-ink: #152130;
+  --ui-danger: #ffc3c0;
+  --ui-focus: #98c5ff;
+}
+.operator-ui button:not(:where(.tab-item,.section-tab,.slide-card,.settings-launch,.btn-pip-toggle,.btn-show-hymn-list,.btn-show-choir-list)),
+.lists-app button:not(:where(.section-tab)) {
+  appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 42px; max-width: 100%; padding: 10px 15px; border: 1px solid #465e79; border-radius: 8px;
+  background: var(--ui-control); color: var(--ui-text);
+  font: 600 13px/1.4 'Montserrat',sans-serif; text-align: center; text-decoration: none;
+  box-shadow: none;
+  white-space: normal; overflow-wrap: anywhere;
+  transition: background .16s,border-color .16s,color .16s,box-shadow .16s,filter .12s;
+}
+.operator-ui button:is(.btn-gold,.btn-primary,.btn-save-lyrics,[type="submit"]),
+.lists-app button:is(.btn-gold,.btn-primary,.btn-save-lyrics,[type="submit"]) {
+  color: var(--ui-accent-ink); background: var(--ui-accent); border-color: var(--ui-accent); font-weight: 700;
+  box-shadow: none;
+}
+.operator-ui button:is(.btn-overlay-obs,.btn-action-edit),
+.lists-app button:is(.btn-overlay-obs,.btn-action-edit) {
+  background: #20314c; border-color: #607ca4; color: #dce9ff;
+}
+.operator-ui button.btn-gold-outline, .lists-app button.btn-gold-outline {
+  background: #dfbb6a0c; border-color: #9a8353; color: #f1d79c;
+}
+.operator-ui button.btn-danger, .lists-app button.btn-danger {
+  color: var(--ui-danger); background: #30242d; border-color: #805360;
+}
+.operator-ui button.btn-modal-close { width: 40px; min-height: 40px; padding: 7px; border-radius: 10px; font-size: 20px; }
+.operator-ui button[aria-pressed="true"]:not(:where(.tab-item,.btn-gold)),
+.lists-app button[aria-pressed="true"]:not(:where(.section-tab,.btn-gold)) {
+  background: #dfbb6a18; color: #f3d89b; border-color: #b99a5e;
+}
+.operator-ui button:disabled, .lists-app button:disabled { opacity: .42; cursor: not-allowed; box-shadow: none; filter: none; }
+.operator-ui button:enabled:active, .lists-app button:enabled:active { filter: brightness(.9); box-shadow: inset 0 2px 5px #0003; }
+.operator-ui button:focus-visible, .lists-app button:focus-visible { outline: 3px solid #98c5ff; outline-offset: 3px; }
+.lists-app .list-sections-tabs { padding: 5px; gap: 5px; border: 1px solid #34465e; border-radius: 11px; background: #0d1725; }
+.lists-app .section-tab { flex: 1 1 90px; min-height: 40px; padding: 9px 14px; border: 1px solid transparent; border-radius: 7px; color: #aebed3; background: transparent; font: 650 13px/1.3 'Montserrat',sans-serif; }
+.lists-app .section-tab.active { color: #f2d69b; background: #dfbb6a16; border-color: #9b8458; box-shadow: inset 0 1px 0 #fff1; }
+.operator-ui .tab-item { transition: color .16s,background-color .16s,border-color .16s; }
+.lists-app .action-btn { margin-bottom: 0; }
+.lists-app :is(input:not([type="checkbox"]),select,textarea), .operator-ui .list-rotation-duration input {
+  border-radius: 8px; border-color: #40546e; color: #edf3fb; background-color: #0e1725; color-scheme: dark;
+}
+.lists-app :is(input,select,textarea):focus { border-color: #c7a66b; outline: none; box-shadow: 0 0 0 3px #dfbb6a20; }
+.lists-app :is(.list-week-actions,.sales-group-actions,.image-download-actions) { gap: 10px; }
+.operator-ui .list-duration-status { flex-basis: 100%; margin: 0; padding: 0 2px; color: #b7c5d9; font-size: 12px; line-height: 1.5; }
+.operator-ui .list-duration-status:empty { display: none; }
+.operator-ui .prayer-actions { align-items: flex-end; }
+.lists-app summary { padding: 3px 0; }
+@media (hover: hover) {
+  .operator-ui button:enabled:hover:not(:where(.tab-item,.slide-card,.settings-launch,.btn-pip-toggle)),
+  .lists-app button:enabled:hover:not(:where(.section-tab)) { border-color: #8da6c3; background: var(--ui-control-hover); color: var(--ui-text); transform: none; }
+  .operator-ui button:is(.btn-gold,.btn-primary,.btn-save-lyrics,[type="submit"]):enabled:hover,
+  .lists-app button:is(.btn-gold,.btn-primary,.btn-save-lyrics,[type="submit"]):enabled:hover { background: var(--ui-accent-hover); border-color: var(--ui-accent-hover); color: var(--ui-accent-ink); }
+  .operator-ui button.btn-danger:enabled:hover, .lists-app button.btn-danger:enabled:hover { color: #ffdbd8; background: #51333d; border-color: #b87783; }
+  .lists-app .section-tab:hover { color: #f0d69d; background: #dfbb6a10; }
+}
+@media (pointer: coarse) {
+  .operator-ui button:not(:where(.tab-item,.slide-card,.settings-launch,.btn-pip-toggle)), .lists-app button { min-height: 44px; }
+}
+@media (max-width: 540px) {
+  .lists-app .list-week-actions { width: 100%; }
+  .lists-app .list-week-actions button { flex: 1 1 130px; }
+  .lists-app .image-download-actions button { flex: 1 1 150px; }
+}
+@media (prefers-reduced-motion: reduce) { .operator-ui button, .lists-app button { transition: none; } }
+
+.operator-ui ::selection,.lists-app ::selection { color:#152130;background:#e5c276; }
+.operator-ui :is(input,textarea) { caret-color:var(--ui-accent); }
+.operator-ui :is(input,textarea)::placeholder,.lists-app :is(input,textarea)::placeholder { color:#a2b5cb;opacity:1; }
+
+.operator-ui .editor-mode-switcher button.active { background:#e5c27618;color:var(--ui-accent);border-color:#a78c55; }

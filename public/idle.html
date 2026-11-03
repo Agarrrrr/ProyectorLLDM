@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es" data-background="institutional">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fondo Pantallas Oficial Vectorial Animado - Centenario LLDM</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=lldm-completo">
+  <meta name="theme-color" content="#101925">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/idle/styles.css">
+  <link rel="stylesheet" href="/output-viewport.css">
+</head>
+<body>
+
+  <div id="stage" data-output-canvas>
+    <!-- SVG Vectorial Maestro 1920x1080 idéntico al 1:1 de Fondo.jpg -->
+    <svg class="vector-canvas" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs>
+        <!-- Gradientes de Oro Realistas Idénticos a Fondo.jpg -->
+        <linearGradient id="goldLeftLine" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E5C77A" />
+          <stop offset="28%" stop-color="#CA9E3C" />
+          <stop offset="55%" stop-color="#FDF2BE" />
+          <stop offset="78%" stop-color="#B28827" />
+          <stop offset="100%" stop-color="#DFBA5C" />
+        </linearGradient>
+
+        <linearGradient id="goldRightLine" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#E5C77A" />
+          <stop offset="28%" stop-color="#CA9E3C" />
+          <stop offset="55%" stop-color="#FDF2BE" />
+          <stop offset="78%" stop-color="#B28827" />
+          <stop offset="100%" stop-color="#DFBA5C" />
+        </linearGradient>
+
+        <!-- SOMBRAS DIFUMINADAS MUY SUAVES (Exactas a la iluminacion volumetrica de Fondo.jpg) -->
+        <filter id="softShadowLeft" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="14" dy="10" stdDeviation="24" flood-color="#3d495c" flood-opacity="0.10" />
+          <feDropShadow dx="4" dy="3" stdDeviation="10" flood-color="#64748b" flood-opacity="0.06" />
+        </filter>
+
+        <filter id="softShadowRight" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="-14" dy="10" stdDeviation="24" flood-color="#3d495c" flood-opacity="0.10" />
+          <feDropShadow dx="-4" dy="3" stdDeviation="10" flood-color="#64748b" flood-opacity="0.06" />
+        </filter>
+
+        <!-- Filtro de presencia y relieve de gala para el logo oficial LLDM -->
+        <filter id="goldLogoGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#ca9e3c" flood-opacity="0.30" />
+          <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="#714e06" flood-opacity="0.16" />
+        </filter>
+
+        <!-- Degradado de difuminacion a blanco radiante en la zona inferior de lectura -->
+        <linearGradient id="whiteTextFade" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+          <stop offset="35%" stop-color="#ffffff" stop-opacity="0.85" />
+          <stop offset="65%" stop-color="#ffffff" stop-opacity="0.98" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+        </linearGradient>
+
+        <!-- Difuminacion radial a blanco alrededor del bloque de hashtags -->
+        <radialGradient id="radialWhiteFade" cx="50%" cy="82%" r="55%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.96" />
+          <stop offset="50%" stop-color="#ffffff" stop-opacity="0.82" />
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </radialGradient>
+
+        <!-- Iluminacion de estudio arquitectonica cenital muy elegante -->
+        <radialGradient id="studioLighting" cx="50%" cy="45%" r="75%">
+          <stop offset="0%" stop-color="#ffffff" />
+          <stop offset="60%" stop-color="#ffffff" />
+          <stop offset="85%" stop-color="#fafbfd" />
+          <stop offset="100%" stop-color="#f2f4f8" />
+        </radialGradient>
+      </defs>
+
+      <!-- Fondo Plano con Iluminacion de Estudio de Gala -->
+      <rect width="1920" height="1080" fill="url(#studioLighting)" />
+
+      <!-- ============================================================== -->
+      <!-- LATERAL IZQUIERDO: PANELES Y LINEAS ELEGANTES CRUZADAS EN X    -->
+      <!-- ============================================================== -->
+      <!-- 1. Paneles angulares blancos con sombra suave difuminada -->
+      <g>
+        <!-- Panel principal: arista apuntando al exterior (borde izquierdo) -->
+        <polygon points="580,-40 40,540 580,1120 -50,1120 -50,-40" fill="#ffffff" filter="url(#softShadowLeft)" />
+      </g>
+
+      <!-- 2. Lineas doradas elegantes cruzadas en los extremos formando X con pulsacion sutil -->
+      <g class="pulse-gold-lines-left">
+        <!-- LINEA 1 PRINCIPAL: Bisel fino de 2.6px, cruza en X a la altura de y=540 -->
+        <line x1="580" y1="-30" x2="-20" y2="600" stroke="url(#goldLeftLine)" stroke-width="2.6" stroke-linecap="round" />
+        <line x1="580" y1="1110" x2="-20" y2="480" stroke="url(#goldLeftLine)" stroke-width="2.6" stroke-linecap="round" />
+
+        <!-- LINEA 2 INTERMEDIA (Paralela externa): Bisel fino de 1.8px -->
+        <line x1="470" y1="-30" x2="-130" y2="600" stroke="url(#goldLeftLine)" stroke-width="1.8" stroke-linecap="round" />
+        <line x1="470" y1="1110" x2="-130" y2="480" stroke="url(#goldLeftLine)" stroke-width="1.8" stroke-linecap="round" />
+
+        <!-- LINEAS DE ACENTO ESQUINA SUPERIOR E INFERIOR (Finas y pulidas de 1.4px) -->
+        <line x1="340" y1="-30" x2="-30" y2="340" stroke="url(#goldLeftLine)" stroke-width="1.4" stroke-linecap="round" opacity="0.85" />
+        <line x1="340" y1="1110" x2="-30" y2="740" stroke="url(#goldLeftLine)" stroke-width="1.4" stroke-linecap="round" opacity="0.85" />
+      </g>
+
+      <!-- ============================================================== -->
+      <!-- LATERAL DERECHO: PANELES Y LINEAS ELEGANTES CRUZADAS EN X   -->
+      <!-- ============================================================== -->
+      <!-- 1. Paneles angulares blancos con sombra suave difuminada -->
+      <g>
+        <!-- Panel principal: arista simetrica apuntando al exterior (borde derecho) -->
+        <polygon points="1340,-40 1880,540 1340,1120 1970,1120 1970,-40" fill="#ffffff" filter="url(#softShadowRight)" />
+      </g>
+
+      <!-- 2. Lineas doradas elegantes cruzadas en los extremos formando X con pulsacion sutil -->
+      <g class="pulse-gold-lines-right">
+        <!-- LINEA 1 PRINCIPAL: Bisel fino de 2.6px, cruza en X a la altura de y=540 -->
+        <line x1="1340" y1="-30" x2="1940" y2="600" stroke="url(#goldRightLine)" stroke-width="2.6" stroke-linecap="round" />
+        <line x1="1340" y1="1110" x2="1940" y2="480" stroke="url(#goldRightLine)" stroke-width="2.6" stroke-linecap="round" />
+
+        <!-- LINEA 2 INTERMEDIA (Paralela externa): Bisel fino de 1.8px -->
+        <line x1="1450" y1="-30" x2="2050" y2="600" stroke="url(#goldRightLine)" stroke-width="1.8" stroke-linecap="round" />
+        <line x1="1450" y1="1110" x2="2050" y2="480" stroke="url(#goldRightLine)" stroke-width="1.8" stroke-linecap="round" />
+
+        <!-- LINEAS DE ACENTO ESQUINA SUPERIOR E INFERIOR (Finas y pulidas de 1.4px) -->
+        <line x1="1580" y1="-30" x2="1950" y2="340" stroke="url(#goldRightLine)" stroke-width="1.4" stroke-linecap="round" opacity="0.85" />
+        <line x1="1580" y1="1110" x2="1950" y2="740" stroke="url(#goldRightLine)" stroke-width="1.4" stroke-linecap="round" opacity="0.85" />
+      </g>
+
+      <!-- ============================================================== -->
+      <!-- DIFUMINACION A BLANCO EN LA ZONA DE LETRAS (Lectura Nitida)     -->
+      <!-- Cubre suavemente las partes inferiores de las lineas y paneles -->
+      <!-- ============================================================== -->
+      <rect x="0" y="860" width="1920" height="220" fill="url(#whiteTextFade)" />
+      <ellipse cx="960" cy="990" rx="900" ry="170" fill="url(#radialWhiteFade)" />
+
+      <!-- ============================================================== -->
+      <!-- LOGO OFICIAL 1: LA LUZ DEL MUNDO (Esquina Superior Izquierda)  -->
+      <!-- SVG Vectorial Oficial de lldm.org en escala imponente y gala   -->
+      <!-- ============================================================== -->
+      <g id="vectorLogoLLDM" transform="translate(42, 195)" filter="url(#goldLogoGlow)">
+        <image href="/logo_lldm_oficial.svg" width="260" height="207" preserveAspectRatio="xMidYMid meet" />
+      </g>
+
+      <!-- ============================================================== -->
+      <!-- TEXTOS OFICIALES INFERIORES VECTORIALES (100% NITIDOS)         -->
+      <!-- ============================================================== -->
+      <!-- #100AnosdeEsperanzaySalvacion | #LLDM | #CentenarioLLDM -->
+      <g transform="translate(960, 970)">
+        <text text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="36" font-weight="700" fill="#9c7c2b" letter-spacing="1">
+          <tspan fill="#9c7c2b">#100AñosdeEsperanzaySalvación</tspan>
+          <tspan fill="#b89b4b" font-weight="500"> | </tspan>
+          <tspan fill="#9c7c2b">#LLDM</tspan>
+          <tspan fill="#b89b4b" font-weight="500"> | </tspan>
+          <tspan fill="#9c7c2b">#CentenarioLLDM</tspan>
+        </text>
+      </g>
+
+      <!-- @LALUZDELMUNDO2026 -->
+      <g transform="translate(960, 1036)">
+        <text text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="20" font-weight="700" fill="#9c7c2b" letter-spacing="2.2">
+          @LALUZDELMUNDO2026
+        </text>
+      </g>
+    </svg>
+
+    <!-- ============================================================== -->
+    <!-- LOGO OFICIAL 2: CENTENARIO 100 ANOS (Escala Real 1:1)          -->
+    <!-- ============================================================== -->
+    <div class="center-logo-container">
+      <svg class="center-logo-svg" viewBox="0 0 445.13 411.38">
+        <defs>
+          <filter id="centDrop" x="-15%" y="-15%" width="130%" height="130%">
+            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#88681e" flood-opacity="0.22" />
+          </filter>
+        </defs>
+
+        <g filter="url(#centDrop)">
+          <image href="/Recurso-6fondo.svg" x="0" y="0" width="445.13" height="411.38" preserveAspectRatio="xMidYMid meet" />
+        </g>
+      </svg>
+
+      <!-- Estrella Fugaz con estela luminosa: cruza de un extremo a otro -->
+      <div class="shooting-star-track">
+        <svg class="shooting-star-canvas" viewBox="0 0 755 755">
+          <defs>
+            <!-- Degradado luminoso para la estela dorada -->
+            <linearGradient id="cometTailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffd54f" stop-opacity="0" />
+              <stop offset="25%" stop-color="#e5a823" stop-opacity="0.35" />
+              <stop offset="60%" stop-color="#f5c84c" stop-opacity="0.8" />
+              <stop offset="88%" stop-color="#fff0aa" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+            </linearGradient>
+
+            <linearGradient id="cometCoreBeam" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+              <stop offset="35%" stop-color="#ffe680" stop-opacity="0.5" />
+              <stop offset="85%" stop-color="#ffffff" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+            </linearGradient>
+
+            <!-- Filtro de resplandor celestial brillante -->
+            <filter id="starGlowFilter" x="-60%" y="-150%" width="220%" height="400%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#ffffff" flood-opacity="0.95" />
+              <feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#f5c84c" flood-opacity="0.85" />
+            </filter>
+          </defs>
+
+          <!-- Elemento móvil de la estrella fugaz: imponente, luminosa y nítida -->
+          <g class="shooting-star-projectile">
+            <!-- Estela cónica dorada amplia -->
+            <path d="M -340,0 Q -170,-6 0,-2 L 0,2 Q -170,6 -340,0 Z" fill="url(#cometTailGrad)" filter="url(#starGlowFilter)" />
+
+            <!-- Haz central dorado de gran nitidez -->
+            <line x1="-360" y1="0" x2="0" y2="0" stroke="url(#cometCoreBeam)" stroke-width="2.6" stroke-linecap="round" filter="url(#starGlowFilter)" />
+
+            <!-- Filamentos de polvo estelar vivos -->
+            <line x1="-240" y1="-3.5" x2="0" y2="0" stroke="url(#cometTailGrad)" stroke-width="1.4" opacity="0.75" />
+            <line x1="-240" y1="3.5" x2="0" y2="0" stroke="url(#cometTailGrad)" stroke-width="1.4" opacity="0.75" />
+
+            <!-- Cabeza de la estrella fugaz: destello estelar de 4 puntas de gala, grande y radiante -->
+            <g transform="translate(0, 0)">
+              <!-- Rayos principales de 4 puntas alargados en la dirección del vuelo -->
+              <path d="M 0,-22 Q 0,0 36,0 Q 0,0 0,22 Q 0,0 -24,0 Q 0,0 0,-22 Z" fill="#ffffff" filter="url(#starGlowFilter)" />
+              <!-- Rayos secundarios a 45 grados -->
+              <path d="M 0,-13 Q 0,0 13,0 Q 0,0 0,13 Q 0,0 -13,0 Q 0,0 0,-13 Z" fill="#FFF2BD" opacity="0.85" transform="rotate(45)" />
+              <!-- Núcleo incandescente -->
+              <circle cx="0" cy="0" r="4.5" fill="#ffffff" />
+              <circle cx="0" cy="0" r="2.2" fill="#fffbe8" />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <img class="institutional-background" src="/graphics/fondo-institucional.svg" alt="La Luz del Mundo">
+  <script src="/graphics/runtime.js" defer></script>
+  <script src="/output-viewport.js" defer></script>
+  <script src="/idle/app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cabina de Proyección LLDM</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=lldm-completo">
+  <meta name="theme-color" content="#101925">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/control/styles/base.css?v=4">
+  <link rel="stylesheet" href="/control/styles/workspace.css?v=4">
+  <link rel="stylesheet" href="/control/styles/settings.css">
+  <link rel="stylesheet" href="/styles/buttons.css?v=4">
+  <link rel="stylesheet" href="/styles/interactions.css">
+  <link rel="stylesheet" href="/styles/operator-controls.css?v=4">
+  <link rel="stylesheet" href="/control/styles/song-settings.css">
+</head>
+<body class="operator-ui">
+
+  <!-- ENCABEZADO -->
+  <header>
+    <div class="brand-section">
+      <!-- LOGO OFICIAL LLDM VECTORIAL -->
+      <img src="/logo_lldm_oficial.svg" alt="La Luz Del Mundo" class="brand-official-logo" title="Iglesia La Luz Del Mundo">
+      <div class="brand-title">
+        <h1>Cabina de Proyección LLDM</h1>
+        <p>Control del templo · TV y transmisión</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <!-- ESTADO DE LA PANTALLA (REPOSO / EN PROYECCIÓN) -->
+      <div id="status-badge" class="status-badge status-idle">
+        <span class="status-dot"></span>
+        <span id="status-text">REPOSO</span>
+      </div>
+
+      <!-- IP PARA CONEXIÓN DE MÓVILES EN RED LOCAL (AL LADO DEL CUADRO DE REPOSO/EN PROYECCIÓN) -->
+      <div id="header-ip-badge" class="ip-badge-pill" title="Dirección para conectar celulares/tablets en la red Wi-Fi. Haz clic para copiar enlace">
+        <svg class="icon-ip-svg" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        <span class="ip-label-text">Wi-Fi:</span>
+        <span id="header-ip-address" class="ip-address-text">—</span>
+        <svg class="icon-copy-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </div>
+
+      <!-- BOTÓN ALTERNAR REPOSO / PROYECCIÓN -->
+      <button id="btn-toggle-idle" class="btn-stage-toggle" title="Alternar entre Reposo y Proyección (Esc / F1)">
+        <svg class="icon" viewBox="0 0 24 24">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+          <line x1="8" y1="21" x2="16" y2="21"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        <span>Mostrar fondo de reposo</span>
+      </button>
+
+      <!-- BOTÓN ATAJOS DE TECLADO (F1) -->
+      <button id="btnOpenShortcuts" class="btn-shortcuts-toggle" title="Ver guía de atajos de teclado (F1)">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M8 12h.001M12 12h.001M16 12h.001M7 16h10"/></svg>
+        <span>Atajos (F1)</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BARRA DE PESTAÑAS (TABS) -->
+  <nav class="tabs-bar" role="tablist" aria-label="Tipo de contenido">
+    <button type="button" role="tab" aria-selected="true" aria-controls="tab-himnario" class="tab-item active" data-tab="tab-himnario">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+      <span class="tab-label-desktop">Himnario</span>
+      <span class="tab-label-mobile">Himnario</span>
+    </button>
+
+    <button type="button" role="tab" aria-selected="false" aria-controls="tab-biblia" class="tab-item" data-tab="tab-biblia">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      <span class="tab-label-desktop">Temas y citas</span>
+      <span class="tab-label-mobile">Temas y citas</span>
+    </button>
+
+    <button type="button" role="tab" aria-selected="false" aria-controls="tab-coro" class="tab-item" data-tab="tab-coro">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      <span class="tab-label-desktop" id="tabCoroLabel">Coro</span>
+      <span class="tab-label-mobile">Coro</span>
+    </button>
+
+    <button type="button" role="tab" aria-selected="false" aria-controls="tab-carteleria" class="tab-item" data-tab="tab-carteleria">
+      <svg class="icon" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="9" y1="21" x2="9" y2="9"/>
+      </svg>
+      <span class="tab-label-desktop">Lista de oraciones</span>
+      <span class="tab-label-mobile">Lista de oraciones</span>
+    </button>
+
+    <button type="button" role="tab" aria-selected="false" aria-controls="tab-presentacion" class="tab-item" data-tab="tab-presentacion">
+      <svg class="icon" viewBox="0 0 24 24">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      <span class="tab-label-desktop">Presentaciones</span>
+      <span class="tab-label-mobile">Diapositivas</span>
+    </button>
+
+    <button type="button" role="tab" aria-selected="false" aria-controls="tab-overlay" class="tab-item" data-tab="tab-overlay">
+      <svg class="icon" viewBox="0 0 24 24">
+        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+        <polyline points="17 2 12 7 7 2"/>
+      </svg>
+      <span class="tab-label-desktop">Transmisión</span>
+      <span class="tab-label-mobile">Transmisión</span>
+    </button>
+  </nav>
+
+  <!-- DISPOSICIÓN PRINCIPAL: CONTROLES A LA IZQUIERDA + MONITOR EN VIVO A LA DERECHA -->
+  <div class="app-layout">
+
+    <!-- COLUMNA IZQUIERDA: CONTROLES DE CONTENIDO -->
+    <div class="left-controls-column">
+
+      <!-- ==============================================================
+           PESTAÑA 1: HIMNARIO LLDM (DEFAULT ACTIVO)
+           ============================================================== -->
+      <div id="tab-himnario" class="tab-pane active">
+
+        <!-- BUSCADOR DE HIMNOS -->
+        <section class="control-card">
+          <h2 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <span>Himnario</span>
+          </h2>
+
+          <div class="hymn-search-box" id="hymnSearchBox">
+            <input type="text" id="hymnSearchInput" class="hymn-search-input" placeholder="Número de himno (ej: 15) o título..." autocomplete="off">
+            <button id="clearHymnSearchBtn" class="btn-danger" style="width: 48px; flex: none;" title="Limpiar búsqueda de himnos">
+              <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <!-- BOTÓN EN MÓVIL PARA VOLVER A VER LA LISTA DE HIMNOS CUANDO SE OCULTA AL SELECCIONAR UNO -->
+          <button id="btnShowHymnList" class="btn-show-hymn-list" type="button" style="display: none;">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Mostrar Lista de Himnos / Cambiar Canto</span>
+          </button>
+
+          <!-- LISTA RÁPIDA DE RESULTADOS -->
+          <div id="hymnResultsList" class="hymn-results-list"></div>
+
+          <!-- DETALLE DEL HIMNO SELECCIONADO Y ACCIONES DIRECTAS -->
+          <div id="hymnSelectedHeader" class="hymn-selected-header" style="display: none;">
+            <div class="hymn-selected-info">
+              <h3 id="selectedHymnTitle">HIMNO 1 - EN EL MONTE CALVARIO</h3>
+            </div>
+            <div class="hymn-project-actions">
+              <button id="btnProjectHymnTitleOnly" class="btn-gold-outline" title="Proyectar solo el número y título en pantalla completa">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Enviar portada a TV</span>
+              </button>
+              <button id="btnProjectHymnWithLyrics" class="btn-gold" title="Entrar directo a proyectar la letra en pantalla completa">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Enviar letra a TV</span>
+              </button>
+              <button id="btnProjectHymnOverlay" class="btn-overlay-obs" title="Proyectar banner animado del canto en Transmisión OBS">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                <span>Banner en OBS</span>
+              </button>
+              <button id="btnOpenHymnLyricsEditor" class="btn-action-edit" title="Abrir editor de letra completa de este himno (modo emergencia seguro sin proyectar en pantallas)">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <span>Editar Letra</span>
+              </button>
+              <button id="btnDeselectHymn" class="btn-danger" title="Quitar la selección de trabajo; la salida a TV se conserva">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span>Quitar selección</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PARRILLA DE DIAPOSITIVAS DEL HIMNO (SLIDES PREVIEW) -->
+          <div id="hymnSlidesGrid" class="slides-preview-grid"></div>
+        </section>
+
+      </div>
+
+      <!-- ==============================================================
+           PESTAÑA 2: SANTA BIBLIA Y TEXTOS
+           ============================================================== -->
+      <div id="tab-biblia" class="tab-pane">
+
+        <section class="control-card theme-card">
+          <h2 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>Tema</span>
+          </h2>
+
+          <div class="search-inputs">
+            <input type="text" id="themeInput" class="search-input" style="flex: 1;" placeholder="Escribe un tema de doctrina o predicación..." autocomplete="off">
+            
+            <button id="generateThemeButton" class="btn-gold" title="Proyectar tema en pantalla completa">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Enviar tema a TV</span>
+            </button>
+
+            <button id="broadcastThemeOverlayButton" class="btn-overlay-obs" title="Proyectar banner animado del tema en Transmisión OBS">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+              <span>Banner en OBS</span>
+            </button>
+
+            <button id="clearThemeButton" class="btn-danger" title="Limpiar campo de tema">
+              <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              <span>Limpiar</span>
+            </button>
+          </div>
+
+          <!-- HISTORIAL DE TEMAS -->
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
+              <h3 style="font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase;">Temas Recientes:</h3>
+              <button id="clearThemeHistoryButton" class="btn-danger" style="font-size: 12px; padding: 5px 10px; width: auto; min-height: 32px;" title="Borrar todo el historial de temas">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                <span>Limpiar Todo</span>
+              </button>
+            </div>
+            <ul id="themeHistory" class="history-list"></ul>
+          </div>
+        </section>
+
+        <!-- PANEL DE BÚSQUEDA BÍBLICA -->
+        <section class="control-card">
+          <h2 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Cita bíblica</span>
+          </h2>
+
+          <div class="search-inputs" id="bibleSearchInputs">
+            <div class="input-wrapper-relative">
+              <input type="text" id="searchBook" class="search-input" placeholder="Escribe un libro (ej: Juan, Salmos)..." autocomplete="off">
+              <div id="suggestions"></div>
+            </div>
+            <input type="text" id="chapter" class="search-input input-cap" inputmode="numeric" placeholder="Capítulo" autocomplete="off">
+            <input type="text" id="verse" class="search-input input-ver" placeholder="Versículo (ej: 4-7)" autocomplete="off">
+            
+            <!-- BOTONES DE ACCIÓN DE CITA BÍBLICA -->
+            <button id="generateButton" class="btn-gold" title="Proyectar cita bíblica en pantalla">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Enviar cita a TV</span>
+            </button>
+
+            <button id="broadcastBibleOverlayButton" class="btn-overlay-obs" title="Proyectar banner animado en Transmisión OBS">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+              <span>Banner en OBS</span>
+            </button>
+
+            <button id="clearSearchButton" class="btn-danger" title="Limpiar campos de búsqueda">
+              <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <span>Limpiar</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- HISTORIAL DE BÚSQUEDAS BÍBLICAS -->
+        <section class="control-card history-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            <h2 class="card-title" style="margin-bottom: 0;">
+              <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Historial de Citas Bíblicas</span>
+            </h2>
+            <button id="clearHistoryButton" class="btn-danger" style="font-size: 12px; padding: 6px 12px; width: auto; min-height: 34px;" title="Borrar todo el historial de citas bíblicas">
+              <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              <span>Limpiar Todo</span>
+            </button>
+          </div>
+          <ul id="history" class="history-list"></ul>
+        </section>
+
+      </div>
+
+      <!-- ==============================================================
+           PESTAÑA 3: CANTOS DEL CORO LLDM
+           ============================================================== -->
+      <div id="tab-coro" class="tab-pane">
+
+        <!-- BUSCADOR DE CANTOS DEL CORO -->
+        <section class="control-card">
+          <h2 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Cantos del coro</span>
+          </h2>
+
+          <div class="hymn-search-box" id="choirSearchBox">
+            <input type="text" id="choirSearchInput" class="hymn-search-input" placeholder="Buscar por título o letra del canto del coro..." autocomplete="off">
+            <button id="clearChoirSearchBtn" class="btn-danger" style="width: 48px; flex: none;" title="Limpiar búsqueda de cantos del coro">
+              <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+
+          <!-- BOTÓN PARA CAMBIAR DE CANTO / VOLVER A VER LA LISTA CUANDO HAY UN CANTO SELECCIONADO -->
+          <button id="btnShowChoirList" class="btn-show-choir-list" type="button" style="display: none;">
+            <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span>Mostrar Lista de Cantos del Coro / Cambiar Canto</span>
+          </button>
+
+          <!-- LISTA RÁPIDA DE RESULTADOS DE CORO -->
+          <div id="choirResultsList" class="choir-results-list"></div>
+
+          <!-- DETALLE DEL CANTO DE CORO SELECCIONADO Y ACCIONES DIRECTAS -->
+          <div id="choirSelectedHeader" class="choir-selected-header" style="display: none;">
+            <div class="choir-selected-info">
+              <h3 id="selectedChoirTitle">CANTO DEL CORO - ¡OH QUE AMIGO!</h3>
+            </div>
+            <div class="choir-project-actions">
+              <button id="btnProjectChoirTitleOnly" class="btn-gold-outline" title="Proyectar solo el título en pantalla completa">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span>Enviar título a TV</span>
+              </button>
+              <button id="btnProjectChoirWithLyrics" class="btn-gold" title="Entrar directo a proyectar la letra en pantalla completa">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Enviar letra a TV</span>
+              </button>
+              <button id="btnProjectChoirOverlay" class="btn-overlay-obs" title="Activar banner animado El Coro Canta en Transmisión OBS">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+                <span>Banner en OBS</span>
+              </button>
+              <button id="btnOpenChoirLyricsEditor" class="btn-action-edit" title="Abrir editor de letra completa de este canto del coro (modo emergencia seguro sin proyectar en pantallas)">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                <span>Editar Letra</span>
+              </button>
+              <button id="btnDeselectChoir" class="btn-danger" title="Quitar la selección de trabajo; la salida a TV se conserva">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span>Quitar selección</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PARRILLA DE DIAPOSITIVAS DEL CANTO DEL CORO (SLIDES PREVIEW) -->
+          <div id="choirSlidesGrid" class="slides-preview-grid"></div>
+        </section>
+
+      </div>
+
+      <!-- ==============================================================
+           PESTAÑA 4: TEMAS Y TRANSMISIÓN OBS (CORO / DRON)
+           ============================================================== -->
+      <div id="tab-overlay" class="tab-pane">
+        <section class="control-card transmission-preview-card">
+          <h2 class="card-title">Transmisión</h2>
+          <div id="overlay-preview-container" class="overlay-preview-frame">
+            <iframe id="preview-overlay-iframe" src="/overlay?obs=1" title="Vista de gráficos para transmisión OBS"></iframe>
+          </div>
+        </section>
+
+        <!-- SECCIÓN ESPECIAL TRANSMISIÓN OBS (CÁMARAS: CORO / DRON / BANNERS ANIMADOS) -->
+        <section class="control-card">
+          <h2 class="card-title">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+            <span>Cámaras Transmisión OBS (Banners y Logo sobre Fondo Transparente)</span>
+          </h2>
+
+          <div class="search-inputs">
+            <input type="text" id="customTextInput" class="search-input" style="flex: 1;" placeholder="Escribe el canto del coro, texto del banner o ubicación del dron..." autocomplete="off">
+            
+            <!-- BOTÓN CANTO CORO -> BANNER ANIMADO EN CÁMARAS OBS (/overlay) -->
+            <button id="generateChoirButton" class="choir-btn" title="Mostrar banner animado de El Coro Canta en Cámaras OBS (/overlay)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Canto Coro (OBS)</span>
+            </button>
+
+            <!-- BOTÓN CUADRO DRON -> BANNER ANIMADO CENTRADO EN CÁMARAS OBS (/overlay) -->
+            <button id="generateDroneButton" class="drone-btn" title="Mostrar cuadro animado de ubicación de Dron en Cámaras OBS (/overlay)">
+              <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
+              <span>Cuadro Dron (OBS)</span>
+            </button>
+
+            <!-- BOTÓN GENERAR BANNER / TEXTO EN CÁMARAS OBS (/overlay) -->
+            <button id="broadcastCustomOverlayButton" class="btn-overlay-obs" title="Mostrar texto o aviso como banner animado en Cámaras OBS (/overlay)">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+              <span>Generar Banner (OBS)</span>
+            </button>
+
+            <button id="btnHideOverlay" class="btn-danger" style="background: linear-gradient(135deg, #b91c1c, #7f1d1d); border: 1px solid #ef4444;" title="Ocultar banner animado activo en Cámaras OBS (/overlay)">
+              <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <span>Ocultar Banner</span>
+            </button>
+
+            <button id="clearCustomButton" class="btn-danger" style="grid-column: span 2;" title="Limpiar campo de texto">
+              <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              <span>Limpiar Campo</span>
+            </button>
+          </div>
+
+          <!-- ENLACES SEPARADOS: 1) PANTALLAS DEL TEMPLO (/pantalla) Y 2) CÁMARAS OBS FONDO TRANSPARENTE (/overlay) -->
+          <div style="margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
+            <!-- SALIDA 1: PANTALLAS DEL TEMPLO -->
+            <div style="padding: 12px 14px; background: rgba(17, 31, 64, 0.6); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+              <div>
+                <div style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase;">1. Pantallas del Templo (Solo Proyecciones):</div>
+                <div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">Cantos del himnario, citas bíblicas y temas en grande (sin banners ni logo de cámara).</div>
+                <div style="font-size: 12px; font-family: monospace; color: #ffffff; margin-top: 4px;"><span data-output-url="/pantalla">/pantalla</span></div>
+              </div>
+              <a href="/pantalla" target="_blank" class="btn-gold-outline" style="padding: 7px 12px; font-size: 12px; text-decoration: none; justify-content: center;">
+                <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>Abrir Pantallas (/pantalla)</span>
+              </a>
+            </div>
+
+            <!-- SALIDA 2: CÁMARAS TRANSMISIÓN OBS -->
+            <div style="padding: 12px 14px; background: rgba(17, 31, 64, 0.6); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+              <div>
+                <div style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase;">2. Cámaras Transmisión OBS (Fondo Transparente):</div>
+                <div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">Logo en esquina + Banners animados (Biblia, Cantos, El Coro Canta, Dron) sobre cámaras.</div>
+                <div style="font-size: 12px; font-family: monospace; color: #ffffff; margin-top: 4px;"><span data-output-url="/overlay">/overlay</span></div>
+              </div>
+              <a href="/overlay" target="_blank" class="btn-gold-outline" style="padding: 7px 12px; font-size: 12px; text-decoration: none; justify-content: center;">
+                <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                <span>Abrir Cámaras OBS (/overlay)</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ==============================================================
+           PESTAÑA 5: PRESENTACIONES POWERPOINT Y PDF
+           ============================================================== -->
+      <div id="tab-presentacion" class="tab-pane">
+        <div class="hymn-layout">
+          <!-- COLUMNA IZQUIERDA: LISTA Y SUBIDA DE PRESENTACIONES -->
+          <section class="control-card hymn-search-column">
+            <div class="hymn-search-header-row">
+              <h2 class="card-title" style="margin-bottom: 0;">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <span>Presentaciones</span>
+              </h2>
+              <div style="display: flex; gap: 6px; align-items: center;">
+                <button type="button" id="btnUploadPresentation" class="btn-gold" style="padding: 6px 12px; font-size: 13px;" title="Subir archivo PowerPoint o PDF">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <span>+ Subir</span>
+                </button>
+              </div>
+              <input type="file" id="pptFileInput" accept=".pptx,.ppt,.pdf,.png,.jpg,.jpeg,.webp" multiple style="display:none;" />
+            </div>
+
+            <!-- ZONA DROPZONE PARA ARRASTRAR ARCHIVOS -->
+            <div id="pptDropzone" class="presentation-upload-dropzone" title="Haz clic o arrastra un archivo aquí">
+              <svg class="icon" style="width: 28px; height: 28px; color: var(--gold-lldm);" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="12" y2="12"/><line x1="15" y1="15" x2="12" y2="12"/></svg>
+              <div style="font-size: 13px; font-weight: 700; color: #fff;">Arrastra aquí tu PowerPoint (.pptx) o PDF</div>
+              <div style="font-size: 11px; color: var(--text-muted);">o haz clic en "+ Subir" para seleccionar</div>
+            </div>
+
+            <!-- BARRA DE FILTRO -->
+            <div class="search-inputs" style="margin-top: 10px;">
+              <input type="text" id="presentationSearchInput" class="search-input" placeholder="Filtrar presentaciones guardadas..." autocomplete="off">
+            </div>
+
+            <!-- LISTA DE PRESENTACIONES -->
+            <div class="presentation-results-list" id="presentationResultsList"></div>
+          </section>
+
+          <!-- COLUMNA DERECHA: PARRILLA DE DIAPOSITIVAS Y CONTROL -->
+          <section class="control-card hymn-slides-column">
+            <div id="presentationSelectedHeader" class="hymn-selected-header" style="display: none;">
+              <div class="hymn-selected-title-group">
+                <span class="badge-coro">PRESENTACIÓN POWERPOINT</span>
+                <h2 id="selectedPresentationTitle" class="hymn-selected-title">TITULO</h2>
+              </div>
+              <div class="hymn-selected-actions">
+                <button type="button" id="btnProjectPresFirst" class="btn-gold" title="Enviar la primera diapositiva a TV">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Enviar primera a TV</span>
+                </button>
+                <button type="button" id="btnDeselectPresentation" class="btn-danger" title="Quitar la preparación; la salida a TV se conserva">
+                  <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  <span>Quitar selección</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- PARRILLA DE DIAPOSITIVAS -->
+            <div id="presentationSlidesGrid" class="slides-grid presentation-slides-grid">
+              <div class="slides-placeholder">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <p>Selecciona una presentación y envía una diapositiva a TV. Después avanza con las flechas o Espacio.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- ==============================================================
+           PESTAÑA 6: LISTA SEMANAL (CARTELERÍA LLDM INTEGRADA)
+           ============================================================== -->
+      <div id="tab-carteleria" class="tab-pane">
+        <section class="control-card carteleria-control-card">
+          <div class="carteleria-header-row">
+            <div class="carteleria-title-group">
+              <h2 class="card-title" style="margin-bottom: 0;">
+                <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <span>Lista de oraciones</span>
+              </h2>
+              <span id="carteleriaWeekBadge" class="carteleria-week-badge">Semana actual</span>
+            </div>
+            <div class="prayer-actions">
+              <label class="list-rotation-duration" for="carteleriaDuration">Duración por vista (seg)<input id="carteleriaDuration" type="number" min="1" max="600" step="1" value="15" inputmode="numeric" disabled></label>
+              <button type="button" id="btnPlayCarteleria" class="btn-gold">
+                <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Enviar a TV</span>
+              </button>
+              <button type="button" id="btnPrevCarteleriaSlide" class="btn-nav">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                <span>Anterior</span>
+              </button>
+              <button type="button" id="btnNextCarteleriaSlide" class="btn-nav">
+                <span>Siguiente</span>
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+              <button type="button" id="btnToggleCarteleriaLoop" class="btn-nav">
+                <svg class="icon" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                <span id="carteleriaLoopLabel">Pausar</span>
+              </button>
+              <button type="button" id="btnStopCarteleria" class="btn-danger">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span>Mostrar fondo</span>
+              </button>
+              <p id="carteleriaDurationStatus" class="list-duration-status" role="status"></p>
+
+            </div>
+          </div>
+          <p id="carteleria-availability" class="connection-notice" role="status" hidden></p>
+        </section>
+
+        <!-- EDITOR COMPLETO INTEGRADO EN CABINA -->
+        <div class="carteleria-embed-wrapper">
+          <iframe id="carteleria-editor-frame" src="/carteleria?embed=1" title="Editor integrado de lista de oraciones, flores y venta de comida"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==============================================================
+         COLUMNA DERECHA: MONITOR EN VIVO (SEPARADO: PANTALLAS vs CÁMARAS OBS)
+         En móvil se convierte en una barra superior fija y pequeña que no estorba
+         ============================================================== -->
+    <aside class="right-monitor-column">
+      <div class="monitor-card">
+        <div class="monitor-card-header">
+          <div class="monitor-title">
+            <img src="/logo_lldm_oficial.svg" alt="LLDM" class="monitor-icon">
+            <div><h2 class="tv-monitor-title">Salida a TV</h2></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div id="monitor-ip-badge" class="monitor-ip-pill" title="IP de conexión en red local">
+              <span id="monitor-ip-text">—</span>
+            </div>
+            <div id="monitor-status-badge" class="status-badge status-idle" style="padding: 2px 6px; font-size: 11px;">
+              <span class="status-dot"></span>
+              <span id="monitor-status-text">REPOSO</span>
+            </div>
+            <button type="button" class="settings-launch" data-open-settings aria-label="Abrir ajustes" title="Ajustes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1z"/><circle cx="12" cy="12" r="3"/></svg></button>
+            <button id="btnTogglePip" class="btn-pip-toggle" title="Minimizar / Expandir vista previa en móvil">
+              <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="monitor-mobile-body">
+          <!-- PANTALLA 16:9 EN TIEMPO REAL: NUNCA SE MEZCLAN PANTALLAS Y CÁMARAS -->
+          <div class="preview-frame" id="preview-frame-container">
+            <!-- Vista 1: Solo Pantallas del Templo (/pantalla: cantos, citas bíblicas, temas) -->
+            <iframe id="preview-iframe" src="/pantalla" title="Salida a TV" style="z-index: 2;"></iframe>
+            <!-- Vista 2: Solo Cámaras OBS (/overlay: fondo transparente, logo esquina y banners animados) -->
+          </div>
+
+          <!-- METADATA EN VIVO -->
+          <div id="tv-connection" class="connection-notice" role="status" hidden></div>
+        </div>
+
+        <!-- ACCIONES RÁPIDAS DEL MONITOR (PC) -->
+        <div class="monitor-quick-actions">
+          <button id="mon-btn-prev" class="btn-mon-nav" title="Diapositiva Anterior (Flecha Izq)">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Ant</span>
+          </button>
+          <button id="mon-btn-next" class="btn-mon-nav btn-mon-primary" title="Diapositiva Siguiente (Flecha Der)">
+            <span>Sig</span>
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <button id="mon-btn-prev-sec" class="btn-mon-nav" title="Estrofa Anterior (Flecha Arriba)">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+          </button>
+          <button id="mon-btn-next-sec" class="btn-mon-nav" title="Siguiente Estrofa / Coro (Flecha Abajo)">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <button id="mon-btn-toggle-idle" class="btn-mon-idle-wide" title="Alternar Mostrar fondo de reposo (Esc)">
+            <svg class="icon" viewBox="0 0 24 24">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            <span id="mon-btn-idle-label">Alternar Mostrar fondo de reposo</span>
+          </button>
+        </div>
+
+        <!-- BOTÓN DISCRETO PARA VER GUÍA DE ATAJOS -->
+        <button id="btnOpenShortcutsMonitor" class="btn-shortcuts-pill" title="Ver guía de atajos de teclado (F1)" style="margin-top: 10px;">
+          <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: var(--gold-lldm);"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M8 12h.001M12 12h.001M16 12h.001M7 16h10"/></svg>
+          <span>Atajos de Cabina (F1)</span>
+        </button>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- BARRA INFERIOR DE MONITOREO Y CONTROL REMOTO PARA MÓVIL -->
+  <footer>
+    <div class="footer-nav-buttons">
+      <!-- Fila superior secundaria: Estrofas y Fondo -->
+      <button id="footer-btn-prev-sec" class="btn-nav" title="Sección / Estrofa Anterior (Flecha Arriba)">
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+        <span>Estrofa Ant.</span>
+      </button>
+
+      <button id="footer-btn-next-sec" class="btn-nav" title="Siguiente Sección / Coro (Flecha Abajo)">
+        <span>Sig. Estrofa / Coro</span>
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+      <button id="footer-btn-background" class="btn-nav" title="Mostrar fondo en TV" aria-label="Mostrar fondo en TV">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span>Fondo</span>
+      </button>
+
+      <!-- Fila inferior hasta el fondo: Botones principales GIGANTES de Anterior y Siguiente para pulgar -->
+      <button id="footer-btn-prev-slide" class="btn-nav mobile-only-btn" title="Diapositiva Anterior">
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Anterior</span>
+      </button>
+
+      <button id="footer-btn-next-slide" class="btn-nav mobile-only-btn" title="Diapositiva Siguiente">
+        <span>Siguiente</span>
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </footer>
+
+  <!-- MODAL DE ATAJOS DE TECLADO EN PC (F1) -->
+  <div id="shortcutsModal" class="shortcuts-modal-backdrop" style="display: none;">
+    <div class="shortcuts-modal-card">
+      <div class="shortcuts-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <svg class="icon" viewBox="0 0 24 24" style="stroke: var(--gold-lldm); width: 20px; height: 20px;"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M8 12h.001M12 12h.001M16 12h.001M7 16h10"/></svg>
+          <h3>Atajos de Cabina en PC</h3>
+        </div>
+        <button id="btnCloseShortcutsModal" class="btn-modal-close" title="Cerrar modal de atajos (Esc)">×</button>
+      </div>
+      <div class="shortcuts-modal-body">
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Siguiente diapositiva (Cantos y PowerPoint)</span>
+          <span class="kbd-group"><span class="kbd-key">→</span><span class="kbd-key">Espacio</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Diapositiva anterior</span>
+          <span class="kbd-group"><span class="kbd-key">←</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Siguiente estrofa / coro</span>
+          <span class="kbd-group"><span class="kbd-key">↓</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Estrofa / sección anterior</span>
+          <span class="kbd-group"><span class="kbd-key">↑</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Borrar campo / Cerrar diálogo / Terminar proyección</span>
+          <span class="kbd-group"><span class="kbd-key">Esc</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Biblia: Libro → Capítulo → Versículo → Pantalla</span>
+          <span class="kbd-group"><span class="kbd-key">Enter</span></span>
+        </div>
+        <div class="pc-control-row">
+          <span class="pc-control-desc">Abrir / cerrar esta guía</span>
+          <span class="kbd-group"><span class="kbd-key">F1</span></span>
+        </div>
+        <div class="pc-control-row" style="flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 6px;">
+          <span style="color: var(--gold-light); font-weight: 700; font-size: 11px;">2 SALIDAS SEPARADAS:</span>
+          <span class="pc-control-desc" style="font-size: 11px; line-height: 1.4;">• <strong>Pantallas (<code>/pantalla</code>):</strong> Solo proyecciones de cantos, citas bíblicas y temas (sin banners).<br>• <strong>Cámaras OBS (<code>/overlay</code>):</strong> Fondo transparente con logo en esquina y banners animados sobre cámaras.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================================
+       MODAL: EDITOR DE LETRA COMPLETA (EMERGENCIA)
+       Modo Privado Seguro: Nada de lo que se escribe aquí se transmite a pantallas.
+       Persistencia directa en archivo en disco y restauración a fábrica.
+       ============================================================== -->
+  <div id="lyricsEditorModal" class="lyrics-modal-backdrop" style="display: none;">
+    <div class="lyrics-modal-window">
+      <!-- HEADER -->
+      <div class="lyrics-modal-header">
+        <div class="lyrics-modal-title-box">
+          <h3 id="lyricsEditorHeaderTitle">
+            <svg class="icon" viewBox="0 0 24 24" style="stroke: var(--gold-lldm);">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+            <span>Editar canto</span>
+          </h3>
+          <p id="lyricsEditorSongSub">Canto seleccionado</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span class="privacy-badge" title="Tus ediciones no se proyectan en las pantallas de TV ni OBS hasta que decidas">
+            <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: currentColor;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Modo Privado: No se transmite a pantallas
+          </span>
+          <button id="btnCloseLyricsEditor" class="btn-modal-close" title="Cerrar editor (Esc)">×</button>
+        </div>
+      </div>
+
+      <!-- TOOLBAR: TÍTULO Y SELECTOR DE VISTA -->
+      <div class="lyrics-modal-toolbar">
+        <div class="lyrics-title-input-group">
+          <label id="lyricsEditorNumberLabel" hidden>Número del himno<input id="lyricsEditorNumber" class="lyrics-title-input" type="number" min="1" max="99999"></label>
+          <label class="song-title-field" for="lyricsEditorTitleInput">Título del canto<input type="text" id="lyricsEditorTitleInput" maxlength="200" class="lyrics-title-input" placeholder="Título del canto..."></label>
+        </div>
+        <div class="editor-mode-switcher">
+          <button type="button" id="btnModeBlocks" class="btn-mode-tab active" title="Editar por bloques de estrofas y coros">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Secciones</span>
+          </button>
+          <button type="button" id="btnModeFullText" class="btn-mode-tab" title="Editar todo el texto junto en una sola vista">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Texto Completo</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BODY: CONTENEDOR CON SCROLL -->
+      <div class="lyrics-modal-body">
+        <!-- VISTA BLOQUES -->
+        <div id="editorBlocksContainer" style="display: flex; flex-direction: column; gap: 14px;">
+          <div id="editorSectionsList" style="display: flex; flex-direction: column; gap: 14px;"></div>
+          <div class="add-section-bar">
+            <button type="button" id="btnAddVerseSec" class="btn-add-sec">
+              <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>+ Agregar Estrofa</span>
+            </button>
+            <button type="button" id="btnAddChorusSec" class="btn-add-sec" style="border-color: #3b82f6; color: #93c5fd;">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+              <span>+ Agregar Coro</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- VISTA TEXTO COMPLETO -->
+        <div id="editorFullTextContainer" class="full-text-container" style="display: none;">
+          <textarea id="lyricsEditorFullTextArea" class="full-text-textarea" placeholder="[Estrofa 1]&#10;Línea 1...&#10;Línea 2...&#10;&#10;[Coro]&#10;Línea 1..."></textarea>
+          <div class="full-text-hint">
+            Nota: Puedes usar <code>[Estrofa 1]</code>, <code>[Coro]</code>, <code>[Estrofa 2]</code> para separar secciones automáticamente. La proyección distribuye los renglones según los ajustes del visor.
+          </div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="lyrics-modal-footer">
+        <div class="lyrics-footer-left">
+          <button type="button" id="btnRestoreFactory" class="btn-restore-factory" title="Restaurar a letra oficial de fábrica">
+            <svg class="icon" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            <span>Restaurar original</span>
+          </button>
+          <span id="customLyricsBadge" class="custom-status-badge" style="display: none;">Letra personalizada en archivo</span>
+        </div>
+        <div class="lyrics-footer-right">
+          <label class="safe-proj-check" title="Si el canto se está proyectando en la pantalla ahora mismo, marcar esto actualizará la pantalla al guardar">
+            <input type="checkbox" id="chkUpdateActiveProj">
+            <span>Actualizar contenido en TV</span>
+          </label>
+          <button type="button" id="btnCancelLyrics" class="btn-danger" style="padding: 9px 16px; width: auto;">Cancelar</button>
+          <button type="button" id="btnSaveLyrics" class="btn-save-lyrics">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            <span>Guardar cambios</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span id="toast-text">Acción completada</span>
+  </div>
+
+  <script src="/bibleData.js"></script>
+  <script type="module" src="/control/app.js"></script>
+  <form id="updatePreferencesForm" hidden></form>
+  <dialog id="settingsDialog" class="settings-dialog" aria-labelledby="settingsTitle">
+    <form id="settingsForm">
+      <div class="settings-header">      <div class="settings-heading"><h2 id="settingsTitle">Ajustes</h2><button type="button" id="closeSettings" class="btn-modal-close" aria-label="Cerrar ajustes">×</button></div>
+      <p class="settings-credits">Proyector LLDM<br>Desarrollado por <strong>Huri Tolentino</strong></p>
+</div>
+      <nav class="settings-tabs" role="tablist" aria-label="Secciones de ajustes"><button type="button" role="tab" id="settings-tab-church" aria-controls="settings-panel-church" aria-selected="true" tabindex="0" data-settings-section="church">Iglesia</button><button type="button" role="tab" id="settings-tab-lyrics" aria-controls="settings-panel-lyrics" aria-selected="false" tabindex="-1" data-settings-section="lyrics">Letras</button><button type="button" role="tab" id="settings-tab-background" aria-controls="settings-panel-background" aria-selected="false" tabindex="-1" data-settings-section="background">Fondo de TV</button><button type="button" role="tab" id="settings-tab-obs" aria-controls="settings-panel-obs" aria-selected="false" tabindex="-1" data-settings-section="obs">OBS</button><button type="button" role="tab" id="settings-tab-keyboard" aria-controls="settings-panel-keyboard" aria-selected="false" tabindex="-1" data-settings-section="keyboard">Teclado</button><button type="button" role="tab" id="settings-tab-advanced" aria-controls="settings-panel-advanced" aria-selected="false" tabindex="-1" data-settings-section="advanced">Avanzado</button></nav>
+      <div class="settings-body" id="settingsBody"><section role="tabpanel" id="settings-panel-church" aria-labelledby="settings-tab-church" data-settings-panel="church">      <fieldset class="settings-section"><legend>Datos de la iglesia</legend>
+        <p class="settings-church-name">La Luz del Mundo</p>
+        <label>Colonia o dirección<input id="churchAddress" name="churchAddress" type="text" maxlength="160" autocomplete="street-address"></label>
+        <label>Ciudad y ubicación<input id="churchCity" name="churchCity" type="text" maxlength="160" autocomplete="address-level2"></label>
+      </fieldset></section>
+<section role="tabpanel" id="settings-panel-lyrics" aria-labelledby="settings-tab-lyrics" data-settings-panel="lyrics" hidden>      <fieldset class="settings-section" id="lyricsAppearanceSection"><legend>Letras en las TV</legend>
+        <p class="settings-note">Prepara y revisa los cuadros antes de guardar. Los ajustes de Himnario y Coro son independientes.</p>
+        <div class="lyrics-configuration"><div id="lyricsAppearanceFields" class="lyrics-options-grid"></div>
+        <div class="song-upload-actions"><label class="song-file-button">Importar fuente<input id="songFontUpload" type="file" accept=".ttf,.otf,.woff,.woff2"></label><label class="song-file-button">Agregar fondo<input id="songBackgroundUpload" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
+        <p class="settings-note">TTF, OTF, WOFF o WOFF2; fondos PNG, JPG o WebP. Máximo 8 MB por archivo.</p>
+        <button type="button" id="resetLyricsAppearance">Restablecer este diseño</button></div>
+        <div class="lyrics-live-preview"><label>Canto para previsualizar<select id="lyricsPreviewSong"></select></label>
+        <iframe id="lyricsAppearancePreview" class="graphics-preview" src="about:blank" title="Vista previa de letras de cantos"></iframe>
+        <div class="lyrics-preview-navigation"><button type="button" id="lyricsPreviewPrevious">Anterior</button><output id="lyricsPreviewPosition" aria-live="polite"></output><button type="button" id="lyricsPreviewNext">Siguiente</button></div>
+        <p id="lyricsPreviewMessage" class="settings-message" role="status"></p>
+        </div>
+      </fieldset></section>
+<section role="tabpanel" id="settings-panel-background" aria-labelledby="settings-tab-background" data-settings-panel="background" hidden>      <fieldset class="settings-section"><legend>Fondo de las TV</legend>
+        <label>Diseño<select data-graphics-field="background"><option value="institutional">Institucional · logo sobre blanco</option><option value="classic">Centenario · líneas doradas</option></select></label>
+        <iframe id="settingsBackgroundPreview" class="graphics-preview" src="about:blank" title="Vista previa del fondo de TV"></iframe>
+      </fieldset></section>
+<section role="tabpanel" id="settings-panel-obs" aria-labelledby="settings-tab-obs" data-settings-panel="obs" hidden>      <fieldset class="settings-section"><legend>Gráficos de OBS</legend>
+        <div class="graphics-options">
+          <label>Banner<select data-graphics-field="bannerStyle"><option value="angular">Paneles angulares</option><option value="classic">Clásico</option></select></label>
+          <label>Color del banner<select data-graphics-field="bannerTone"><option value="navy">Azul noche y oro</option><option value="ivory">Marfil y oro</option><option value="burgundy">Borgoña y oro</option></select></label>
+          <label>Posición del banner<select data-graphics-field="bannerPosition"><option value="top-right">Arriba a la derecha</option><option value="top-left">Arriba a la izquierda</option><option value="bottom-right">Abajo a la derecha</option><option value="bottom-left">Abajo a la izquierda</option></select></label>
+          <label>Color del logo<select data-graphics-field="logoColor"><option value="official">Dorado oficial</option><option value="gold">Oro luminoso</option><option value="white">Blanco</option><option value="navy">Azul marino</option><option value="silver">Plata</option></select></label>
+          <label>Posición del logo<select data-graphics-field="logoPosition"><option value="bottom-left">Abajo a la izquierda</option><option value="bottom-right">Abajo a la derecha</option><option value="top-left">Arriba a la izquierda</option><option value="top-right">Arriba a la derecha</option><option value="hidden">Oculto</option></select></label>
+          <label>Tamaño del logo<input data-graphics-field="logoSize" type="range" min="120" max="300" step="5"></label>
+          <label>Duración de banners (segundos)<input data-graphics-field="bannerDurationSeconds" type="number" min="0" max="3600" step="1" inputmode="numeric" required></label>
+          <label>Duración de ubicación (segundos)<input data-graphics-field="locationDurationSeconds" type="number" min="0" max="3600" step="1" inputmode="numeric" required></label>
+        </div>
+        <p class="settings-note">Usa 0 para mantener el gráfico hasta ocultarlo manualmente. Guarda para aplicar la duración a los siguientes envíos. Los ejemplos de esta ventana permanecen visibles para revisar su diseño.</p>
+        <label>Previsualizar<select id="settingsGraphicSample"><option value="bible">Cita bíblica</option><option value="theme">Tema</option><option value="choir">Coro</option><option value="special">Carta apostólica</option><option value="drone">Ubicación</option></select></label>
+        <iframe id="settingsOverlayPreview" class="graphics-preview graphics-preview-obs" src="about:blank" title="Vista previa de los gráficos de OBS"></iframe>
+        <div class="graphics-preview-actions"><button type="button" id="settingsReplayGraphic">Repetir animación</button><button type="button" id="settingsToggleGraphic">Ocultar ejemplo</button></div>
+      </fieldset></section>
+<section role="tabpanel" id="settings-panel-keyboard" aria-labelledby="settings-tab-keyboard" data-settings-panel="keyboard" hidden>      <fieldset class="settings-section"><legend>Controles de teclado</legend>
+        <p class="settings-note">Pulsa un control y después su nueva tecla. Escape siempre muestra el fondo y Ctrl+S guarda en el editor de letras.</p>
+        <div id="settingsControls"></div>
+        <button type="button" id="resetControls" class="btn-secondary">Restablecer controles</button>
+      </fieldset></section>
+<section role="tabpanel" id="settings-panel-advanced" aria-labelledby="settings-tab-advanced" data-settings-panel="advanced" hidden>
+      <fieldset class="settings-section quick-editor-setting"><legend>Interfaz principal</legend><label class="settings-toggle"><input id="showQuickLyricsEditor" type="checkbox" role="switch"><span>Mostrar «Editar letra» en Himnario y Coro</span></label><p class="settings-note">Muestra el botón junto a las acciones del canto seleccionado. Guarda los ajustes para aplicar el cambio.</p></fieldset>
+      <details class="settings-advanced update-settings"><summary>Actualizaciones de GitHub</summary><div class="settings-section">
+        <p id="updatesCurrent" class="settings-note">Sin consulta de versión todavía.</p>
+        <label class="settings-toggle"><input id="automaticUpdateChecks" form="updatePreferencesForm" type="checkbox" role="switch"><span>Buscar versiones al iniciar el programa</span></label>
+        <p class="settings-note">Si hay una versión nueva, podrás descargarla e instalarla en otra carpeta. Conserva tu instalación anterior para trasladar sus datos.</p>
+        <a id="downloadUpdate" class="btn-secondary" target="_blank" rel="noopener noreferrer" hidden>Descargar nueva versión</a>
+        <div class="settings-actions"><button type="submit" form="updatePreferencesForm" id="saveUpdatePreferences">Guardar preferencias de actualización</button></div>
+        <p id="updatesStatus" class="settings-message" role="status" aria-live="polite"></p>
+        <details id="updateNotes" hidden><summary>Notas de la versión disponible</summary><p id="updateNotesText" class="settings-note" style="white-space:pre-wrap;overflow-wrap:anywhere"></p></details>
+      </div></details>
+      <details class="settings-advanced"><summary>Opciones avanzadas</summary><details id="libraryManager"><summary>Administrar biblioteca de cantos</summary>
+        <p class="settings-note">Agregar, corregir o eliminar cantos modifica el catálogo de esta instalación. Se guardan copias de respaldo automáticas.</p>
+        <div class="library-toolbar"><label>Catálogo<select id="libraryCatalog"><option value="himnos">Himnario</option><option value="coro">Coro</option></select></label><label>Buscar canto<input id="librarySearch" type="search" placeholder="Número o título"></label><button type="button" id="libraryAdd">Agregar canto</button></div>
+        <div id="libraryResults" class="library-results"></div>
+      </details>
+      <details class="choir-import"><summary>Importar o exportar catálogos</summary><div class="settings-section">
+        <label>Catálogo<select id="catalogTransferType"><option value="choir">Coro</option><option value="himnos">Himnario</option></select></label>
+        <p class="settings-note">Carga un JSON con el formato del catálogo. El programa guarda un respaldo antes de aplicar la importación.</p>
+        <label>Archivo JSON<input id="choirImportFile" type="file" accept=".json,application/json"></label>
+        <label>Modo<select id="choirImportMode"><option value="append">Añadir cantos</option><option value="replace">Reemplazar catálogo de trabajo</option></select></label>
+        <div class="settings-actions"><button type="button" id="choirImportButton">Importar cantos</button><button type="button" id="catalogExportButton">Descargar JSON</button></div>
+        <p id="choirImportStatus" class="settings-message" role="status"></p>
+      </div></details>
+      <details class="choir-import" id="backupPanel"><summary>Respaldo de la instalación</summary>
+        <div class="settings-section">
+          <p class="settings-note">Disponible desde localhost en la PC de Proyector. El ZIP incluye ajustes, cantos, listas, fuentes y fondos.</p>
+          <label class="backup-choice"><input id="backupPresentations" type="checkbox"> Incluir presentaciones</label>
+          <div class="settings-actions"><button type="button" id="backupDownload">Descargar respaldo ZIP</button></div>
+          <label>Archivo de respaldo<input id="backupFile" type="file" accept=".zip,application/zip"></label>
+          <div class="settings-actions"><button type="button" id="backupInspect">Revisar respaldo</button></div>
+          <fieldset id="backupSections" hidden><legend>Secciones para restaurar</legend><div id="backupSectionChoices"></div></fieldset>
+          <div class="settings-actions"><button type="button" id="backupRestore" hidden>Preparar restauración</button><button type="button" id="backupCancel" hidden>Cancelar restauración pendiente</button></div>
+          <p class="settings-note" id="backupStatus" role="status"></p>
+        </div>
+      </details></details>
+</section></div>
+      <div class="settings-footer"><p id="settingsMessage" class="settings-message" role="alert"></p><div class="settings-actions"><button type="button" id="resetAllSettings" class="btn-secondary">Restablecer ajustes</button><button type="submit" id="saveSettings" class="btn-gold">Guardar ajustes</button></div></div>
+    </form>
+  </dialog>
+  <dialog id="songDeleteDialog" class="song-delete-dialog" aria-labelledby="songDeleteTitle"><h2 id="songDeleteTitle">Eliminar canto</h2><p id="songDeleteStep"></p><p id="songDeleteDescription"></p><label id="songDeleteLabel" hidden>Escribe el título exacto<input id="songDeleteInput" autocomplete="off"></label><p id="songDeleteError" role="alert"></p><div class="song-delete-actions"><button type="button" id="songDeleteCancel">Cancelar</button><button type="button" id="songDeleteConfirm">Continuar</button></div></dialog>
+</body>
+</html>

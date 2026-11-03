@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBS Broadcast Overlay - LLDM</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=lldm-completo">
+  <meta name="theme-color" content="#101925">
+    <link rel="stylesheet" href="/overlay/styles.css">
+    <link rel="stylesheet" href="/fonts/fonts.css">
+    <link rel="stylesheet" href="/styles/buttons.css">
+    <link rel="stylesheet" href="/overlay/appearance.css">
+  <link rel="stylesheet" href="/output-viewport.css">
+</head>
+<body>
+
+    <div id="broadcast-stage" data-output-canvas>
+    <!-- Mosca de Transmisión LLDM: Logo Oficial La Luz del Mundo Siempre Visible -->
+    <div id="broadcastWatermark" class="broadcast-watermark watermark-bottom-left">
+        <div id="streamLogoBox" class="logo-box">
+            <img class="logo-img" src="/logo_lldm_oficial.svg" alt="Logo Oficial La Luz del Mundo">
+            <div class="logo-shimmer-overlay">
+                <div class="logo-shimmer-beam"></div>
+            </div>
+            <svg class="logo-star-sparkle" viewBox="0 0 40 40">
+                <path d="M 20 0 Q 20 20 40 20 Q 20 20 20 40 Q 20 20 0 20 Q 20 20 20 0 Z" fill="#FFFFFF" filter="drop-shadow(0 0 8px #FFF5C0)"/>
+                <circle cx="20" cy="20" r="3.5" fill="#FFEAA5"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Contenedor del Overlay: Sin estirar en eje Y -->
+    <div id="overlayContainer" class="overlay-container pos-top-right">
+        <div id="bannerWrapper" class="banner-wrapper">
+            <!-- 1. Barra decorativa izquierda: 25px (mitad oro y mitad azul) -->
+            <div class="badge-bar"></div>
+
+            <!-- 2. Contenedor blanco con límite de largo -->
+            <div id="bannerContent" class="banner-content">
+                <span class="angular-facets" aria-hidden="true"></span>
+                <span class="angular-lines" aria-hidden="true"></span>
+                <div id="bannerBody"></div>
+
+                <!-- 3. Destello de resalte dorado -->
+                <div class="shimmer-sweep"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cuadro Centrado para Cámaras de Dron y Tomas Aéreas -->
+    <div id="droneWrapper" class="drone-wrapper">
+        <div class="drone-card">
+            <span class="angular-facets" aria-hidden="true"></span>
+            <span class="angular-lines" aria-hidden="true"></span>
+            <!-- Barra superior con icono de pin y categoría -->
+            <div class="drone-header">
+                <svg class="drone-pin-icon" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                <span id="droneHeaderTag" class="drone-tag">LA LUZ DEL MUNDO</span>
+            </div>
+            <!-- Texto principal en medio -->
+            <div id="droneMainText" class="drone-title">Ubicación</div>
+            <!-- Destello de resalte dorado -->
+            <div class="shimmer-sweep"></div>
+        </div>
+    </div>
+
+    </div>
+
+    <!-- Panel de Pruebas (Sólo en navegador) -->
+    <div id="testPanel" class="test-panel">
+        <span style="color: #ffdd88; font-weight: bold; font-size: 13px;">Previsualización:</span>
+        <button onclick="probarBiblia('Juan', '3:16')">Juan 3:16</button>
+        <button onclick="probarBiblia('1 Corintios', '13:4-8')">1 Corintios 13:4-8</button>
+        <button onclick="probarCarta('Carta Apostólica', '14 de Agosto de 2021', 'Guadalajara, Jal.')">Carta Completa</button>
+        <button onclick="probarCarta('Carta Apostólica', '', '')">Carta (Sin Fecha)</button>
+        <button onclick="probarCarta('Presentación Apostólica', '14 de Febrero de 2022', 'San Salvador, El Salvador')">Presentación</button>
+        <button onclick="probarCarta('Presentación Apostólica', '', '')">Presentación (Sin Fecha)</button>
+        <button onclick="probarTema('La Obediencia y la Fidelidad a Dios')">Tema</button>
+        <button onclick="probarCanto('518 Si Fui Motivo (Hno. Samuel Joaquín)')">Canto 518 (con nota)</button>
+        <button onclick="probarDron('Ubicación')" style="background: linear-gradient(135deg, #111F40, #223f80); border: 1px solid var(--oro-lldm);">Ejemplo de ubicación</button>
+        <button onclick="probarCoro('Coro: Grandes y Maravillosas')">Canto Coro</button>
+        <button class="btn-hide" onclick="ocultarBanner(true)">Ocultar</button>
+        <select onchange="cambiarPosicion(this.value)" title="Posición del Faldón">
+            <option value="pos-top-right">Faldón: Arriba Der</option>
+            <option value="pos-bottom-right">Faldón: Abajo Der</option>
+            <option value="pos-bottom-left">Faldón: Abajo Izq</option>
+            <option value="pos-top-left">Faldón: Arriba Izq</option>
+        </select>
+        <button onclick="activarBrilloLogo()" style="background: linear-gradient(135deg, #CA9E3C, #FFF3BD, #8F6E1C); color: #111F40; font-weight: 700;" title="Probar efecto de brillo que ocurre cada 3 minutos">Brillo Logo</button>
+        <select onchange="cambiarPosicionLogo(this.value)" title="Posición de la Mosca/Logo">
+            <option value="watermark-bottom-left" selected>Logo: Abajo Izq</option>
+            <option value="watermark-bottom-right">Logo: Abajo Der</option>
+            <option value="watermark-top-left">Logo: Arriba Izq</option>
+            <option value="watermark-top-right">Logo: Arriba Der</option>
+            <option value="hidden">Logo: Oculto</option>
+        </select>
+        <button class="btn-close" onclick="document.getElementById('testPanel').classList.add('hidden')" title="Cerrar">&times;</button>
+    </div>
+
+    <script src="/output-viewport.js" defer></script>
+    <script src="/overlay/fit.js" defer></script>
+    <script src="/overlay/app.js" defer></script>
+    <script src="/graphics/runtime.js" defer></script>
+</body>
+</html>
