@@ -14,6 +14,7 @@
     apply(state.settings);
   }
   window.LldmGraphics = { acceptState };
+  if (new URLSearchParams(location.search).get('lite') === '1') return;
   if (!preview) fetch('/api/settings').then(r => r.json()).then(s => acceptState({ settings: s.settings, settingsRevision: s.revision })).catch(console.error);
   if (preview) window.addEventListener('message', event => {
     if (event.origin !== location.origin || event.source !== parent || event.data?.type !== 'GRAPHICS_PREVIEW') return;

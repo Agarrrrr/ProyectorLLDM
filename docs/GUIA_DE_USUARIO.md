@@ -544,10 +544,29 @@ Para el uso habitual mediante una fuente Navegador no necesitas configurar el en
 1. Conecta la TV por HDMI y configura Windows para **Extender** las pantallas.
 2. En OBS, crea una escena llamada **SALIDA TV**. En **Fuentes**, agrega una fuente **Navegador** con la URL `http://localhost:4000/pantalla`. Si cambiaste el puerto de la cabina, usa el tuyo.
 3. Ajusta el ancho y alto al lienzo de OBS: por ejemplo, **1920 × 1080** para Full HD o **3840 × 2160** para 4K. Ajusta la fuente al lienzo.
-4. Haz clic derecho en la escena **SALIDA TV** y elige **Proyector de pantalla completa (escena) → Pantalla 2 (HDMI)**. El nombre del monitor puede variar.
+4. Haz clic derecho en la escena **SALIDA TV**. Elige **Abrir proyector de escena** o **Proyector de pantalla completa (escena)**, según tu versión de OBS. Selecciona la TV conectada por HDMI en el submenú. OBS puede mostrar el modelo del monitor en lugar de «Pantalla 2».
 5. Envía una cita desde la cabina y comprueba que aparece en la TV. Así no necesitas arrastrar ventanas al segundo monitor. Si quieres banners sobre el video de la transmisión, usa una fuente aparte con `/overlay?obs=1`.
 
+![Ventana real de OBS Studio con la escena SALIDA TV seleccionada y su fuente Navegador.](capturas/47-obs-escena-y-fuente.png)
+
+**Escena y fuente.** En la columna izquierda se ven la escena `SALIDA TV` y su fuente Navegador «Proyector LLDM · Pantalla».
+
+![Menú real de OBS Studio con Abrir proyector de escena y dos monitores disponibles.](capturas/48-obs-elegir-pantalla.png)
+
+**Selección de monitor.** Elige la TV por su nombre o resolución. **Nueva ventana** abre un proyector en ventana.
+
 ![Captura real de la escena SALIDA TV en OBS mostrando una cita de Proyector LLDM.](capturas/46-obs-escena-salida-tv.png)
+
+**Captura de la salida de escena en OBS Studio.** La fuente Navegador de `SALIDA TV` muestra Juan 14:1 tal como se ve en la TV. La captura se obtuvo de OBS con la escena activa.
+
+### 9.8 Casos de uso
+
+| Si necesitas… | Configura… | Comprueba antes del servicio |
+| --- | --- | --- |
+| Mostrar cantos o citas en una TV por HDMI | La escena **SALIDA TV**, con una fuente Navegador en `/pantalla`. Abre el proyector de pantalla completa de esa escena en la TV. | Envía una cita y pulsa **Fondo**. Ambos cambios deben verse en la TV. |
+| Transmitir la cámara y mostrar el nombre del canto | Una escena de transmisión con la cámara debajo y una fuente Navegador en `/overlay?obs=1` arriba. | Envía un canto. El banner debe aparecer sobre la cámara y desaparecer al vencer su tiempo o al pulsar **Ocultar banner**. |
+| Usar la TV y transmitir a la vez | Conserva **SALIDA TV** proyectada por HDMI y selecciona la escena de cámara para la transmisión. | Avanza un cuadro. La TV debe mostrar la letra nueva y la transmisión debe conservar la cámara. |
+| Proyectar sin transmitir | Abre `/pantalla` en un navegador, mueve esa ventana a la TV y activa pantalla completa. | Comprueba que el escritorio de control permanezca en el monitor principal. |
 
 
 <a id="10-conocer-la-cabina-y-sus-controles"></a>

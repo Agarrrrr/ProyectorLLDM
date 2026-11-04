@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proyector LLDM Lite</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/lite.css">
+  <script src="/lite.js" defer></script>
+</head>
+<body>
+  <header>
+    <h1><img src="/favicon.svg" alt="" width="32" height="32"> Proyector LLDM <span>Lite</span></h1>
+    <nav aria-label="Ayuda"><a href="/guia/">Guía</a><a href="https://github.com/HuriTolentino/ProyectorLLDM/releases/latest">Edición de escritorio</a></nav>
+  </header>
+  <main>
+    <section class="work" aria-labelledby="prepare-title">
+      <h2 id="prepare-title">Preparar contenido</h2>
+      <label for="kind">Tipo de contenido</label>
+      <select id="kind">
+        <option value="hymn">Himnario</option>
+        <option value="bible">Citas bíblicas</option>
+        <option value="theme">Temas</option>
+        <option value="choir">Coro</option>
+        <option value="list">Listas y avisos</option>
+      </select>
+      <div id="songs">
+        <label for="search">Número o título</label>
+        <input type="search" id="search" autocomplete="off">
+        <div id="results" aria-label="Resultados"></div>
+      </div>
+      <form id="bible" hidden>
+        <label for="book">Libro</label><select id="book"></select>
+        <div class="row">
+          <label>Capítulo<input id="chapter" type="number" min="1" required inputmode="numeric"></label>
+          <label>Versículos<input id="verse" required placeholder="1-3" pattern="[0-9]+(-[0-9]+)?"></label>
+        </div>
+        <label for="bible-mode">Mostrar</label>
+        <select id="bible-mode"><option value="citation">Solo cita</option><option value="text">Cita y texto · RVR1960</option></select>
+        <button>Preparar cita</button>
+      </form>
+      <form id="theme" hidden>
+        <label for="theme-title">Título del tema</label>
+        <textarea id="theme-title" rows="3" required maxlength="240"></textarea>
+        <button>Preparar tema</button>
+      </form>
+      <form id="list" hidden>
+        <label for="list-kind">Lista</label>
+        <select id="list-kind"><option>Oraciones</option><option>Aviso</option><option>Flores</option><option>Ventas</option></select>
+        <label for="list-text">Contenido, un renglón por entrada</label>
+        <textarea id="list-text" rows="6" required maxlength="4000"></textarea>
+        <button>Guardar y preparar</button>
+      </form>
+      <p id="status" role="status"></p>
+      <div id="slides" aria-label="Diapositivas preparadas"></div>
+    </section>
+    <section class="output" aria-labelledby="output-title">
+      <div class="row output-heading"><h2 id="output-title">Salida a TV</h2><a class="primary" href="/pantalla.html?lite=1" target="_blank" rel="noopener">Abrir pantalla</a></div>
+      <iframe src="/pantalla.html?lite=1" title="Vista de la salida a TV"></iframe>
+      <div class="row transport">
+        <button type="button" id="prev" disabled>Anterior</button>
+        <button type="button" id="next" disabled>Siguiente</button>
+        <button type="button" id="idle">Mostrar fondo</button>
+      </div>
+      <p class="note">Abre la pantalla en este navegador, muévela a la TV y ponla en pantalla completa.</p>
+    </section>
+  </main>
+  <footer>
+    <p>Los datos de Lite se guardan en este navegador. La edición de escritorio incluye personalización, QR, OBS y conversión de presentaciones.</p>
+    <div class="row">
+      <button type="button" id="export">Exportar respaldo</button>
+      <label class="file-control">Importar respaldo <input type="file" id="import" accept=".json,application/json"></label>
+    </div>
+    <p id="backup-status" role="status"></p>
+  </footer>
+</body>
+</html>

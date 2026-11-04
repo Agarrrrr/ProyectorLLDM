@@ -1,6 +1,7 @@
 const outputLength = value => window.OutputViewport.length(value);
 const lyricsPreview = new URLSearchParams(location.search).has('lyricsPreview');
-if (!lyricsPreview) document.getElementById('idle-frame').src = '/idle.html';
+const lite = new URLSearchParams(location.search).get('lite') === '1';
+if (!lyricsPreview) document.getElementById('idle-frame').src = lite ? '/idle.html?lite=1' : '/idle.html';
 const songFonts = new Map();
 const songBackgrounds = new Map();
 async function prepareSongFont(payload) {
@@ -455,6 +456,7 @@ const stageIdle = document.getElementById('stage-idle');
     });
 
     window.addEventListener('keydown', (e) => {
+      if (lite) return;
       if (e.key === 'ArrowRight' || e.key === ' ') {
         e.preventDefault();
         fetch('/api/control/action', {
@@ -540,7 +542,17 @@ const stageIdle = document.getElementById('stage-idle');
       };
     }
 
-    if (!lyricsPreview) connectWs();
+    if (!lyricsPreview && !lite) connectWs();
+    if (lite) {
+      const channel = new BroadcastChannel('proyector-lldm-lite');
+      channel.onmessage = async ({ data }) => {
+        if (data?.type !== 'display' || !data.payload) return;
+        const revision = ++incomingRevision;
+        await document.fonts.ready;
+        if (revision === incomingRevision) await renderDisplay(data.payload, revision);
+      };
+      channel.postMessage({ type: 'request' });
+    }
 
 if (lyricsPreview) window.addEventListener('message', async event => {
   if (event.origin !== location.origin || event.source !== parent || event.data?.type !== 'LYRICS_PREVIEW') return;

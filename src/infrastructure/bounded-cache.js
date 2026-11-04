@@ -1,3 +1,6 @@
+const utf8 = new TextEncoder();
+const byteLength = typeof Buffer === 'undefined' ? text => utf8.encode(text).byteLength : text => Buffer.byteLength(text);
+
 function createBoundedCache({ maxEntries = 256, maxBytes = 4 * 1024 * 1024 } = {}) {
   const entries = new Map();
   let bytes = 0, hits = 0, misses = 0;
@@ -9,7 +12,7 @@ function createBoundedCache({ maxEntries = 256, maxBytes = 4 * 1024 * 1024 } = {
       return entry.value;
     },
     set(key, value) {
-      const size = Buffer.byteLength(key) + Buffer.byteLength(JSON.stringify(value));
+      const size = byteLength(key) + byteLength(JSON.stringify(value));
       if (entries.has(key)) { bytes -= entries.get(key).size; entries.delete(key); }
       if (size > maxBytes) return;
       while (entries.size && (entries.size >= maxEntries || bytes + size > maxBytes)) {

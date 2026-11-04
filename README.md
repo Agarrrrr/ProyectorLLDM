@@ -49,7 +49,9 @@ Una vez que abres **`Iniciar Proyector LLDM.bat`**, el programa corre de forma l
 ### Control desde celular o tablet
 Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR**. Genera un código, escanéalo y dale un nombre corto al dispositivo. Desde ese mismo panel puedes desconectarlo. La PC puede estar conectada por cable Ethernet.
 
-La [web oficial](https://proyector.lldmcoro.com/) reúne las descargas y la guía. La cabina y el enlace por QR funcionan desde la instalación local.
+Abre [Proyector LLDM Lite](https://proyector.lldmcoro.com/) para proyectar cantos, citas, temas y listas desde el navegador. Guarda las listas en el navegador y sincroniza la TV entre ventanas del mismo perfil. La personalización avanzada, el enlace de celulares por QR, OBS y la conversión de presentaciones están en la edición de escritorio.
+
+La edición de escritorio se distribuye como ZIP para Windows en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). En macOS y Linux puedes usar Lite en el navegador. El servidor Node puede arrancarse desde el código fuente, pero esas plataformas requieren preparar sus dependencias por separado y no tienen un paquete oficial verificado.
 
 Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 
