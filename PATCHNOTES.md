@@ -1,11 +1,12 @@
 # Notas de cambios
 
-## Próxima versión
+## Versión 1.4.0
 
 - Proyección bíblica en modo Solo Cita o Cita + Texto, con ocho traducciones disponibles sin internet.
 - El texto sigue los límites de tamaño y renglones del Himnario y se distribuye en diapositivas navegables.
 - La cabina, TV, OBS y listas abren desde carpetas de instalación cuyo nombre empieza con punto.
 - Guías actualizadas con el selector de traducción, las tarjetas del pasaje y la salida a TV.
+- Consulta de actualizaciones y enlaces de descarga bajo HuriTolentino.
 
 ## Versión 1.3.1
 
