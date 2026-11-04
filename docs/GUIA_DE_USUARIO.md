@@ -418,15 +418,13 @@ Es solo un ejemplo. Sustituye los números por los que muestra tu computadora. N
 
 ### 8.2 Abrir el control remoto
 
-1. Mantén funcionando Proyector LLDM en la computadora de cabina.
-2. Conecta el celular o tablet a la misma red local.
-3. En la computadora, copia el enlace del control Wi-Fi o anota su dirección.
-4. Abre el navegador del celular.
-5. Escribe la dirección completa, incluido `http://`, el número de puerto y `/control`.
-6. Espera a que cargue la cabina.
-7. Comprueba que puedas revisar el minivisor sin un aviso persistente de desconexión.
+1. Mantén abierta la cabina en la PC y conecta el celular a la misma red local.
+2. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR** y pulsa **Generar QR**. El código se muestra solo después de pulsar ese botón.
+3. Escanea el código con la cámara del celular, abre el enlace y escribe un nombre corto, como «Tablet de cabina».
+4. Pulsa **Conectar**. Cada código sirve para un dispositivo y vence a los cinco minutos.
+5. En el mismo panel de la PC puedes ver los dispositivos y revocar uno por su nombre o revocar todos. Una sesión dura hasta ocho horas.
 
-La computadora puede estar conectada por cable Ethernet y el celular por Wi-Fi: lo necesario es que ambos puedan comunicarse en la misma red local. Una red de invitados puede impedirlo aunque utilice el mismo router.
+La computadora puede estar conectada por Ethernet y el celular por Wi-Fi. Una red de invitados puede bloquear la comunicación aunque use el mismo router. El enlace es directo por la red local; úsalo en una red de confianza. Con datos móviles no funciona.
 
 ### 8.3 Qué cambia en la interfaz móvil
 
@@ -540,6 +538,17 @@ Si OBS tiene una opción para cerrar la fuente cuando no es visible, ten en cuen
 7. Envía una portada a TV y confirma que no cambia por sí sola el gráfico de cámara.
 
 Para el uso habitual mediante una fuente Navegador no necesitas configurar el enlace adicional de control de OBS del [apartado 23](#23-configuracion-adicional-de-integracion-con-obs).
+
+### 9.7 Crear la escena SALIDA TV en OBS
+
+1. Conecta la TV por HDMI y configura Windows para **Extender** las pantallas.
+2. En OBS, crea una escena llamada **SALIDA TV**. En **Fuentes**, agrega una fuente **Navegador** con la URL `http://localhost:4000/pantalla`. Si cambiaste el puerto de la cabina, usa el tuyo.
+3. Ajusta el ancho y alto al lienzo de OBS: por ejemplo, **1920 × 1080** para Full HD o **3840 × 2160** para 4K. Ajusta la fuente al lienzo.
+4. Haz clic derecho en la escena **SALIDA TV** y elige **Proyector de pantalla completa (escena) → Pantalla 2 (HDMI)**. El nombre del monitor puede variar.
+5. Envía una cita desde la cabina y comprueba que aparece en la TV. Así no necesitas arrastrar ventanas al segundo monitor. Si quieres banners sobre el video de la transmisión, usa una fuente aparte con `/overlay?obs=1`.
+
+![Captura real de la escena SALIDA TV en OBS mostrando una cita de Proyector LLDM.](capturas/46-obs-escena-salida-tv.png)
+
 
 <a id="10-conocer-la-cabina-y-sus-controles"></a>
 
@@ -1318,6 +1327,9 @@ La vista previa permite revisar el fondo antes de guardar. La opción afecta al 
 ![Selector y vista previa del fondo de reposo de las TV.](capturas/23-ajustes-fondo.png)
 
 **Figura 35.** El selector permite revisar el fondo institucional o el del centenario antes de guardar los ajustes.
+
+
+**Duración de citas y temas en TV.** Abre **Ajustes → Fondo de TV → Duración en TV**. Cada tipo tiene su propio tiempo, con 120 segundos por defecto. Escribe 30, 45 u otro número de segundos y guarda. La duración se aplica al próximo envío. Si la cita tiene varias páginas, pasar de página no reinicia la cuenta. Puedes mostrar el fondo antes pulsando **Fondo** o **Esc**. Usa 0 si prefieres ocultar el contenido siempre a mano. Los tiempos de los banners de OBS se configuran por separado.
 
 ### 18.4 Diseño y colores de los banners
 

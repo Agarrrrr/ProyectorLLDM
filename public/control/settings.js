@@ -9,6 +9,7 @@ import { openGraphicsSettings, closeGraphicsSettings } from './graphics-settings
 import { openSurface, closeSurface } from './motion.js';
 import './choir-import.js';
 import './backup.js';
+import './mobile-access.js';
 
 const dialog = document.getElementById('settingsDialog');
 const form = document.getElementById('settingsForm');

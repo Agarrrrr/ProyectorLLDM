@@ -69,13 +69,7 @@ async function updateNetworkIpDisplay(ipFromServer) {
 const headerIpBadge = document.getElementById('header-ip-badge');
 if (headerIpBadge) {
   headerIpBadge.addEventListener('click', () => {
-    const headerEl = document.getElementById('header-ip-address');
-    const text = headerEl ? headerEl.textContent : window.location.host;
-    const fullUrl = `http://${text}/control`;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(fullUrl);
-    }
-    showToast(`Enlace copiado para móviles: ${fullUrl}`);
+    showToast('Enlaza un celular desde Ajustes → Avanzado → Conectar celular por QR.');
   });
 }
 

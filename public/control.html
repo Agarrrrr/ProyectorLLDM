@@ -36,7 +36,7 @@
       </div>
 
       <!-- IP PARA CONEXIÓN DE MÓVILES EN RED LOCAL (AL LADO DEL CUADRO DE REPOSO/EN PROYECCIÓN) -->
-      <div id="header-ip-badge" class="ip-badge-pill" title="Dirección para conectar celulares/tablets en la red Wi-Fi. Haz clic para copiar enlace">
+      <div id="header-ip-badge" class="ip-badge-pill" title="Dirección local. Enlaza dispositivos desde Ajustes → Avanzado">
         <svg class="icon-ip-svg" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
         <span class="ip-label-text">Wi-Fi:</span>
         <span id="header-ip-address" class="ip-address-text">—</span>
@@ -862,6 +862,13 @@
 <section role="tabpanel" id="settings-panel-background" aria-labelledby="settings-tab-background" data-settings-panel="background" hidden>      <fieldset class="settings-section"><legend>Fondo de las TV</legend>
         <label>Diseño<select data-graphics-field="background"><option value="institutional">Institucional · logo sobre blanco</option><option value="classic">Centenario · líneas doradas</option></select></label>
         <iframe id="settingsBackgroundPreview" class="graphics-preview" src="about:blank" title="Vista previa del fondo de TV"></iframe>
+      </fieldset>
+      <fieldset class="settings-section"><legend>Duración en TV</legend>
+        <div class="graphics-options">
+          <label>Citas bíblicas (segundos)<input data-graphics-field="bibleDurationSeconds" type="number" min="0" max="3600" step="1" inputmode="numeric" required></label>
+          <label>Temas (segundos)<input data-graphics-field="themeDurationSeconds" type="number" min="0" max="3600" step="1" inputmode="numeric" required></label>
+        </div>
+        <p class="settings-note">Al vencer el tiempo se muestra el fondo. Usa 0 para quitar el contenido solo manualmente. Los cambios se aplican a los siguientes envíos.</p>
       </fieldset></section>
 <section role="tabpanel" id="settings-panel-obs" aria-labelledby="settings-tab-obs" data-settings-panel="obs" hidden>      <fieldset class="settings-section"><legend>Gráficos de OBS</legend>
         <div class="graphics-options">
@@ -885,6 +892,17 @@
         <button type="button" id="resetControls" class="btn-secondary">Restablecer controles</button>
       </fieldset></section>
 <section role="tabpanel" id="settings-panel-advanced" aria-labelledby="settings-tab-advanced" data-settings-panel="advanced" hidden>
+      <details class="settings-section mobile-access">
+        <summary>Conectar celular por QR</summary>
+        <p class="settings-note">Genera el QR en el navegador de la PC. Conecta el celular a la misma red del templo. El código se usa una vez y vence en cinco minutos.</p>
+        <div class="settings-actions"><button type="button" id="createMobileQr">Generar QR</button><button type="button" id="revokeMobileSessions">Desconectar todos</button></div>
+        <img id="mobileQrImage" alt="QR para conectar un celular a esta cabina" width="240" height="240" hidden>
+        <a id="mobileQrLink" hidden>Abrir enlace de conexión</a>
+        <p id="mobileQrStatus" class="settings-message" role="status"></p>
+        <h3>Dispositivos enlazados</h3>
+        <ul id="mobileSessions"></ul>
+        <button type="button" id="refreshMobileSessions">Actualizar dispositivos</button>
+      </details>
       <fieldset class="settings-section quick-editor-setting"><legend>Interfaz principal</legend><label class="settings-toggle"><input id="showQuickLyricsEditor" type="checkbox" role="switch"><span>Mostrar «Editar letra» en Himnario y Coro</span></label><p class="settings-note">Muestra el botón junto a las acciones del canto seleccionado. Guarda los ajustes para aplicar el cambio.</p></fieldset>
       <details class="settings-advanced update-settings"><summary>Actualizaciones de GitHub</summary><div class="settings-section">
         <p id="updatesCurrent" class="settings-note">Sin consulta de versión todavía.</p>

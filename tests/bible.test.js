@@ -242,4 +242,26 @@ test('API REST permite consultar versiones, límites y proyectar en ambos modos'
   });
   assert.equal(invalidProj.status, 400);
   assert.match(invalidProj.body.error, /solo tiene 21 capítulos/);
+
+  const { settings, revision } = (await get('/api/settings')).body;
+  assert.equal(settings.graphics.bibleDurationSeconds, 120);
+  assert.equal(settings.graphics.themeDurationSeconds, 120);
+  Object.assign(settings.graphics, { bibleDurationSeconds: 1, themeDurationSeconds: 0 });
+  assert.equal((await fetch(base + '/api/settings', {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ revision, settings })
+  })).status, 200);
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+  await post('/api/project/bible', { book: 'Juan', chapter: '14', verse: '1-6', mode: 'text' });
+  await delay(600);
+  await post('/api/project/bible', { book: 'Juan', chapter: '14', verse: '1-6', mode: 'text', startIndex: 1, announce: false });
+  await delay(550);
+  assert.equal((await get('/api/state')).body.displayPayload.type, 'idle');
+
+  await post('/api/project/bible', { book: 'Juan', chapter: '3', verse: '16' });
+  await post('/api/project/theme', { title: 'Tema de prueba' });
+  await delay(1150);
+  assert.equal((await get('/api/state')).body.displayPayload.type, 'theme');
+  await post('/api/control/action', { action: 'CLEAR_PROJECTION' });
+  assert.equal((await get('/api/state')).body.displayPayload.type, 'idle');
 });

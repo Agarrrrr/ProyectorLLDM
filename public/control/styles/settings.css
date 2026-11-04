@@ -67,3 +67,9 @@
 #backupPanel input[type=file] { min-width:0; }
 #backupSections { min-width:0; margin:0; padding:0 12px; border:1px solid var(--ui-line); border-radius:8px; }
 #backupSections legend { padding:0 5px; }
+.mobile-access { margin-bottom: 1.25rem; }
+.mobile-access summary { cursor: pointer; }
+.mobile-access > :not(summary) { margin-top: .75rem; }
+.mobile-access img { max-width: 100%; height: auto; border-radius: .5rem; }
+.mobile-access ul { list-style: none; padding: 0; }
+.mobile-access li { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; padding-block: .35rem; }

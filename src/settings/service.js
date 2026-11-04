@@ -15,7 +15,8 @@ const CHURCH_NAME = 'La Luz del Mundo';
 const graphicsDefaults = {
   background: 'institutional', bannerStyle: 'angular', bannerTone: 'navy',
   bannerPosition: 'top-right', logoColor: 'official', logoPosition: 'bottom-left', logoSize: 215,
-  bannerDurationSeconds: 30, locationDurationSeconds: 75
+  bannerDurationSeconds: 30, locationDurationSeconds: 75,
+  bibleDurationSeconds: 120, themeDurationSeconds: 120
 };
 const defaults = {
   church: { name: CHURCH_NAME, address: '', city: '' },
@@ -30,7 +31,9 @@ function validate(value) {
   if (!operator || typeof operator !== 'object' || Array.isArray(operator) || Object.keys(operator).some(key => key !== 'showLyricsEditor') || typeof operator.showLyricsEditor !== 'boolean') throw new Error('Opciones de interfaz no válidas.');
   const graphics = value.graphics == null ? structuredClone(graphicsDefaults) : {
     bannerDurationSeconds: graphicsDefaults.bannerDurationSeconds,
-    locationDurationSeconds: graphicsDefaults.locationDurationSeconds, ...value.graphics
+    locationDurationSeconds: graphicsDefaults.locationDurationSeconds,
+    bibleDurationSeconds: graphicsDefaults.bibleDurationSeconds,
+    themeDurationSeconds: graphicsDefaults.themeDurationSeconds, ...value.graphics
   };
   const choices = {
     background: ['institutional', 'classic'], bannerStyle: ['angular', 'classic'],
@@ -44,6 +47,9 @@ function validate(value) {
       !Number.isInteger(graphics.logoSize) || graphics.logoSize < 120 || graphics.logoSize > 300) throw new Error('Opciones de gráficos no válidas.');
   for (const key of ['bannerDurationSeconds', 'locationDurationSeconds']) {
     if (!Number.isInteger(graphics[key]) || graphics[key] < 0 || graphics[key] > 3600) throw new Error('La duración de OBS debe ser un número entero de 0 a 3600 segundos. Usa 0 para ocultar manualmente.');
+  }
+  for (const key of ['bibleDurationSeconds', 'themeDurationSeconds']) {
+    if (!Number.isInteger(graphics[key]) || graphics[key] < 0 || graphics[key] > 3600) throw new Error('La duración en TV debe ser un número entero de 0 a 3600 segundos. Usa 0 para ocultar manualmente.');
   }
   const church = value.church;
   if (!church || Object.keys(church).some(key => !['name', 'address', 'city'].includes(key)) ||

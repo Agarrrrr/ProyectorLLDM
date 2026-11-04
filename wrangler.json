@@ -1,0 +1,6 @@
+{
+  "name": "proyector-lldm",
+  "compatibility_date": "2026-11-04",
+  "routes": [{ "pattern": "proyector.lldmcoro.com", "custom_domain": true }],
+  "assets": { "directory": "./output/web" }
+}

@@ -1,0 +1,29 @@
+:root { color-scheme: dark; font-family: system-ui, sans-serif; background: #101d31; color: #f1f4fa; --muted: #c5d1e1; --gold: #e8c680; }
+* { box-sizing: border-box; }
+body, figure, p { margin: 0; }
+a { color: inherit; text-underline-offset: .25em; }
+a:hover { color: var(--gold); }
+a:focus-visible { outline: 2px solid #a2d1ff; outline-offset: 5px; }
+.shell { width: min(100% - 2.5rem, 76rem); margin-inline: auto; }
+.masthead, .footer { display: flex; align-items: center; justify-content: space-between; gap: .75rem 1.5rem; flex-wrap: wrap; padding-block: 1.15rem; }
+.masthead { border-bottom: 1px solid #40536e; }
+.brand, nav, .actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.brand { font-weight: 750; text-decoration: none; }
+nav { gap: 1.25rem; }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; padding-block: clamp(3rem, 9vw, 7rem); }
+.intro h1 { margin: 0 0 1.2rem; font-size: clamp(2.4rem, 5vw, 4.4rem); line-height: 1.04; letter-spacing: -.04em; text-wrap: balance; }
+p { line-height: 1.65; }
+.intro p, figcaption, .how p, .footer { color: var(--muted); }
+.intro p { max-width: 45ch; font-size: 1.1rem; }
+.actions { margin-top: 1.6rem; gap: 1rem 1.4rem; }
+.download { display: inline-flex; gap: .55rem; align-items: center; min-height: 3rem; padding: .55rem 1rem; border-radius: .45rem; color: #152035; background: var(--gold); font-weight: 750; text-decoration: none; }
+.download:hover { color: #152035; background: #f5dca6; }
+figure img { width: 100%; height: auto; display: block; border: 1px solid #586983; border-radius: .75rem; }
+figcaption { margin-top: .65rem; font-size: .9rem; }
+.how { padding-block: clamp(2rem, 5vw, 4rem); background: #192b43; }
+.how h2 { margin: 0 0 1.5rem; font-size: clamp(1.6rem, 3vw, 2.4rem); }
+.how ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem 2rem; padding-inline-start: 1.5rem; margin: 0; }
+.how li::marker { color: var(--gold); font-weight: 800; }
+.how h3 { margin: 0 0 .4rem; font-size: 1.08rem; }
+.footer { font-size: .92rem; }
+@media (max-width: 48rem) { .hero, .how ol { grid-template-columns: 1fr; } }

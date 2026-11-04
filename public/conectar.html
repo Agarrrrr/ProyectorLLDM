@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Conectar celular · Proyector LLDM</title>
+  <link rel="stylesheet" href="/mobile-connect.css">
+  <script type="module" src="/mobile-connect.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Conectar a Proyector LLDM</h1>
+    <p id="connect-status" role="status">Abre Ajustes → Avanzado en la PC y escanea el QR de conexión.</p>
+    <form id="connect-form" hidden>
+      <label for="device-name">Nombre del dispositivo</label>
+      <input id="device-name" name="device-name" required maxlength="24" placeholder="Ej. Celular de cabina" autocomplete="off">
+      <button type="submit" id="connect-mobile">Conectar a esta cabina</button>
+    </form>
+  </main>
+</body>
+</html>

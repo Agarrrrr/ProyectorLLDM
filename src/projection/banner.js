@@ -25,7 +25,7 @@ function projectionBanner(state) {
   }
 }
 
-function createProjectionPublisher({ getState, broadcastState, broadcastOverlay }) {
+function createProjectionPublisher({ getState, broadcastState, broadcastOverlay, onPublish = () => {} }) {
   let lastKey;
   function observe() { lastKey = JSON.stringify(projectionBanner(getState())); }
   observe();
@@ -33,6 +33,7 @@ function createProjectionPublisher({ getState, broadcastState, broadcastOverlay 
     const banner = projectionBanner(getState());
     const changed = JSON.stringify(banner) !== lastKey;
     broadcastState();
+    onPublish(repeat);
     if (banner && (changed || repeat)) broadcastOverlay(banner);
   }
   return { observe, publish };

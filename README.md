@@ -47,7 +47,11 @@ Una vez que abres **`Iniciar Proyector LLDM.bat`**, el programa corre de forma l
 | **`http://localhost:4000/overlay?obs=1`** | **Banners para OBS Studio** | Como fuente de **Navegador** en OBS Studio para sobreponer títulos sobre la cámara. |
 
 ### Control desde celular o tablet
-Conecta tu celular o tablet a la misma red WiFi del templo. Al iniciar el programa, la ventana negra te indicará tu dirección en red local (por ejemplo: `http://192.168.1.50:4000/control`). Ábrela en el navegador de tu celular y podrás cambiar diapositivas y proyectar cantos caminando por el templo.
+Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR**. Genera un código, escanéalo y dale un nombre corto al dispositivo. Desde ese mismo panel puedes desconectarlo. La PC puede estar conectada por cable Ethernet.
+
+La [web oficial](https://proyector.lldmcoro.com/) reúne las descargas y la guía. La cabina y el enlace por QR funcionan desde la instalación local.
+
+Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 
 ---
 

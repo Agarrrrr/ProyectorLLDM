@@ -15,6 +15,7 @@ const { installContentRoutes } = require('./transport/content-routes');
 const { installPresentationRoutes } = require('./transport/presentation-routes');
 const { createProjection } = require('./projection/state');
 const { createProjectionPublisher } = require('./projection/banner');
+const { createProjectionTimeout } = require('./projection/timeout');
 const { createCatalogRepository } = require('./songs/repository');
 const { createActionHandler } = require('./projection/actions');
 const express = require('express');
@@ -22,6 +23,7 @@ const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
 const { localSecurity, validLocalRequest } = require('./transport/local-security');
+const { createMobileAccess } = require('./remote/mobile-access');
 const fs = require('fs');
 const os = require('os');
 
@@ -31,7 +33,10 @@ const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 function createApplication(options = {}) {
   const app = express();
   const server = http.createServer(app);
-  const wss = new WebSocket.Server({ server, path: '/ws', maxPayload: 64 * 1024, perMessageDeflate: false, verifyClient: ({ req }) => validLocalRequest(req) });
+  const mobile = createMobileAccess();
+  const isOutput = req => new URL(req.url, 'http://localhost').searchParams.get('view') === 'output';
+  const wss = new WebSocket.Server({ server, path: '/ws', maxPayload: 64 * 1024, perMessageDeflate: false,
+    verifyClient: ({ req }) => validLocalRequest(req) && (isOutput(req) || mobile.authorized(req)) });
 
   const PORT = options.port ?? (parseInt(process.env.PORT, 10) || 4000);
 
@@ -60,6 +65,9 @@ function createApplication(options = {}) {
   // Moving a saved week can send both the previous and new 2 MiB documents.
   app.patch('/api/lists', express.json({ limit: '5mb', inflate: false }));
   app.use(express.json({ limit: '100kb', inflate: false }));
+  mobile.install(app, () => ({ host: getLocalIp(), port: server.address()?.port || PORT }), () => {
+    for (const ws of wss.clients) if (!ws.outputOnly && !ws.canControl()) ws.close(1008, 'Sesión revocada');
+  });
   app.set('json replacer', cleanWireValue);
   // UTF-8 Charset explícito para todas las respuestas de API
   app.use('/api', (req, res, next) => {
@@ -103,7 +111,15 @@ function createApplication(options = {}) {
   // 4. WEBSOCKET BROADCAST
   let workspace, listsService;
   const stateStream = createStateStream({ wss, getState: () => projectionState });
-  const projectionPublisher = createProjectionPublisher({ getState: () => projectionState, broadcastState, broadcastOverlay });
+  const projectionTimeout = createProjectionTimeout({ state: projectionState, onExpire: () => {
+    projectionState.phase = 'idle';
+    projectionState.isLooping = false;
+    broadcastState();
+  } });
+  const projectionPublisher = createProjectionPublisher({
+    getState: () => projectionState, broadcastState, broadcastOverlay,
+    onPublish: repeat => projectionTimeout.observe(repeat)
+  });
   function broadcastState() {
     workspace?.adoptProjection();
     projectionState.revision++;
@@ -112,6 +128,7 @@ function createApplication(options = {}) {
     listsService?.syncPlayback();
     stateStream.broadcast();
     projectionPublisher.observe();
+    projectionTimeout.observe();
   }
 
   function broadcastOverlay(payload, updateObs = true) {
@@ -168,12 +185,14 @@ function createApplication(options = {}) {
     ws.isAlive = true;
     ws.on('pong', () => { ws.isAlive = true; });
     ws.on('error', () => ws.terminate());
-    ws.outputOnly = new URL(req.url, 'http://localhost').searchParams.get('view') === 'output';
+    ws.outputOnly = isOutput(req);
+    ws.canControl = () => mobile.authorized(req);
     // Enviar estado actual de inmediato al conectar
     updateDisplayPayload();
     stateStream.initial(ws);
 
     ws.on('message', (message) => {
+      if (!ws.canControl()) { ws.close(1008, 'Dispositivo sin acceso a la cabina'); return; }
       if (Date.now() - windowStart > 1000) { windowStart = Date.now(); count = 0; }
       if (++count > 40) { ws.close(1008, 'Demasiadas acciones'); return; }
       try {
@@ -187,6 +206,7 @@ function createApplication(options = {}) {
 
   const heartbeat = setInterval(() => {
     for (const ws of wss.clients) {
+      if (!ws.outputOnly && !ws.canControl()) { ws.close(1008, 'Sesión vencida'); continue; }
       if (ws.isAlive === false) { ws.terminate(); continue; }
       ws.isAlive = false; ws.ping();
     }
@@ -304,6 +324,7 @@ function createApplication(options = {}) {
   }
 
   async function close() {
+    projectionTimeout.cancel();
     clearInterval(heartbeat);
     listsService.close();
     catalogs.close();

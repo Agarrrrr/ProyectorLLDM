@@ -1,0 +1,10 @@
+:root { color-scheme: dark; background: #101d31; color: #f1f4fa; font: 16px/1.6 system-ui, sans-serif; }
+body { margin: 0; padding: 2rem 1.25rem; }
+main { max-width: 30rem; margin: 8vh auto 0; }
+h1 { line-height: 1.1; }
+button { border: 0; border-radius: .5rem; padding: .75rem 1rem; background: #e8c680; color: #152035; font: inherit; font-weight: 700; cursor: pointer; }
+button:focus-visible { outline: 2px solid #a2d1ff; outline-offset: 4px; }
+button:disabled { opacity: .6; }
+form:not([hidden]) { display: grid; gap: .75rem; margin-top: 1.25rem; }
+input { min-width: 0; border: 1px solid #758aa5; border-radius: .5rem; padding: .75rem; font: inherit; }
+input:focus-visible { outline: 2px solid #a2d1ff; outline-offset: 3px; }
