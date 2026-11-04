@@ -12,6 +12,7 @@ lista-oraciones/node_modules/
 
 # Solo data/factory se distribuye como catálogo de fábrica.
 data/*.json
+data/biblia/
 data/song-assets/
 public/uploads/
 data/*.tmp

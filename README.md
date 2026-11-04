@@ -61,7 +61,7 @@ Conecta tu celular o tablet a la misma red WiFi del templo. Al iniciar el progra
 
 * **Himnario Oficial:** Búsqueda ultrarrápida por número o por fragmentos de letra. Separación automática en estrofas y coro, portadas con título y navegación intuitiva.
 * **Catálogo del Coro:** Repertorio completo y limpio de fábrica, con métrica poética restaurada, división clara de partes y libre de marcaciones de partituras.
-* **Temas y Citas Bíblicas:** Prepara el tema del servicio y tus citas bíblicas. Con un solo clic puedes proyectar la cita completa en las TV y disparar un tercio inferior (lower third) elegante en la transmisión de OBS.
+* **Temas y citas bíblicas.** Prepara el tema del servicio y elige **Solo Cita** o **Cita + Texto** para TV. El texto se pagina con los tamaños y el límite de renglones del Himnario. Se incluyen ocho traducciones de uso local, con Reina Valera 1960 como selección inicial. La referencia también puede aparecer como banner de OBS. [Uso de citas bíblicas](docs/GUIA_DE_USUARIO.md#13-proyectar-temas-citas-y-referencias-especiales)
 * **Lista de Oraciones y Actividades Semanales:**
   * Editor completo de semana: oraciones, avisos especiales, flores y grupos de ventas.
   * Carrusel rotativo para TV con tiempos configurables.

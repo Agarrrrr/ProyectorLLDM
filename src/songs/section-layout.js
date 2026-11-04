@@ -4,7 +4,7 @@ const paginationCache = createBoundedCache({ maxEntries: 512, maxBytes: 4 * 1024
 const WIDTH = 1740, HEIGHT = 980, MIN_FONT = 156, MAX_FONT = 207, GAP = 3, MAX_ROWS = 6;
 
 function measure(lines, fontSize, options = {}) {
-  const rows = lines.flatMap(line => wrapLyricLine(line, WIDTH, fontSize, false, options.fontFile));
+  const rows = lines.flatMap(line => wrapLyricLine(line, options.width || WIDTH, fontSize, false, options.fontFile));
   const visualLineCount = rows.length;
   const maxLineWidth = Math.max(0, ...rows.map(row => width(row, fontSize, options.fontFile)));
   return { fontSize, visualLineCount, maxLineWidth, height: visualLineCount * fontSize * 1.01 + Math.max(0, visualLineCount - 1) * GAP + fontSize * 0.11 };
@@ -15,7 +15,7 @@ function fit(lines, options = {}) {
   for (let step = 0; step <= Math.ceil((maxFont - minFont) / 3); step++) {
     const size = Math.max(minFont, maxFont - step * 3);
     const layout = measure(lines, size, options);
-    if (layout.height <= HEIGHT && layout.visualLineCount <= (options.maxLines || MAX_ROWS) && layout.maxLineWidth <= WIDTH) return layout;
+    if (layout.height <= (options.height || HEIGHT) && layout.visualLineCount <= (options.maxLines || MAX_ROWS) && layout.maxLineWidth <= (options.width || WIDTH)) return layout;
   }
   return null;
 }
@@ -72,7 +72,7 @@ function paginateUncached(rawLines, options = {}) {
       const minimumLayout = measure([fragment], minimumFont, options);
       const rows = minimumLayout.visualLineCount;
       if (rows > maxRows) break;
-      if (minimumLayout.maxLineWidth > WIDTH || minimumLayout.height > HEIGHT) continue;
+      if (minimumLayout.maxLineWidth > (options.width || WIDTH) || minimumLayout.height > (options.height || HEIGHT)) continue;
       if (j < words.length && ranges.some(([a, b]) => end > a && end < b)) continue;
       const tail = dp[j];
       if (!tail) continue;
@@ -94,7 +94,7 @@ function paginateUncached(rawLines, options = {}) {
 }
 function paginateSection(rawLines, options = {}) {
   const text = (rawLines || []).map(line => String(line).trim()).filter(Boolean).join(' ');
-  const key = JSON.stringify([text, options.fontFile || '', options.fontSize || MAX_FONT, options.minFontSize || MIN_FONT, options.maxLines || MAX_ROWS]);
+  const key = JSON.stringify([text, options.fontFile || '', options.fontSize || MAX_FONT, options.minFontSize || MIN_FONT, options.maxLines || MAX_ROWS, options.width || WIDTH, options.height || HEIGHT]);
   const cached = paginationCache.get(key);
   if (cached) return structuredClone(cached);
   const result = paginateUncached([text], options);
@@ -102,6 +102,10 @@ function paginateSection(rawLines, options = {}) {
   return result;
 }
 function withDisplayLines(slide, options = {}) {
-  return { ...slide, displayLines: slide.lines.flatMap(line => wrapLyricLine(line, WIDTH, slide.fontSize, true, options.fontFile)) };
+  return { ...slide, displayLines: slide.lines.flatMap(line => wrapLyricLine(line, options.width || WIDTH, slide.fontSize, true, options.fontFile)) };
 }
-module.exports = { paginateSection, repetitionRanges, measure, MIN_FONT, MAX_FONT, HEIGHT, MAX_ROWS };
+function fitSection(text, options = {}) {
+  const layout = fit([text], options);
+  return layout && withDisplayLines({ lines: [text], ...layout }, options);
+}
+module.exports = { paginateSection, fitSection, repetitionRanges, measure, MIN_FONT, MAX_FONT, HEIGHT, MAX_ROWS };

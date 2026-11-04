@@ -1,0 +1,50 @@
+[
+  {
+    "id": "RVR1960",
+    "name": "Reina Valera 1960",
+    "isDefault": true,
+    "description": "Versión tradicional de mayor uso en iglesias de habla hispana"
+  },
+  {
+    "id": "NVI",
+    "name": "Nueva Versión Internacional",
+    "isDefault": false,
+    "description": "Traducción contemporánea y fluida"
+  },
+  {
+    "id": "DHH",
+    "name": "Dios Habla Hoy",
+    "isDefault": false,
+    "description": "Lenguaje popular y claro"
+  },
+  {
+    "id": "TLA",
+    "name": "Traducción en Lenguaje Actual",
+    "isDefault": false,
+    "description": "Lenguaje sencillo y directo"
+  },
+  {
+    "id": "NTV",
+    "name": "Nueva Traducción Viviente",
+    "isDefault": false,
+    "description": "Estilo moderno y comprensible"
+  },
+  {
+    "id": "LBLA",
+    "name": "La Biblia de las Américas",
+    "isDefault": false,
+    "description": "Traducción formal y precisa"
+  },
+  {
+    "id": "RVA2015",
+    "name": "Reina Valera Actualizada 2015",
+    "isDefault": false,
+    "description": "Actualización moderna del texto Reina Valera"
+  },
+  {
+    "id": "NBLA",
+    "name": "Nueva Biblia de las Américas",
+    "isDefault": false,
+    "description": "Español contemporáneo de América Latina"
+  }
+]

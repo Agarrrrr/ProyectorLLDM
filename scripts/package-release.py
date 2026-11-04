@@ -19,7 +19,7 @@ files = {
     'lista-oraciones/README.md',
     'data/factory/himnario_lldm.json', 'data/factory/coro_lldm.json',
 }
-for folder in ['src', 'public', 'lista-oraciones/dist', 'docs/capturas', 'docs/animaciones']:
+for folder in ['src', 'public', 'lista-oraciones/dist', 'docs/capturas', 'docs/animaciones', 'data/factory/biblia']:
     for file in (ROOT / folder).rglob('*'):
         if file.is_file():
             relative = file.relative_to(ROOT).as_posix()

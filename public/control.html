@@ -242,6 +242,24 @@
             <span>Cita bíblica</span>
           </h2>
 
+          <!-- OPCIONES DE BIBLIA: VERSIÓN Y MODO DE SALIDA A TV -->
+          <div class="bible-options-toolbar" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding: 10px 14px; background: rgba(17, 31, 64, 0.4); border: 1px solid var(--border-soft); border-radius: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <label for="bibleVersionSelect" style="font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase;">Versión:</label>
+              <select id="bibleVersionSelect" class="search-input" style="padding: 6px 10px; font-size: 13px; font-weight: 600; min-height: 34px; width: auto; max-width: 260px; background: #0c1830; color: #fff; border: 1px solid var(--gold-border, rgba(204,153,0,0.5)); border-radius: 6px; cursor: pointer;">
+                <option value="RVR1960" selected>Reina Valera 1960 (RVR1960)</option>
+              </select>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase;">Modo en TV:</span>
+              <div class="bible-mode-group" style="display: inline-flex; background: rgba(10, 20, 42, 0.8); border: 1px solid var(--border-soft); border-radius: 6px; padding: 2px;">
+                <button type="button" id="btnBibleModeCitation" class="btn-mode-toggle active" data-mode="citation" style="padding: 6px 12px; font-size: 12px; font-weight: 700; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s; background: var(--gold-primary, #cc9900); color: #000;">Solo Cita</button>
+                <button type="button" id="btnBibleModeText" class="btn-mode-toggle" data-mode="text" style="padding: 6px 12px; font-size: 12px; font-weight: 700; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s; background: transparent; color: #cbd5e1;">Cita + Texto</button>
+              </div>
+            </div>
+          </div>
+
           <div class="search-inputs" id="bibleSearchInputs">
             <div class="input-wrapper-relative">
               <input type="text" id="searchBook" class="search-input" placeholder="Escribe un libro (ej: Juan, Salmos)..." autocomplete="off">
@@ -265,6 +283,15 @@
               <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
               <span>Limpiar</span>
             </button>
+          </div>
+
+          <!-- DIAPOSITIVAS BÍBLICAS ACTIVAS (EN MODO CITA + TEXTO) -->
+          <div id="bibleSlidesSection" style="display: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span id="bibleSlidesHeaderTitle" style="font-size: 12px; font-weight: 700; color: var(--gold-light); text-transform: uppercase;">Diapositivas en Pantalla</span>
+              <span id="bibleSlidesCounter" style="font-size: 11px; font-weight: 700; color: #94a3b8;"></span>
+            </div>
+            <div id="bibleSlidesGrid" class="slides-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px;"></div>
           </div>
         </section>
 

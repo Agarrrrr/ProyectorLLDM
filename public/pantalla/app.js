@@ -113,8 +113,32 @@ const stageIdle = document.getElementById('stage-idle');
         `;
       }
 
-      // 3. SANTA BIBLIA - ÚNICAMENTE CITA (FORMATO ORIGINAL DE MAIN.HTML: LIBRO ARRIBA GRANDE, NÚMERO ABAJO GRANDE)
+      // 3. SANTA BIBLIA - SOLO CITA O CITA + TEXTO
       if (payload.type === 'bible') {
+        if (payload.mode === 'text') {
+          const title = payload.title || payload.reference || 'SANTA BIBLIA';
+          const version = payload.version && payload.version !== 'RVR1960'
+            ? `<span class="bible-version-badge">${escapeHtml(payload.version)}</span>` : '';
+          const formattedLines = payload.displayLines?.map(line =>
+            `<div class="bible-text-line">${escapeHtml(line).replace(/\[(\d+)\]/g, '<span class="bible-verse-num">$1</span>')}</div>`
+          );
+          const bodyHtml = formattedLines?.length ? formattedLines.join('') : payload.verses?.length ? payload.verses.map(verse =>
+            `<span class="bible-verse-num">${escapeHtml(String(verse.number))}${verse.part > 1 ? 'b' : ''}</span> ${escapeHtml(verse.text)}`
+          ).join(' ') : escapeHtml(payload.text || '');
+
+          return `
+            <div class="bible-text-display-container">
+              <div class="bible-text-header">
+                <div class="bible-citation-title">${escapeHtml(title)}</div>
+                ${version}
+              </div>
+              <div class="bible-text-body${formattedLines?.length ? ' bible-text-measured' : ''}"${payload.fontSize ? ` style="font-size:${outputLength(payload.fontSize)}"` : ''}>
+                ${bodyHtml}
+              </div>
+            </div>
+          `;
+        }
+
         let bookName = payload.book || '';
         let numText = payload.chapterVerse || payload.text || '';
 
@@ -329,6 +353,19 @@ const stageIdle = document.getElementById('stage-idle');
           }
         }
       }
+
+      // 5. Cita y Texto Bíblico
+      const bibleTextContainer = container.querySelector('.bible-text-display-container');
+      if (bibleTextContainer) {
+        const bodyEl = bibleTextContainer.querySelector('.bible-text-body');
+        if (bodyEl && !bodyEl.classList.contains('bible-text-measured')) {
+          let currentSize = (parseFloat(window.getComputedStyle(bodyEl).fontSize) / window.OutputViewport.scale()) || 64;
+          while ((bibleTextContainer.scrollHeight > maxH || bodyEl.scrollWidth > maxW) && currentSize > 28) {
+            currentSize -= 2;
+            bodyEl.style.fontSize = outputLength(currentSize);
+          }
+        }
+      }
     }
 
     let pendingList = null;
@@ -383,7 +420,7 @@ const stageIdle = document.getElementById('stage-idle');
       void targetLayer.offsetHeight;
       await document.fonts.ready;
       if (revision !== incomingRevision) return false;
-      if (payload.type === 'bible') autoScaleBibleSoloCita(targetLayer);
+      if (payload.type === 'bible' && payload.mode !== 'text') autoScaleBibleSoloCita(targetLayer);
       autoFitSlideContent(targetLayer);
       void targetLayer.offsetHeight; targetLayer.style.transition = '';
       // Only reveal the stage after its incoming layer has been replaced and fitted.

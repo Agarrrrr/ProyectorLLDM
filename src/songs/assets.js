@@ -43,7 +43,7 @@ function createSongAssets({ app, dataDir }) {
     const asset = imported.find(value => value.filename === req.params.filename);
     if (!asset) return res.sendStatus(404);
     res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.sendFile(path.join(directory, asset.filename));
+    res.sendFile(asset.filename, { root: directory });
   });
   const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 8 * 1024 * 1024, files: 1 } }).single('file');
   app.post('/api/song-assets/:kind', (req, res, next) => upload(req, res, error => {

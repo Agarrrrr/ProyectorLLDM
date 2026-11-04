@@ -5,6 +5,7 @@ import { isSameItem } from './html.js';
 import { request } from './api.js';
 import { updateLiveMonitor } from './monitor.js';
 import { updateCarteleriaUi } from './carteleria.js';
+import { syncBibleSlides } from './bible.js';
 
 let globalState = null;
 
@@ -17,22 +18,23 @@ function updateUiState(state) {
   globalState = state;
   updateLiveMonitor(state);
   updateCarteleriaUi(state);
+  syncBibleSlides(state);
   const active = state.phase === 'active';
   statusBadge.className = `status-badge status-${active ? 'active' : 'idle'}`;
   statusText.textContent = active ? 'EN PROYECCIÓN' : 'REPOSO';
   monitorStatusBadge.className = statusBadge.className;
   monitorStatusText.textContent = active ? 'EN VIVO' : 'REPOSO';
 
-  const grids = { hymn: 'hymnSlidesGrid', choir: 'choirSlidesGrid', presentation: 'presentationSlidesGrid' };
+  const grids = { hymn: 'hymnSlidesGrid', choir: 'choirSlidesGrid', presentation: 'presentationSlidesGrid', bible: 'bibleSlidesGrid' };
   for (const [type, id] of Object.entries(grids)) {
-    const matches = state.phase === 'active' && state.contentType === type && isSameItem(getSelection(type), state.activeItem);
+    const matches = state.phase === 'active' && state.contentType === type && (type === 'bible' || isSameItem(getSelection(type), state.activeItem));
     document.getElementById(id)?.querySelectorAll('.slide-card').forEach((card, index) => {
       const current = matches && state.currentSlideIndex === index;
       card.classList.toggle('active-slide', current);
       if (current) card.setAttribute('aria-current', 'step');
       else card.removeAttribute('aria-current');
     });
-    if (type !== 'presentation') updateSongProgress(document.getElementById(id), state, matches);
+    if (type !== 'presentation' && type !== 'bible') updateSongProgress(document.getElementById(id), state, matches);
     revealCurrentCard(document.getElementById(id), matches, state.currentSlideIndex);
   }
 

@@ -88,7 +88,12 @@ function createProjection({ localIp: LOCAL_IP, port: PORT }) {
         imageUrl: current.imageUrl || '',
         thumbUrl: current.thumbUrl || '',
         presentationId: current.presentationId || '',
-        presentationTitle: current.presentationTitle || ''
+        presentationTitle: current.presentationTitle || '',
+        ...(current.type === 'bible' && {
+          mode: current.mode || 'citation',
+          version: current.version || '',
+          verses: current.verses || []
+        })
       };
     }
   }

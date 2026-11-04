@@ -2,9 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { prepareDatabase, searchSongs } = require('../songs/search');
 const { CANONICAL_BOOKS, createBibleCitationSlide } = require('../bible/citations');
+const { createBibleService } = require('../bible/service');
 const { normalizeChoirSection } = require('../songs/sections');
 
-function installCatalogRoutes({ app, catalogs, projectionState, broadcastState, publishProjection, songCompiler }) {
+function installCatalogRoutes({ app, catalogs, projectionState, broadcastState, publishProjection, songCompiler, bibleService, dataDir }) {
+  const bible = bibleService || createBibleService({ dataDir });
   const { compileHymnSlides, compileChoirSlides } = songCompiler;
   app.param('catalog', (req, res, next, value) => {
     if (!['himnos', 'himnario', 'coro', 'choir'].includes(value)) return res.status(400).json({ error: 'Catálogo no reconocido.' });
@@ -56,31 +58,69 @@ function installCatalogRoutes({ app, catalogs, projectionState, broadcastState, 
     res.json({ success: true, state: projectionState });
   });
 
-  // API Biblia: Lista de libros
-  app.get('/api/biblia/books', (req, res) => {
-    res.json(CANONICAL_BOOKS);
+  // API Biblia: Versiones disponibles
+  app.get('/api/biblia/versions', (req, res) => {
+    res.json(bible.getManifest());
   });
 
-  // Proyectar Cita Bíblica (Únicamente Cita: Libro y Capítulo:Versículo)
+  // API Biblia: Límites de capítulos y versículos por versión
+  app.get('/api/biblia/limits', (req, res) => {
+    const version = req.query.version || 'RVR1960';
+    try {
+      const limits = bible.getLimits(version);
+      const meta = bible.findVersionMeta(version);
+      res.json({ version: meta.id, name: meta.name, limits });
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // API Biblia: Lista de libros
+  app.get('/api/biblia/books', (req, res) => {
+    const version = req.query.version || 'RVR1960';
+    try {
+      const vData = bible.getVersion(version);
+      res.json(Object.keys(vData.books || {}));
+    } catch (_) {
+      res.json(CANONICAL_BOOKS);
+    }
+  });
+
+  // Proyectar Cita Bíblica (Modo Solo Cita o Cita + Texto Bíblico)
   app.post('/api/project/bible', (req, res) => {
-    const { book, chapter, verse } = req.body;
+    const { book, chapter, verse, mode = 'citation', version = 'RVR1960', startIndex = 0, announce = true } = req.body || {};
     if (!book) {
       return res.status(400).json({ error: 'Libro requerido para proyectar cita bíblica' });
     }
 
-    const slide = createBibleCitationSlide(book, chapter, verse);
-    if (!slide) {
-      return res.status(400).json({ error: 'Cita inválida' });
+    try {
+      const { fontSize, minFontSize, maxLines } = projectionState.settings.lyrics.hymn;
+      const slides = bible.createBibleSlides({ book, chapter, verse, mode, versionId: version, profile: { fontSize, minFontSize, maxLines } });
+      if (!slides || slides.length === 0) {
+        return res.status(400).json({ error: 'Cita inválida' });
+      }
+
+      projectionState.phase = 'active';
+      projectionState.contentType = 'bible';
+      projectionState.isLooping = false;
+      projectionState.activeItem = {
+        book: slides[0].book,
+        chapter: slides[0].chapter,
+        verse: String(verse ?? '').trim(),
+        mode: slides[0].mode,
+        version: slides[0].version
+      };
+      projectionState.slides = slides;
+      const chosenIndex = typeof startIndex === 'number'
+        ? Math.max(0, Math.min(Math.trunc(startIndex) || 0, slides.length - 1))
+        : 0;
+      projectionState.currentSlideIndex = chosenIndex;
+
+      publishProjection({ repeat: announce !== false });
+      res.json({ success: true, state: projectionState });
+    } catch (err) {
+      return res.status(400).json({ error: err.message || 'Error al proyectar cita bíblica' });
     }
-
-    projectionState.phase = 'active';
-    projectionState.contentType = 'bible';
-    projectionState.activeItem = { book: slide.book, chapter: slide.chapter, verse: slide.verse };
-    projectionState.slides = [slide];
-    projectionState.currentSlideIndex = 0;
-
-    publishProjection({ repeat: true });
-    res.json({ success: true, state: projectionState });
   });
 
   // Recargar base de datos del coro manualmente

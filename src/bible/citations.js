@@ -32,6 +32,7 @@ function createBibleCitationSlide(rawBook, chapter, verse) {
 
   return {
     type: 'bible',
+    mode: 'citation',
     isTitleOnly: true,
     book: book,
     chapter: chapStr,
@@ -44,9 +45,9 @@ function createBibleCitationSlide(rawBook, chapter, verse) {
     subtitle: '',
     lines: [],
     text: cvText,
-    slideNum: 1
+    slideNum: 1,
+    totalSlides: 1
   };
 }
 
-
-module.exports = { CANONICAL_BOOKS, createBibleCitationSlide };
+module.exports = { CANONICAL_BOOKS, createBibleCitationSlide, findCanonicalBook };

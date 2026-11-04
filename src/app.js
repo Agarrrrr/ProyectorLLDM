@@ -26,6 +26,7 @@ const fs = require('fs');
 const os = require('os');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
+const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 
 function createApplication(options = {}) {
   const app = express();
@@ -65,7 +66,7 @@ function createApplication(options = {}) {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     next();
   });
-  app.use(express.static(path.join(ROOT_DIR, 'public'), { redirect: false }));
+  app.use(express.static(PUBLIC_DIR, { redirect: false }));
 
   // Integración con LLDM Cartelería digital
   const CARTELERIA_DIST = path.resolve(options.carteleriaDir || process.env.CARTELERIA_DIR || path.join(ROOT_DIR, 'lista-oraciones', 'dist'));
@@ -74,7 +75,7 @@ function createApplication(options = {}) {
     app.use('/carteleria/assets', express.static(path.join(CARTELERIA_DIST, 'assets'), { maxAge: '1y', immutable: true, fallthrough: false }));
     app.use('/carteleria', express.static(CARTELERIA_DIST));
     app.get(/^\/carteleria/, (req, res) => {
-      res.sendFile(path.join(CARTELERIA_DIST, 'index.html'));
+      res.sendFile('index.html', { root: CARTELERIA_DIST });
     });
   }
 
@@ -198,7 +199,7 @@ function createApplication(options = {}) {
   if (['hymn', 'choir'].includes(projectionState.contentType) && projectionState.activeItem) songCompiler.refresh(projectionState)();
 
   // 5. MOTOR DE BÚSQUEDA LAZY Y NORMALIZADO (TOLERANTE A TILDES, PUNTUACIÓN Y ORDEN - ALTO RENDIMIENTO)
-  installCatalogRoutes({ app, catalogs, projectionState, broadcastState, publishProjection: projectionPublisher.publish, songCompiler });
+  installCatalogRoutes({ app, catalogs, projectionState, broadcastState, publishProjection: projectionPublisher.publish, songCompiler, dataDir: DATA_DIR });
   installSongManagement({ app, catalogs, projectionState, broadcastState, songCompiler });
 
   installContentRoutes({ app, projectionState, publishProjection: projectionPublisher.publish, settings: settingsService });
@@ -246,15 +247,15 @@ function createApplication(options = {}) {
 
   // Rutas de Vistas
   app.get('/pantalla', (req, res) => {
-    res.sendFile(path.join(ROOT_DIR, 'public', 'pantalla.html'));
+    res.sendFile('pantalla.html', { root: PUBLIC_DIR });
   });
 
   app.get('/overlay', (req, res) => {
-    res.sendFile(path.join(ROOT_DIR, 'public', 'overlay.html'));
+    res.sendFile('overlay.html', { root: PUBLIC_DIR });
   });
 
   app.get('/control', (req, res) => {
-    res.sendFile(path.join(ROOT_DIR, 'public', 'control.html'));
+    res.sendFile('control.html', { root: PUBLIC_DIR });
   });
 
   app.get('/', (req, res) => {

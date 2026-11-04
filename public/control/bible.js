@@ -2,6 +2,7 @@ import { historyStorage } from './history-store.js';
 import { broadcastToOverlay } from './transmission.js';
 import { showToast } from './shell.js';
 import { request } from './api.js';
+import { escapeHtml } from './html.js';
 
 const books = [
   "Génesis", "Éxodo", "Levítico", "Números", "Deuteronomio",
@@ -288,6 +289,171 @@ document.addEventListener("click", (e) => {
 // ==============================================================
 // 6. ACCIONES DE GENERACIÓN DE CITAS BÍBLICAS (SOLO CITA PERMITIDA)
 // ==============================================================
+
+// GESTIÓN DE VERSIONES Y MODOS DE PROYECCIÓN BÍBLICA
+let currentBibleVersion = localStorage.getItem('proyector_bible_version') || 'RVR1960';
+let currentBibleMode = localStorage.getItem('proyector_bible_mode') || 'citation';
+let currentBibleLimits = typeof bibleLimits !== 'undefined' ? { ...bibleLimits } : {};
+let activeBibleSlides = [];
+let activeBibleCitation = '';
+
+const bibleVersionSelect = document.getElementById('bibleVersionSelect');
+const btnBibleModeCitation = document.getElementById('btnBibleModeCitation');
+const btnBibleModeText = document.getElementById('btnBibleModeText');
+const bibleSlidesSection = document.getElementById('bibleSlidesSection');
+const bibleSlidesGrid = document.getElementById('bibleSlidesGrid');
+const bibleSlidesCounter = document.getElementById('bibleSlidesCounter');
+
+function updateBibleModeUi() {
+  if (btnBibleModeCitation && btnBibleModeText) {
+    if (currentBibleMode === 'citation') {
+      btnBibleModeCitation.classList.add('active');
+      btnBibleModeCitation.style.background = 'var(--gold-primary, #cc9900)';
+      btnBibleModeCitation.style.color = '#000';
+      btnBibleModeText.classList.remove('active');
+      btnBibleModeText.style.background = 'transparent';
+      btnBibleModeText.style.color = '#cbd5e1';
+      const genBtn = document.getElementById('generateButton');
+      if (genBtn) genBtn.querySelector('span').textContent = 'Enviar cita a TV';
+    } else {
+      btnBibleModeText.classList.add('active');
+      btnBibleModeText.style.background = 'var(--gold-primary, #cc9900)';
+      btnBibleModeText.style.color = '#000';
+      btnBibleModeCitation.classList.remove('active');
+      btnBibleModeCitation.style.background = 'transparent';
+      btnBibleModeCitation.style.color = '#cbd5e1';
+      const genBtn = document.getElementById('generateButton');
+      if (genBtn) genBtn.querySelector('span').textContent = 'Enviar cita y texto a TV';
+    }
+  }
+}
+
+if (btnBibleModeCitation) {
+  btnBibleModeCitation.addEventListener('click', () => {
+    currentBibleMode = 'citation';
+    localStorage.setItem('proyector_bible_mode', currentBibleMode);
+    updateBibleModeUi();
+    if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
+  });
+}
+
+if (btnBibleModeText) {
+  btnBibleModeText.addEventListener('click', () => {
+    currentBibleMode = 'text';
+    localStorage.setItem('proyector_bible_mode', currentBibleMode);
+    updateBibleModeUi();
+    if (activeBibleSlides.length > 0 && bibleSlidesSection) {
+      bibleSlidesSection.style.display = 'block';
+    }
+  });
+}
+
+async function loadBibleVersions() {
+  try {
+    const res = await request('/api/biblia/versions');
+    if (!res.ok) return;
+    const versions = await res.json();
+    if (bibleVersionSelect && Array.isArray(versions)) {
+      bibleVersionSelect.innerHTML = '';
+      for (const v of versions) {
+        const opt = document.createElement('option');
+        opt.value = v.id;
+        opt.textContent = `${v.name} (${v.id})`;
+        if (v.id === currentBibleVersion) opt.selected = true;
+        bibleVersionSelect.appendChild(opt);
+      }
+    }
+    await loadBibleLimits(currentBibleVersion);
+  } catch (_) {
+    // Silently fallback to bundled RVR1960
+  }
+}
+
+async function loadBibleLimits(versionId) {
+  try {
+    const res = await request(`/api/biblia/limits?version=${encodeURIComponent(versionId)}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.limits) {
+        currentBibleLimits = data.limits;
+      }
+    }
+  } catch (_) {}
+}
+
+if (bibleVersionSelect) {
+  bibleVersionSelect.addEventListener('change', async () => {
+    currentBibleVersion = bibleVersionSelect.value;
+    localStorage.setItem('proyector_bible_version', currentBibleVersion);
+    await loadBibleLimits(currentBibleVersion);
+    showToast(`Versión de la Biblia seleccionada: ${currentBibleVersion}`);
+  });
+}
+
+function renderBibleSlides(slides, citation, currentIndex) {
+  if (!bibleSlidesGrid || !bibleSlidesSection) return;
+  activeBibleSlides = slides || [];
+  bibleSlidesGrid.innerHTML = '';
+
+  if (activeBibleSlides.length === 0) {
+    bibleSlidesSection.style.display = 'none';
+    return;
+  }
+
+  const frag = document.createDocumentFragment();
+  activeBibleSlides.forEach((s, idx) => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'slide-card verse-slide-card';
+    card.dataset.index = String(idx);
+    card.classList.toggle('active-slide', idx === currentIndex);
+    if (idx === currentIndex) card.setAttribute('aria-current', 'step');
+    card.setAttribute('aria-label', `${s.reference}, diapositiva ${idx + 1} de ${activeBibleSlides.length}`);
+
+    card.innerHTML = `
+      <div class="slide-card-header">
+        <strong>${escapeHtml(s.reference || s.title || 'Biblia')}</strong>
+        <span class="slide-idx-pill">#${idx + 1} de ${activeBibleSlides.length}</span>
+      </div>
+      <div class="slide-card-lines" style="font-size: 13px; line-height: 1.4; color: #fff;">
+        ${escapeHtml(s.text || '')}
+      </div>
+    `;
+
+    card.addEventListener('click', async () => {
+      try {
+        await request('/api/project/bible', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...citation, startIndex: idx, announce: false })
+        });
+      } catch (error) { showToast(error.message); }
+    });
+
+    frag.appendChild(card);
+  });
+
+  bibleSlidesGrid.appendChild(frag);
+  bibleSlidesSection.style.display = 'block';
+  if (bibleSlidesCounter) {
+    bibleSlidesCounter.textContent = `${activeBibleSlides.length} diapositiva${activeBibleSlides.length > 1 ? 's' : ''}`;
+  }
+}
+
+export function syncBibleSlides(state) {
+  if (state.contentType !== 'bible') return;
+  const citation = state.activeItem;
+  if (citation?.mode !== 'text') {
+    if (activeBibleSlides.length) renderBibleSlides([], citation, -1);
+    activeBibleCitation = '';
+    return;
+  }
+  const signature = JSON.stringify(citation);
+  if (signature === activeBibleCitation) return;
+  activeBibleCitation = signature;
+  renderBibleSlides(state.slides, citation, state.phase === 'active' ? state.currentSlideIndex : -1);
+}
+
 function findCanonicalBookLocal(input) {
   if (!input) return "";
   const norm = input.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
@@ -317,6 +483,7 @@ async function proyectarBiblia() {
       body: JSON.stringify({ type: canonical, date: chapter, location: verse })
     });
     showToast(`Proyectando en Pantalla: ${canonical}`);
+    if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
     return;
   }
 
@@ -328,20 +495,22 @@ async function proyectarBiblia() {
     await request('/api/project/bible', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ book, chapter: "", verse: "" })
+      body: JSON.stringify({ book, chapter: "", verse: "", mode: 'citation', version: currentBibleVersion })
     });
     showToast(`Cita en Pantalla: ${book}`);
+    if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
     return;
   }
 
-  // Validar existencia de libro y límites de capítulos y versículos (bibleLimits de bibleData.js)
-  if (typeof bibleLimits !== 'undefined') {
-    if (!bibleLimits[book]) {
-      showToast("El libro introducido no se encuentra en la Biblia.");
+  // Validar existencia de libro y límites de capítulos y versículos dinámicos
+  const limits = Object.keys(currentBibleLimits).length > 0 ? currentBibleLimits : (typeof bibleLimits !== 'undefined' ? bibleLimits : null);
+  if (limits) {
+    const bookLimits = limits[book] || limits[rawBook];
+    if (!bookLimits) {
+      showToast("El libro introducido no se encuentra en la versión seleccionada.");
       return;
     }
 
-    const bookLimits = bibleLimits[book];
     if (!chapter) {
       showToast(`Introduce el capítulo de ${book}.`);
       return;
@@ -387,7 +556,8 @@ async function proyectarBiblia() {
     return;
   }
 
-  const obsString = `${book} ${chapter}${verse ? ':' + verse : ''}`;
+  const cvText = verse ? `${chapter}:${verse}` : chapter;
+  const obsString = `${book} ${cvText}`;
   addSearchToHistory(obsString);
 
   try {
@@ -397,17 +567,27 @@ async function proyectarBiblia() {
       body: JSON.stringify({
         book,
         chapter,
-        verse
+        verse,
+        mode: currentBibleMode,
+        version: currentBibleVersion
       })
     });
 
     if (res.ok) {
-      showToast(`Cita en Pantalla: ${obsString}`);
+      const data = await res.json();
+      if (data.state?.activeItem?.mode === 'text') {
+        syncBibleSlides(data.state);
+        showToast(`Texto en Pantalla: ${obsString} (${data.state.activeItem.version})`);
+      } else {
+        if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
+        showToast(`Cita en Pantalla: ${obsString}`);
+      }
     } else {
-      showToast("Error al proyectar la cita bíblica.");
+      const err = await res.json().catch(() => ({}));
+      showToast(err.error || "Error al proyectar la cita bíblica.");
     }
   } catch (err) {
-    showToast("Error de conexión al proyectar cita");
+    showToast(err.message);
   }
 }
 
@@ -566,3 +746,6 @@ document.addEventListener('focusin', event => {
 });
 
 window.addEventListener('shared-histories-changed', () => { loadHistory(); loadThemeHistory(); });
+
+loadBibleVersions();
+updateBibleModeUi();

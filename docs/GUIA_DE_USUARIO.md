@@ -848,12 +848,22 @@ Para mostrarlo en transmisión utiliza **Banner en OBS** en la sección del tema
 1. En la misma pestaña localiza los campos **Libro**, **Capítulo** y **Versículo**.
 2. Escribe el nombre del libro y selecciona la sugerencia correcta.
 3. Escribe el capítulo.
-4. Escribe el versículo o rango.
-5. Pulsa **Enviar cita a TV**.
+4. Escribe el versículo o rango. Para proyectar el capítulo completo en modo texto, deja vacío el campo de versículo.
+5. En **Versión**, elige la traducción. La selección inicial es **Reina Valera 1960**.
+6. En **Modo en TV**, elige **Solo Cita** para mostrar la referencia o **Cita + Texto** para mostrar también el pasaje.
+7. Pulsa **Enviar cita a TV** o **Enviar cita y texto a TV**, según el modo elegido, y comprueba el resultado en el minivisor.
 
 Ejemplo de referencia: libro Juan, capítulo 3 y versículo 16. Para un rango puedes escribir un formato como `4-7` en el campo de versículo.
 
-La salida está orientada a mostrar la referencia bíblica. No debes interpretar que el programa incorpora y proyecta automáticamente el texto completo de todos los versículos de una traducción de la Biblia.
+Para practicar con varias diapositivas, usa **Juan 14:1–2**. Escribe `Juan` en Libro, `14` en Capítulo y `1-2` en Versículo. Selecciona **Cita + Texto**. Debajo de los campos aparecen las tarjetas del pasaje. Pulsa una tarjeta para saltar a ella o usa las teclas de avance y retroceso que tengas configuradas.
+
+![Selector de traducción y modo, campos de cita y tarjetas del pasaje.](capturas/44-cita-con-texto-cabina.png)
+
+En TV, la referencia aparece centrada sobre el texto. Los números de versículo se resaltan y la insignia identifica las traducciones distintas de Reina Valera 1960. **Cita + Texto** sigue los tamaños de letra y el límite de renglones del Himnario en **Ajustes → Letras**. Si hace falta espacio, el pasaje se reparte entre varias diapositivas.
+
+![Salida a TV con la referencia centrada y el número de versículo resaltado.](capturas/45-cita-con-texto-tv.png)
+
+Tras instalar el programa y sus dependencias, las traducciones incluidas funcionan sin internet. Si una cita se rechaza, revisa el libro, el capítulo y el rango de versículos para la traducción seleccionada.
 
 ### 13.3 Introducir la cita con Enter
 
