@@ -89,7 +89,7 @@ def inline(value):
             destination = anchor_map.get(html.unescape(target[1:]))
             return f'<link href="#{destination}" color="#244d85">{label}</link>' if destination else label
         if not target.startswith(('http:', 'https:')):
-            target = 'https://github.com/Agarrrrr/ProyectorLLDM' if 'README' in target else target
+            target = 'https://github.com/HuriTolentino/ProyectorLLDM' if 'README' in target else target
         return '<link href="' + target + '" color="#244d85">' + label + '</link>'
     value = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', link, value)
     value = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', value)

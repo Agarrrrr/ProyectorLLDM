@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const defaultRepository = 'Agarrrrr/ProyectorLLDM';
+const defaultRepository = 'HuriTolentino/ProyectorLLDM';
 
 function stableVersion(value) {
   const match = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(value);

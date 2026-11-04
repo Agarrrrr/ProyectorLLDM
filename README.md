@@ -16,7 +16,7 @@ Desarrollado con dedicación por **Huri Tolentino**.
 ### Paso 1: Descargar el programa
 Haz clic en el siguiente enlace y descarga el archivo **`.zip`** de la versión más reciente:
 
-**[Descargar Proyector LLDM (Última versión en ZIP)](https://github.com/Agarrrrr/ProyectorLLDM/releases/latest)**
+**[Descargar Proyector LLDM (Última versión en ZIP)](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest)**
 
 *(En la sección de archivos adjuntos al final de la página, haz clic en `Proyector-LLDM-X.X.X.zip`).*
 
@@ -109,7 +109,7 @@ El programa incluye documentación detallada ilustrada paso a paso:
 
 Cuando salga una nueva versión:
 1. En la cabina de tu versión actual, ve a **Ajustes → Avanzado → Opciones avanzadas → Respaldo de la instalación** y descarga tu copia de seguridad.
-2. Descarga el ZIP de la nueva versión desde [GitHub Releases](https://github.com/Agarrrrr/ProyectorLLDM/releases).
+2. Descarga el ZIP de la nueva versión desde [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases).
 3. Descomprímelo en una carpeta nueva.
 4. Para conservar tus datos, copia tu carpeta `data` anterior a la nueva carpeta (o usa el botón de restaurar respaldo en Ajustes).
 5. Abre **`Iniciar Proyector LLDM.bat`** y listo.

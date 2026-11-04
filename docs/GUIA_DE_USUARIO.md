@@ -155,7 +155,7 @@ La transmisión a una plataforma externa sí depende de su conexión a internet,
 
 ### 3.1 Descargar desde GitHub
 
-1. Abre [las versiones publicadas de Proyector LLDM](https://github.com/Agarrrrr/ProyectorLLDM/releases).
+1. Abre [las versiones publicadas de Proyector LLDM](https://github.com/HuriTolentino/ProyectorLLDM/releases).
 2. Elige la versión estable más reciente y descarga su paquete ZIP.
 3. Abre la carpeta **Descargas** de Windows cuando termine.
 
@@ -1856,7 +1856,7 @@ Una captura del error o de la ventana del programa puede ser útil. No compartas
 
 ### 20.24 No aparece una actualización
 
-Comprueba **Ajustes → Avanzado → Actualizaciones de GitHub**. Activa **Buscar versiones al iniciar el programa** y guarda la preferencia para el siguiente arranque. Si la consulta falla por falta de conexión, puedes seguir usando la versión instalada. También puedes consultar [las versiones publicadas](https://github.com/Agarrrrr/ProyectorLLDM/releases) desde el navegador.
+Comprueba **Ajustes → Avanzado → Actualizaciones de GitHub**. Activa **Buscar versiones al iniciar el programa** y guarda la preferencia para el siguiente arranque. Si la consulta falla por falta de conexión, puedes seguir usando la versión instalada. También puedes consultar [las versiones publicadas](https://github.com/HuriTolentino/ProyectorLLDM/releases) desde el navegador.
 
 <a id="21-rutinas-de-operacion"></a>
 
@@ -2002,7 +2002,7 @@ Si únicamente necesitas los gráficos de la fuente Navegador, comienza por comp
 
 ### 24.2 Fuentes de consulta
 
-- [Repositorio de Proyector LLDM](https://github.com/Agarrrrr/ProyectorLLDM).
+- [Repositorio de Proyector LLDM](https://github.com/HuriTolentino/ProyectorLLDM).
 - [README principal de esta instalación](../README.md).
 - [Descarga oficial de Node.js](https://nodejs.org/en/download).
 - [Fuente Navegador en OBS Studio](https://obsproject.com/kb/Browser-Source).

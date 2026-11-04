@@ -16,7 +16,7 @@ test('una instalación ZIP consulta una sola vez y ofrece la versión estable si
   } });
   const result = await service.checkAtStartup();
   assert.equal(result.available, true);
-  assert.equal(result.downloadUrl, 'https://github.com/Agarrrrr/ProyectorLLDM/releases/tag/v1.10.0');
+  assert.equal(result.downloadUrl, 'https://github.com/HuriTolentino/ProyectorLLDM/releases/tag/v1.10.0');
   assert.equal(result.patchNotes, 'Notas');
   assert.deepEqual(await service.checkAtStartup(), result);
   assert.equal(calls, 1);
