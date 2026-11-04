@@ -22,11 +22,29 @@ const fetchJson = async name => {
 };
 const fontReady = document.fonts.load('800 160px Montserrat');
 
+function sectionIndex(direction) {
+  const section = slide => slide?.sectionGroup || slide?.baseSectionLabel || slide?.sectionLabel;
+  const current = section(state.slides[state.currentSlideIndex]);
+  if (!current || state.phase !== 'active') return -1;
+  let index = state.currentSlideIndex + direction;
+  while (state.slides[index] && section(state.slides[index]) === current) index += direction;
+  if (!state.slides[index]) return -1;
+  if (direction < 0) {
+    const target = section(state.slides[index]);
+    while (index > 0 && section(state.slides[index - 1]) === target) index--;
+  }
+  return index;
+}
+
 function broadcast() {
   updateDisplayPayload();
   channel.postMessage({ type: 'display', payload: state.displayPayload });
   el('prev').disabled = state.phase !== 'active' || state.currentSlideIndex === 0;
   el('next').disabled = state.phase !== 'active' || state.currentSlideIndex >= state.slides.length - 1;
+  el('prev-section').disabled = sectionIndex(-1) < 0;
+  el('next-section').disabled = sectionIndex(1) < 0;
+  el('slide-position').textContent = state.phase === 'active'
+    ? `${state.currentSlideIndex + 1} de ${state.slides.length}` : '';
   for (const button of el('slides').children) {
     if (state.phase === 'active' && prepared === state.slides && +button.dataset.index === state.currentSlideIndex) button.setAttribute('aria-current', 'step');
     else button.removeAttribute('aria-current');
@@ -61,25 +79,51 @@ function showIdle() {
   state.phase = 'idle';
   broadcast();
 }
-function prepare(slides) {
+function prepare(slides, title = 'Diapositivas') {
   prepared = slides;
+  el('prepared').hidden = !slides.length;
+  el('prepared-title').textContent = title;
+  const song = ['hymn', 'choir'].includes(slides[0]?.type);
+  el('song-actions').hidden = !song;
+  el('send-lyrics').disabled = slides.length < 2;
   el('slides').replaceChildren(...slides.map((slide, index) => {
     const button = document.createElement('button');
     button.type = 'button';
+    button.className = 'slide-card';
     button.dataset.index = index;
     const label = slide.sectionLabel || slide.title || slide.badge;
-    const excerpt = slide.lines?.[0];
-    button.textContent = [label, excerpt && excerpt !== label ? excerpt.slice(0, 90) : ''].filter(Boolean).join(' · ');
+    const heading = document.createElement('strong');
+    heading.textContent = label;
+    const excerpt = document.createElement('span');
+    excerpt.textContent = slide.lines?.join('\n') || slide.verses?.map(verse => verse.text).join('\n') ||
+      (slide.isTitleOnly ? slide.hymnTitle || slide.choirTitle || slide.reference || '' : '');
+    button.append(heading, excerpt);
     button.addEventListener('click', () => show(slides, index));
     return button;
   }));
-  status(slides.length ? 'Selecciona una diapositiva para enviarla a TV.' : '');
+  status('');
 }
+el('send-title').onclick = () => show(prepared, 0);
+el('send-lyrics').onclick = () => show(prepared, 1);
 el('prev').onclick = () => show(state.slides, state.currentSlideIndex - 1);
 el('next').onclick = () => show(state.slides, state.currentSlideIndex + 1);
+el('prev-section').onclick = () => show(state.slides, sectionIndex(-1));
+el('next-section').onclick = () => show(state.slides, sectionIndex(1));
 el('idle').onclick = showIdle;
+el('toggle-monitor').onclick = () => {
+  const monitor = el('lite-monitor');
+  monitor.hidden = !monitor.hidden;
+  el('toggle-monitor').setAttribute('aria-expanded', String(!monitor.hidden));
+  el('toggle-monitor').textContent = monitor.hidden ? 'Mostrar visor' : 'Minimizar';
+};
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape') showIdle();
+  if (event.key === 'Escape') { showIdle(); return; }
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select, .tab-item, [contenteditable]')) return;
+  const control = { ArrowLeft: 'prev', ArrowRight: 'next', ArrowUp: 'prev-section', ArrowDown: 'next-section' }[event.key];
+  if (control && !el(control).disabled) {
+    event.preventDefault();
+    el(control).click();
+  }
 });
 window.addEventListener('pagehide', () => { if (ownsOutput()) showIdle(); });
 
@@ -100,7 +144,10 @@ async function search() {
       button.onclick = async () => {
         try {
           await fontReady;
-          if (el('kind').value === kind) prepare((kind === 'hymn' ? compileHymnSlides : compileChoirSlides)(song));
+          if (el('kind').value === kind && version === searchVersion) {
+            for (const result of results.children) result.setAttribute('aria-pressed', String(result === button));
+            prepare((kind === 'hymn' ? compileHymnSlides : compileChoirSlides)(song), song.title);
+          }
         } catch (error) { status(error.message); }
       };
       results.append(button);
@@ -111,6 +158,12 @@ async function search() {
 }
 el('kind').onchange = () => {
   const kind = el('kind').value;
+  const section = kind === 'theme' ? 'bible' : kind;
+  for (const button of document.querySelectorAll('[data-kind]')) {
+    button.setAttribute('aria-pressed', String(button.classList.contains('tab-item') ? button.dataset.kind === section : button.dataset.kind === kind));
+  }
+  el('prepare-title').textContent = document.querySelector(`.tab-item[data-kind="${section}"]`).textContent.trim();
+  el('reference-switch').hidden = section !== 'bible';
   searchVersion++;
   prepare([]);
   const songs = kind === 'hymn' || kind === 'choir';
@@ -118,6 +171,13 @@ el('kind').onchange = () => {
   for (const name of ['bible', 'theme', 'list']) el(name).hidden = name !== kind;
   if (songs) void search();
 };
+for (const button of document.querySelectorAll('[data-kind]')) {
+  button.onclick = () => {
+    if (button.getAttribute('aria-pressed') === 'true') return;
+    el('kind').value = button.dataset.kind;
+    el('kind').onchange();
+  };
+}
 el('search').oninput = search;
 for (const book of CANONICAL_BOOKS.filter(name => name !== 'Salmo')) el('book').add(new Option(book));
 let bible;

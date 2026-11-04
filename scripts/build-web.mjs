@@ -11,6 +11,7 @@ await mkdir(guide, { recursive: true });
 for (const [from, to] of [
   ['web/lite.html', 'index.html'],
   ['web/lite.css', 'lite.css'],
+  ['public/styles/operator-controls.css', 'styles/operator-controls.css'],
   ['public/favicon.svg', 'favicon.svg'],
   ['public/pantalla.html', 'pantalla.html'],
   ['public/pantalla', 'pantalla'],

@@ -6,28 +6,38 @@
   <title>Proyector LLDM Lite</title>
   <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/fonts/fonts.css">
+  <link rel="stylesheet" href="/styles/operator-controls.css">
   <link rel="stylesheet" href="/lite.css">
   <script src="/lite.js" defer></script>
 </head>
-<body>
+<body class="operator-ui">
   <header>
-    <h1><img src="/favicon.svg" alt="" width="32" height="32"> Proyector LLDM <span>Lite</span></h1>
+    <h1><img src="/logo_lldm_oficial.svg" alt="" width="46" height="40"> Cabina de Proyección <span>Lite</span></h1>
     <nav aria-label="Ayuda"><a href="/guia/">Guía</a><a href="https://github.com/HuriTolentino/ProyectorLLDM/releases/latest">Edición de escritorio</a></nav>
   </header>
+  <nav class="tabs-bar" aria-label="Secciones de la cabina">
+    <button class="tab-item" type="button" data-kind="hymn" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Himnario</button>
+    <button class="tab-item" type="button" data-kind="bible" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Temas y citas</button>
+    <button class="tab-item" type="button" data-kind="choir" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg>Coro</button>
+    <button class="tab-item" type="button" data-kind="list" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg>Lista de oraciones</button>
+  </nav>
   <main>
     <section class="work" aria-labelledby="prepare-title">
-      <h2 id="prepare-title">Preparar contenido</h2>
-      <label for="kind">Tipo de contenido</label>
-      <select id="kind">
+      <h2 id="prepare-title">Himnario</h2>
+      <select id="kind" aria-label="Tipo de contenido" hidden>
         <option value="hymn">Himnario</option>
         <option value="bible">Citas bíblicas</option>
         <option value="theme">Temas</option>
         <option value="choir">Coro</option>
         <option value="list">Listas y avisos</option>
       </select>
+      <div class="section-switch row" id="reference-switch" hidden aria-label="Tipo de referencia" role="group">
+        <button type="button" data-kind="bible" aria-pressed="true">Cita bíblica</button>
+        <button type="button" data-kind="theme" aria-pressed="false">Tema</button>
+      </div>
       <div id="songs">
         <label for="search">Número o título</label>
-        <input type="search" id="search" autocomplete="off">
+        <input type="search" id="search" placeholder="Buscar por número o título" autocomplete="off">
         <div id="results" aria-label="Resultados"></div>
       </div>
       <form id="bible" hidden>
@@ -38,32 +48,41 @@
         </div>
         <label for="bible-mode">Mostrar</label>
         <select id="bible-mode"><option value="citation">Solo cita</option><option value="text">Cita y texto · RVR1960</option></select>
-        <button>Preparar cita</button>
+        <button type="submit">Preparar cita</button>
       </form>
       <form id="theme" hidden>
         <label for="theme-title">Título del tema</label>
         <textarea id="theme-title" rows="3" required maxlength="240"></textarea>
-        <button>Preparar tema</button>
+        <button type="submit">Preparar tema</button>
       </form>
       <form id="list" hidden>
         <label for="list-kind">Lista</label>
         <select id="list-kind"><option>Oraciones</option><option>Aviso</option><option>Flores</option><option>Ventas</option></select>
         <label for="list-text">Contenido, un renglón por entrada</label>
         <textarea id="list-text" rows="6" required maxlength="4000"></textarea>
-        <button>Guardar y preparar</button>
+        <button type="submit">Guardar y preparar</button>
       </form>
       <p id="status" role="status"></p>
-      <div id="slides" aria-label="Diapositivas preparadas"></div>
+      <div id="prepared" hidden>
+        <h3 id="prepared-title">Diapositivas</h3>
+        <div class="row song-actions" id="song-actions" hidden>
+          <button type="button" class="btn-gold-outline" id="send-title">Enviar título a TV</button>
+          <button type="button" class="btn-gold" id="send-lyrics">Enviar letra a TV</button>
+        </div>
+        <div id="slides" aria-label="Diapositivas preparadas"></div>
+      </div>
     </section>
     <section class="output" aria-labelledby="output-title">
-      <div class="row output-heading"><h2 id="output-title">Salida a TV</h2><a class="primary" href="/pantalla.html?lite=1" target="_blank" rel="noopener">Abrir pantalla</a></div>
-      <iframe src="/pantalla.html?lite=1" title="Vista de la salida a TV"></iframe>
+      <div class="row output-heading"><h2 id="output-title">Salida a TV</h2><div class="row"><button type="button" id="toggle-monitor" aria-controls="lite-monitor" aria-expanded="true">Minimizar</button><a class="primary" href="/pantalla.html?lite=1" target="_blank" rel="noopener">Abrir pantalla</a></div></div>
+      <iframe id="lite-monitor" src="/pantalla.html?lite=1" title="Vista de la salida a TV" tabindex="-1"></iframe>
       <div class="row transport">
-        <button type="button" id="prev" disabled>Anterior</button>
-        <button type="button" id="next" disabled>Siguiente</button>
-        <button type="button" id="idle">Mostrar fondo</button>
+        <button type="button" id="prev-section" aria-keyshortcuts="ArrowUp" title="Sección anterior (↑)" disabled>Sección anterior</button>
+        <button type="button" id="prev" aria-keyshortcuts="ArrowLeft" title="Anterior (←)" disabled>Anterior</button>
+        <button type="button" id="next" aria-keyshortcuts="ArrowRight" title="Siguiente (→)" disabled>Siguiente</button>
+        <button type="button" id="next-section" aria-keyshortcuts="ArrowDown" title="Siguiente sección (↓)" disabled>Siguiente sección</button>
+        <button type="button" id="idle" aria-keyshortcuts="Escape" title="Mostrar fondo (Esc)" class="btn-gold-outline">Mostrar fondo</button>
+        <output id="slide-position" aria-live="polite"></output>
       </div>
-      <p class="note">Abre la pantalla en este navegador, muévela a la TV y ponla en pantalla completa.</p>
     </section>
   </main>
   <footer>
