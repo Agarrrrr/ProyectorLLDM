@@ -2,7 +2,7 @@
 
 Esta guía explica cómo instalar el programa, preparar el contenido y operar las pantallas y los gráficos de transmisión. No necesitas saber programar.
 
-Los nombres de algunos menús de Windows y OBS pueden variar según su versión e idioma.
+Los nombres de algunos menús de Windows, macOS, Linux y OBS pueden variar según su versión e idioma.
 
 Desarrollado por **Huri Tolentino**.
 
@@ -117,7 +117,7 @@ Para retirar el contenido de las TV se muestra el fondo institucional. Para reti
 
 ### 2.1 Para la operación básica
 
-- Una computadora con Windows capaz de ejecutar Node.js y un navegador moderno. Los archivos de inicio de este proyecto están preparados para Windows.
+- Una computadora con Windows, macOS o Linux capaz de ejecutar Node.js y un navegador moderno. El paquete incluye archivos de inicio preparados para los tres sistemas.
 - Permiso para instalar programas en esa computadora.
 - Node.js instalado. Es el componente que permite ejecutar el programa localmente.
 - La carpeta completa de Proyector LLDM, extraída de su archivo ZIP.
@@ -135,8 +135,8 @@ La composición de TV utiliza proporciones 16:9 y se dibuja al tamaño real de l
 | Mostrar contenido en una TV conectada a la PC | Cable y conexión de video adecuados, como HDMI. |
 | Controlar desde un celular o tablet | Conexión a la misma red local de la computadora de cabina. |
 | Usar banners sobre cámaras | OBS Studio y una fuente Navegador. |
-| Importar archivos PPT o PPTX | Microsoft PowerPoint de escritorio instalado y funcionando en la computadora de cabina. |
-| Importar PDF | Python y PyMuPDF configurados en la computadora de cabina. |
+| Importar archivos PPT o PPTX | Microsoft PowerPoint de escritorio (en Windows) o LibreOffice junto con Python 3 y PyMuPDF (en macOS y Linux) instalados en la computadora de cabina. |
+| Importar PDF | Python (o Python 3 en macOS/Linux) y PyMuPDF configurados en la computadora de cabina. |
 | Importar PNG, JPG, JPEG o WebP | El archivo de imagen; no requiere PowerPoint ni Python. |
 
 PowerPoint y Python son requisitos de formatos concretos. No son necesarios para buscar un canto, proyectar un tema o editar las listas.
@@ -156,8 +156,8 @@ La transmisión a una plataforma externa sí depende de su conexión a internet,
 ### 3.1 Descargar desde GitHub
 
 1. Desde el repositorio, abre **Descarga rápida** y pulsa **Descargar Proyector LLDM (Última versión en ZIP)**. También puedes entrar directamente en [las versiones publicadas](https://github.com/HuriTolentino/ProyectorLLDM/releases).
-2. En la versión estable más reciente, baja hasta **Assets** o **Archivos adjuntos**. Descarga el archivo `Proyector-LLDM-<versión>.zip`. Por ejemplo, en la versión 1.4.1 se llama `Proyector-LLDM-1.4.1.zip`.
-3. Abre la carpeta **Descargas** de Windows cuando termine.
+2. En la versión estable más reciente, baja hasta **Assets** o **Archivos adjuntos**. Descarga el archivo `Proyector-LLDM-<versión>.zip`. Por ejemplo, en la versión 1.4.2 se llama `Proyector-LLDM-1.4.2.zip`.
+3. Abre la carpeta **Descargas** de tu computadora cuando termine.
 
 ![Enlace Descargar Proyector LLDM en la sección Descarga rápida del repositorio.](capturas/49-descarga-rapida.png)
 
@@ -188,6 +188,8 @@ La carpeta principal contiene, entre otros elementos:
 
 ```text
 Iniciar Proyector LLDM.bat
+Iniciar Proyector LLDM.command
+Iniciar Proyector LLDM.sh
 server.js
 package.json
 data
@@ -213,7 +215,7 @@ Una ubicación permanente facilita hacer respaldos y crear accesos directos. Si 
 ### 4.1 Descargar el instalador
 
 1. Abre la [página oficial de Node.js](https://nodejs.org/en/download).
-2. Elige Windows y una versión **LTS** compatible.
+2. Elige tu sistema operativo (Windows, macOS o Linux) y una versión **LTS** compatible.
 3. Descarga el instalador para la arquitectura de tu computadora. En una PC común de 64 bits suele corresponder x64; en equipos ARM debes utilizar su opción correspondiente.
 4. Abre el instalador y sigue sus instrucciones.
 5. Mantén los componentes habituales, incluido npm, y la opción de añadir el programa a la ruta de comandos si aparece.
@@ -260,7 +262,7 @@ Si Windows responde que no reconoce alguna de esas órdenes, consulta [Node.js n
 ### 5.1 Iniciar la cabina
 
 1. Abre la carpeta principal del proyecto.
-2. Busca **Iniciar Proyector LLDM.bat**. Windows puede mostrarlo como **Iniciar Proyector LLDM** si oculta las extensiones.
+2. Busca el iniciador correspondiente a tu sistema: **Iniciar Proyector LLDM.bat** en Windows (puede mostrarse como **Iniciar Proyector LLDM** si oculta las extensiones), **Iniciar Proyector LLDM.command** en macOS o **Iniciar Proyector LLDM.sh** en Linux.
 3. Haz doble clic.
 4. Se abrirá una ventana de comandos.
 5. Si faltan los componentes del servidor, el archivo intentará descargarlos e instalarlos.
@@ -465,9 +467,9 @@ Si el visor tapa un campo, arrástralo o minimízalo. No necesitas cerrar la cab
 
 ### 8.4 Trabajar entre varios dispositivos
 
-Los dispositivos conectados al mismo servidor comparten la proyección y los datos de trabajo. Una modificación en las listas puede aparecer en los demás dispositivos.
+Cada dispositivo conectado puede mantenerse en su propia pestaña o ventana y escribir en sus propios campos de búsqueda de forma asíncrona (con prioridad de persistencia en la PC principal), mientras que la **Salida a TV**, la **Salida a OBS** y todos los campos de la **Lista de oraciones** se sincronizan al 100% en tiempo real entre todos los dispositivos.
 
-No son cabinas independientes: si otra persona envía un canto desde su celular, cambia las mismas TV que controlas desde la PC. Acuerden quién realizará los envíos durante cada parte del servicio.
+Si otra persona envía un canto desde su celular, cambia las mismas TV y banners que controlas desde la PC. Además, al pulsar **Esc** o el botón **Fondo** (en PC o móvil), la proyección vuelve a reposo y se limpian los campos de búsqueda en los dispositivos, con excepción de la Lista de oraciones.
 
 Si dos personas cambian el mismo campo a la vez, puede aparecer un conflicto. Revisa el valor actualizado antes de escribirlo de nuevo; no recargues inmediatamente si aún necesitas copiar un texto no guardado.
 
@@ -1206,17 +1208,17 @@ Comparte el PNG original como archivo si el medio de envío reduce la calidad de
 
 | Formato | Cómo lo utiliza el programa |
 | --- | --- |
-| PPT y PPTX | PowerPoint de escritorio exporta las diapositivas como imágenes. |
-| PDF | Python y PyMuPDF convierten las páginas en imágenes. |
+| PPT y PPTX | PowerPoint de escritorio (en Windows) o LibreOffice junto con Python 3 y PyMuPDF (en macOS y Linux) exportan las diapositivas como imágenes. |
+| PDF | Python (o Python 3 en macOS/Linux) y PyMuPDF convierten las páginas en imágenes. |
 | PNG, JPG, JPEG y WebP | Se incorporan como diapositivas de imagen. |
 
 La importación no reproduce animaciones, transiciones de PowerPoint, videos, narraciones ni audio incluidos en el archivo original.
 
 El servidor tiene un límite de 300 MB por archivo y recibe hasta 100 archivos por envío. No es una recomendación de tamaño: archivos grandes o documentos extensos pueden tardar o agotar el tiempo de conversión.
 
-### 16.2 Preparar PowerPoint
+### 16.2 Preparar PowerPoint o LibreOffice
 
-Microsoft PowerPoint de escritorio debe estar instalado en la computadora que ejecuta el servidor, aunque subas el archivo desde un celular u otra PC.
+En Windows, Microsoft PowerPoint de escritorio debe estar instalado en la computadora que ejecuta el servidor, aunque subas el archivo desde un celular u otra PC. En macOS y Linux, el servidor utiliza LibreOffice (`soffice` o `libreoffice`) junto con Python 3 y PyMuPDF para convertir archivos `.ppt` y `.pptx`.
 
 Abre PowerPoint directamente al menos una vez, completa su activación o configuración y comprueba que puede abrir el archivo. La versión web de PowerPoint no sustituye la aplicación de escritorio que utiliza este conversor.
 
@@ -1243,7 +1245,7 @@ python -c "import fitz; print('PDF disponible')"
 
 6. Reinicia Proyector LLDM cuando corresponda y prueba un PDF pequeño.
 
-El programa ejecuta `python`, salvo que el responsable técnico haya configurado otra ruta mediante `PYTHON_PATH`. Tener únicamente una orden `py` funcional no garantiza que el conversor encuentre `python`.
+El programa busca `python` (en Windows) o `python3` (en macOS y Linux), salvo que el responsable técnico haya configurado otra ruta mediante `PYTHON_PATH`. Tener únicamente una orden `py` funcional no garantiza que el conversor encuentre `python`.
 
 Consulta la [documentación oficial de Python en Windows](https://docs.python.org/3/using/windows.html) y la [instalación de PyMuPDF](https://pymupdf.readthedocs.io/en/latest/installation.html) si el instalador o las órdenes difieren en tu equipo.
 
@@ -1649,7 +1651,7 @@ La cabina busca una versión publicada al iniciar. Si encuentra una posterior, a
 2. Termina la proyección y cierra el programa anterior. Conserva esa carpeta como respaldo.
 3. Para trasladar los datos, copia los archivos locales de `data` a la nueva carpeta `data`, incluidos los catálogos si tienen cambios propios. Conserva la carpeta `data/factory` de la versión nueva. Si quieres comenzar con sus catálogos de fábrica, deja que el programa los copie al iniciar.
 4. Si utilizas fuentes, fondos o presentaciones importadas, copia también `data/song-assets` y las carpetas correspondientes de `public/uploads`. Si configuraste la integración con OBS, copia tu `config/obs.local.json`.
-5. Abre **Iniciar Proyector LLDM.bat** en la nueva carpeta y revisa tus ajustes, listas y cantos antes de usarla.
+5. Abre **Iniciar Proyector LLDM.bat** (Windows), **Iniciar Proyector LLDM.command** (macOS) o **Iniciar Proyector LLDM.sh** (Linux) en la nueva carpeta y revisa tus ajustes, listas y cantos antes de usarla.
 
 Puedes volver a abrir la carpeta anterior si necesitas recuperar su estado. Instalar o actualizar con el ZIP no requiere Git.
 

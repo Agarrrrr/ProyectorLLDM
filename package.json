@@ -1,12 +1,13 @@
 {
   "name": "proyector-lldm",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Cabina de proyección LLDM para TV y transmisión OBS",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "node --test tests/*.test.js",
     "build:lists": "npm --prefix lista-oraciones run build",
+    "build:release": "python scripts/package-release.py",
     "setup:lists": "npm --prefix lista-oraciones ci && npm run build:lists",
     "benchmark": "node scripts/benchmark.cjs"
   },

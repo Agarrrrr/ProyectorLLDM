@@ -201,13 +201,13 @@ function applyPendingRestore(dataDir, uploadsDir) {
   console.log('[RESPALDO] Restauración aplicada. Copia anterior en data/backups/restore-previous.');
 }
 
-function installBackupRoutes({ app, dataDir, uploadsDir }) {
+function installBackupRoutes({ app, dataDir, uploadsDir, isOwner = req => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress) }) {
   const { pending, destination } = restorePaths(dataDir, uploadsDir);
   let preview;
   let inspecting = false;
   app.use('/api/backup', (req, res, next) => {
     res.set('Cache-Control', 'no-store');
-    if (!['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress)) {
+    if (!isOwner(req)) {
       return res.status(403).json({ error: 'Abre Ajustes desde la computadora donde se ejecuta Proyector.' });
     }
     next();

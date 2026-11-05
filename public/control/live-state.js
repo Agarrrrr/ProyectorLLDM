@@ -5,20 +5,47 @@ import { isSameItem } from './html.js';
 import { request } from './api.js';
 import { updateLiveMonitor } from './monitor.js';
 import { updateCarteleriaUi } from './carteleria.js';
-import { syncBibleSlides } from './bible.js';
+import { clearBibleTextSearch, suggestionsDiv, syncBibleSlides, updateInputPlaceholders } from './bible.js';
 
 let globalState = null;
+let previousPhase = null;
+let lastClearedAt = null;
 
 const statusBadge = document.getElementById("status-badge");
 const statusText = document.getElementById("status-text");
 const monitorStatusBadge = document.getElementById('monitor-status-badge');
 const monitorStatusText = document.getElementById('monitor-status-text');
 
+function clearSearchDraftsOnIdle() {
+  const fields = ['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput', 'customTextInput'];
+  for (const id of fields) {
+    const input = document.getElementById(id);
+    if (!input || input.value === '') continue;
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  if (suggestionsDiv) {
+    suggestionsDiv.innerHTML = '';
+    suggestionsDiv.classList.remove('show');
+  }
+  const bibleSlidesSection = document.getElementById('bibleSlidesSection');
+  if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
+  clearBibleTextSearch();
+  updateInputPlaceholders();
+  window.dispatchEvent(new Event('remote-escape-clear'));
+}
+
 function updateUiState(state) {
+  const returnedToIdle = previousPhase === 'active' && state.phase === 'idle';
+  const currentClearedAt = state.workspace?.clearedAt ?? 0;
+  const clearedByEscape = lastClearedAt !== null && currentClearedAt > lastClearedAt;
+  previousPhase = state.phase;
+  lastClearedAt = currentClearedAt;
   globalState = state;
   updateLiveMonitor(state);
   updateCarteleriaUi(state);
   syncBibleSlides(state);
+  if (returnedToIdle || clearedByEscape) clearSearchDraftsOnIdle();
   const active = state.phase === 'active';
   statusBadge.className = `status-badge status-${active ? 'active' : 'idle'}`;
   statusText.textContent = active ? 'EN PROYECCIÓN' : 'REPOSO';

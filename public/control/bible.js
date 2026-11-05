@@ -2,6 +2,7 @@ import { historyStorage } from './history-store.js';
 import { broadcastToOverlay } from './transmission.js';
 import { showToast } from './shell.js';
 import { request } from './api.js';
+import { setupBibleTextSearch, refreshBibleTextSearchActions, clearBibleTextSearch } from './bible-text-search.js';
 import { escapeHtml } from './html.js';
 
 const books = [
@@ -333,6 +334,7 @@ if (btnBibleModeCitation) {
     currentBibleMode = 'citation';
     localStorage.setItem('proyector_bible_mode', currentBibleMode);
     updateBibleModeUi();
+    refreshBibleTextSearchActions(currentBibleMode);
     if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
   });
 }
@@ -342,6 +344,7 @@ if (btnBibleModeText) {
     currentBibleMode = 'text';
     localStorage.setItem('proyector_bible_mode', currentBibleMode);
     updateBibleModeUi();
+    refreshBibleTextSearchActions(currentBibleMode);
     if (activeBibleSlides.length > 0 && bibleSlidesSection) {
       bibleSlidesSection.style.display = 'block';
     }
@@ -460,6 +463,34 @@ function findCanonicalBookLocal(input) {
   return books.find(b => b.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "") === norm) || input.trim();
 }
 
+async function projectBibleSearchResult(result) {
+  const bookField = document.getElementById('searchBook');
+  const chapterField = document.getElementById('chapter');
+  const verseField = document.getElementById('verse');
+  bookField.value = result.book;
+  chapterField.value = result.chapter;
+  verseField.value = result.verse;
+  window.dispatchEvent(new Event('capture-shared-drafts'));
+  updateInputPlaceholders();
+  addSearchToHistory(result.reference);
+  try {
+    const response = await request('/api/project/bible', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ book: result.book, chapter: result.chapter, verse: result.verse, mode: currentBibleMode, version: currentBibleVersion })
+    });
+    const data = await response.json();
+    if (data.state?.activeItem?.mode === 'text') {
+      syncBibleSlides(data.state);
+      showToast(`Texto en Pantalla: ${result.reference}`);
+    } else {
+      if (bibleSlidesSection) bibleSlidesSection.style.display = 'none';
+      showToast(`Cita en Pantalla: ${result.reference}`);
+    }
+  } catch (error) {
+    showToast(error.message || 'No se pudo proyectar el pasaje.');
+  }
+}
 async function proyectarBiblia() {
   const rawBook = document.getElementById("searchBook").value.trim();
   const chapter = document.getElementById("chapter").value.trim();
@@ -605,6 +636,7 @@ document.getElementById("clearSearchButton").addEventListener("click", () => {
     suggestionsDiv.innerHTML = "";
     suggestionsDiv.classList.remove("show");
   }
+  clearBibleTextSearch();
   updateInputPlaceholders();
   showToast("Campos de búsqueda limpiados");
 });
@@ -739,13 +771,15 @@ if (verseEl) {
 // 7. ACCIONES DE TEMAS, CORO, DRON Y AVISOS (CÁMARAS OBS)
 // ==============================================================
 
-export { addThemeToHistory, loadHistory, loadThemeHistory, suggestionsDiv, updateInputPlaceholders };
+export { addThemeToHistory, clearBibleTextSearch, loadHistory, loadThemeHistory, suggestionsDiv, updateInputPlaceholders };
 
 document.addEventListener('focusin', event => {
   if (event.target !== searchBookInput && !suggestionsDiv.contains(event.target)) suggestionsDiv.classList.remove('show');
 });
 
 window.addEventListener('shared-histories-changed', () => { loadHistory(); loadThemeHistory(); });
+
+setupBibleTextSearch({ getMode: () => currentBibleMode, getVersion: () => currentBibleVersion, onSelect: projectBibleSearchResult });
 
 loadBibleVersions();
 updateBibleModeUi();

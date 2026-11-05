@@ -27,7 +27,8 @@ function document() {
 }
 
 test('PDF se convierte hasta 4K conservando páginas 16:9, 4:3, verticales y cuadradas', async t => {
-  try { execFileSync(process.env.PYTHON_PATH || 'python', ['-c', 'import fitz'], { timeout: 10000, windowsHide: true, stdio: 'ignore' }); }
+  const pythonBin = process.env.PYTHON_PATH || (process.platform === 'win32' ? 'python' : 'python3');
+  try { execFileSync(pythonBin, ['-c', 'import fitz'], { timeout: 10000, windowsHide: true, stdio: 'ignore' }); }
   catch { t.skip('Requiere Python con PyMuPDF; configura PYTHON_PATH para probar la conversión real.'); return; }
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'presentation-resolution-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));

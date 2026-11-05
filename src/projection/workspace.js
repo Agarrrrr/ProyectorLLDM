@@ -69,7 +69,7 @@ function createWorkspace({ app, state, catalogs, presentationService, broadcastS
     res.json({ success: true });
   });
 
-  const draftFields = new Set(['themeInput', 'searchBook', 'chapter', 'verse', 'activeTab', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput']);
+  const draftFields = new Set(['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'activeTab', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput']);
   app.patch('/api/control/drafts', (req, res) => {
     for (const [id, value] of Object.entries(req.body || {})) {
       if (!draftFields.has(id) || typeof value !== 'string' || value.length > 3000) return res.status(400).json({ error: 'Campo no válido.' });

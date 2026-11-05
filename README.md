@@ -6,6 +6,10 @@ Permite proyectar cantos del **Himnario**, repertorio del **Coro**, **temas y ci
 
 Desarrollado con dedicación por **Huri Tolentino**.
 
+## Tutorial en video
+
+[Ver el tutorial de instalación y uso (1080p, 16:9)](docs/tutorial-proyectorlldm.mp4). Muestra la descarga y extracción del ZIP, la instalación de Node.js cuando hace falta y el uso de la cabina, el control móvil y OBS. La versión actual de GitHub se distribuye en ZIP; no incluye un instalador EXE. Los nombres que aparecen en el ejemplo de la lista son ficticios.
+
 ---
 
 ## Descarga rápida y puesta en marcha (en 3 pasos)
@@ -27,8 +31,10 @@ Haz clic en el siguiente enlace y descarga el archivo **`.zip`** de la versión 
 
 ### Paso 3: Iniciar el programa
 * Entra a la carpeta descomprimida.
-* Haz doble clic en el archivo:
-  **`Iniciar Proyector LLDM.bat`**
+* Abre el iniciador según tu sistema operativo:
+  * **Windows:** Haz doble clic en **`Iniciar Proyector LLDM.bat`**.
+  * **macOS:** Haz doble clic en **`Iniciar Proyector LLDM.command`** (si macOS pregunta por seguridad la primera vez, haz clic derecho → *Abrir*).
+  * **Linux:** Ejecuta **`./Iniciar\ Proyector\ LLDM.sh`** (o haz doble clic y elige *Ejecutar en terminal*).
 * Listo. El archivo se encargará de comprobar e instalar todo lo necesario automáticamente la primera vez y abrirá la cabina en tu navegador web.
 
 > [!NOTE]
@@ -51,7 +57,7 @@ Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes �
 
 Abre [Proyector LLDM Lite](https://proyector.lldmcoro.com/) para proyectar cantos, citas, temas y listas desde el navegador. Guarda las listas en el navegador y sincroniza la TV entre ventanas del mismo perfil. La personalización avanzada, el enlace de celulares por QR, OBS y la conversión de presentaciones están en la edición de escritorio.
 
-La edición de escritorio se distribuye como ZIP para Windows en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). En macOS y Linux puedes usar Lite en el navegador. El servidor Node puede arrancarse desde el código fuente, pero esas plataformas requieren preparar sus dependencias por separado y no tienen un paquete oficial verificado.
+La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Para importar PDF o PowerPoint en macOS y Linux se utiliza Python 3 (`pymupdf`) y LibreOffice si están instalados en el sistema.
 
 Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 
@@ -105,7 +111,7 @@ Para operar con agilidad durante el servicio:
 
 El programa incluye documentación detallada ilustrada paso a paso:
 
-* **[Manual de Usuario en PDF (Descargar)](docs/GUIA_DE_USUARIO.pdf):** Documento listo para imprimir o leer en tu celular, con 24 capítulos, capturas reales y solución a todas las dudas comunes.
+* **[Manual de Usuario en PDF (Descargar)](docs/GUIA_DE_USUARIO.pdf) · [Descargar desde Google Drive](https://drive.google.com/file/d/1au7F9mh7xiqC8EV2xWsfn0bwZXTkRoiT/view?usp=sharing):** Documento listo para imprimir o leer en tu celular, con 24 capítulos, capturas reales y solución a todas las dudas comunes.
 * **[Manual Interactivo en HTML](docs/GUIA_DE_USUARIO.html):** Se abre directamente en cualquier navegador con capturas ampliables y animaciones.
 * **[Manual Portátil Offline](docs/GUIA_DE_USUARIO_PORTATIL.html):** Un solo archivo con todas las imágenes y animaciones integradas para llevar en una memoria USB.
 
@@ -118,7 +124,7 @@ Cuando salga una nueva versión:
 2. Descarga el ZIP de la nueva versión desde [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases).
 3. Descomprímelo en una carpeta nueva.
 4. Para conservar tus datos, copia tu carpeta `data` anterior a la nueva carpeta (o usa el botón de restaurar respaldo en Ajustes).
-5. Abre **`Iniciar Proyector LLDM.bat`** y listo.
+5. Abre **`Iniciar Proyector LLDM.bat`** (Windows), **`Iniciar Proyector LLDM.command`** (macOS) o **`Iniciar Proyector LLDM.sh`** (Linux) y listo.
 
 ---
 

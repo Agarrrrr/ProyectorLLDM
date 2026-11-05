@@ -1,3 +1,10 @@
+const SEARCH_DRAFT_FIELDS = ['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput'];
+
+function clearSearchDrafts(workspace) {
+  if (!workspace?.drafts) return;
+  for (const field of SEARCH_DRAFT_FIELDS) workspace.drafts[field] = '';
+}
+
 function createActionHandler({ projectionState, wss, broadcastState, broadcastOverlay, hideOverlay }) {
   function handleWsAction(data = {}) {
     if (!data || typeof data.action !== 'string') return false;
@@ -106,8 +113,10 @@ function createActionHandler({ projectionState, wss, broadcastState, broadcastOv
       case 'SET_IDLE':
         projectionState.phase = 'idle';
         projectionState.isLooping = false;
-        if (projectionState.workspace?.selections) {
+        clearSearchDrafts(projectionState.workspace);
+        if (projectionState.workspace) {
           projectionState.workspace.selections = { hymn: null, choir: null, presentation: null };
+          projectionState.workspace.clearedAt = (projectionState.workspace.clearedAt || 0) + 1;
         }
         broadcastState();
         break;
@@ -119,8 +128,10 @@ function createActionHandler({ projectionState, wss, broadcastState, broadcastOv
         projectionState.slides = [];
         projectionState.currentSlideIndex = 0;
         projectionState.isLooping = false;
+        clearSearchDrafts(projectionState.workspace);
         if (projectionState.workspace) {
           projectionState.workspace.selections = { hymn: null, choir: null, presentation: null };
+          projectionState.workspace.clearedAt = (projectionState.workspace.clearedAt || 0) + 1;
           if (projectionState.workspace.drafts) {
             projectionState.workspace.drafts.hymnSearchInput = '';
             projectionState.workspace.drafts.choirSearchInput = '';

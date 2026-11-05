@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { pathToFileURL } = require('node:url');
 const { execFile } = require('child_process');
 const { promisify } = require('util');
 const runFile = promisify(execFile);
@@ -31,6 +32,19 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
       console.error('[PRESENTATIONS] Error guardando presentations.json:', e);
       throw e;
     }
+  }
+
+  async function runFirstAvailable(candidates, args, options) {
+    let lastError;
+    for (const cmd of candidates) {
+      try {
+        return await runFile(cmd, args, options);
+      } catch (error) {
+        lastError = error;
+        if (error.code !== 'ENOENT') throw error;
+      }
+    }
+    throw lastError;
   }
 
   async function convertPptxWithPowerpoint(filePath, outDir) {
@@ -88,6 +102,29 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     }
   }
 
+  async function convertWithLibreOffice(filePath, outDir, extension) {
+    const input = path.join(outDir, 'entrada' + extension);
+    const pdf = path.join(outDir, 'entrada.pdf');
+    const profileDir = path.join(outDir, 'perfil');
+    const officeCandidates = process.env.LIBREOFFICE_PATH
+      ? [process.env.LIBREOFFICE_PATH]
+      : (process.platform === 'darwin'
+        ? ['/Applications/LibreOffice.app/Contents/MacOS/soffice', 'libreoffice', 'soffice']
+        : ['libreoffice', 'soffice']);
+    await fs.promises.copyFile(filePath, input);
+    try {
+      await runFirstAvailable(officeCandidates, [
+        '-env:UserInstallation=' + pathToFileURL(profileDir).href,
+        '--headless', '--convert-to', 'pdf', '--outdir', outDir, input
+      ], { timeout: 120000, windowsHide: true });
+      await convertPdfWithPython(pdf, outDir);
+    } finally {
+      await fs.promises.rm(input, { force: true });
+      await fs.promises.rm(pdf, { force: true });
+      await fs.promises.rm(profileDir, { recursive: true, force: true });
+    }
+  }
+
   async function convertPdfWithPython(filePath, outDir) {
     const pyScriptPath = path.join(outDir, 'convert_temp.py');
     const pyContent = `
@@ -106,9 +143,12 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
   print(f"COUNT:{len(doc)}")
   `;
     fs.writeFileSync(pyScriptPath, pyContent.replace(/^ {2}/gm, '').trimStart(), 'utf8');
+    const pythonCandidates = process.env.PYTHON_PATH
+      ? [process.env.PYTHON_PATH]
+      : (process.platform === 'win32' ? ['python', 'python3'] : ['python3', 'python']);
 
     try {
-      const { stdout: res } = await runFile(process.env.PYTHON_PATH || 'python',
+      const { stdout: res } = await runFirstAvailable(pythonCandidates,
         [pyScriptPath, filePath, outDir], { encoding: 'utf8', timeout: 120000, windowsHide: true });
       console.log('[PDF CONVERT OUTPUT]', res.trim());
     } finally {
@@ -153,7 +193,8 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
 
     try {
       if (ext === '.pptx' || ext === '.ppt') {
-        await convertPptxWithPowerpoint(firstFile.path, presDir);
+        if (process.platform === 'win32') await convertPptxWithPowerpoint(firstFile.path, presDir);
+        else await convertWithLibreOffice(firstFile.path, presDir, ext);
       } else if (ext === '.pdf') {
         await convertPdfWithPython(firstFile.path, presDir);
       } else if (['.png', '.jpg', '.jpeg', '.webp'].includes(ext)) {

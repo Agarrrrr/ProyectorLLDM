@@ -24,6 +24,7 @@ const WebSocket = require('ws');
 const path = require('path');
 const { localSecurity, validLocalRequest } = require('./transport/local-security');
 const { createMobileAccess } = require('./remote/mobile-access');
+const { createHostedAccess } = require('./remote/hosted-access');
 const fs = require('fs');
 const os = require('os');
 
@@ -33,10 +34,13 @@ const PUBLIC_DIR = path.join(ROOT_DIR, 'public');
 function createApplication(options = {}) {
   const app = express();
   const server = http.createServer(app);
-  const mobile = createMobileAccess();
+  const hosted = options.hosted && createHostedAccess(options.hosted);
+  const mobile = createMobileAccess({ isOwner: hosted?.isOwner, publicOrigin: hosted?.origin });
   const isOutput = req => new URL(req.url, 'http://localhost').searchParams.get('view') === 'output';
   const wss = new WebSocket.Server({ server, path: '/ws', maxPayload: 64 * 1024, perMessageDeflate: false,
-    verifyClient: ({ req }) => validLocalRequest(req) && (isOutput(req) || mobile.authorized(req)) });
+    verifyClient: ({ req }) => hosted
+      ? hosted.validRequest(req) && (mobile.authorized(req) || (isOutput(req) && hosted.canView(req)))
+      : validLocalRequest(req) && (isOutput(req) || mobile.authorized(req)) });
 
   const PORT = options.port ?? (parseInt(process.env.PORT, 10) || 4000);
 
@@ -61,13 +65,21 @@ function createApplication(options = {}) {
   const LOCAL_IP = getLocalIp();
 
   app.disable('x-powered-by');
-  app.use(localSecurity);
+  if (hosted) {
+    app.use((req, res, next) => {
+      if (!hosted.validRequest(req)) return res.sendStatus(403);
+      res.set({ 'Cache-Control': 'private, no-store', 'Referrer-Policy': 'no-referrer', 'X-Content-Type-Options': 'nosniff', 'X-Frame-Options': 'SAMEORIGIN' });
+      next();
+    });
+  } else app.use(localSecurity);
   // Moving a saved week can send both the previous and new 2 MiB documents.
   app.patch('/api/lists', express.json({ limit: '5mb', inflate: false }));
   app.use(express.json({ limit: '100kb', inflate: false }));
+  hosted?.install(app);
   mobile.install(app, () => ({ host: getLocalIp(), port: server.address()?.port || PORT }), () => {
     for (const ws of wss.clients) if (!ws.outputOnly && !ws.canControl()) ws.close(1008, 'Sesión revocada');
   });
+  if (hosted) app.use((req, res, next) => hosted.protect(req, res, next, mobile.authorized(req)));
   app.set('json replacer', cleanWireValue);
   // UTF-8 Charset explícito para todas las respuestas de API
   app.use('/api', (req, res, next) => {
@@ -90,12 +102,15 @@ function createApplication(options = {}) {
   const DATA_DIR = path.resolve(options.dataDir || path.join(ROOT_DIR, 'data'));
   const uploadsDir = path.resolve(options.uploadsDir || path.join(ROOT_DIR, 'public', 'uploads', 'presentations'));
   applyPendingRestore(DATA_DIR, uploadsDir);
-  installBackupRoutes({ app, dataDir: DATA_DIR, uploadsDir });
-  const updates = options.updatesService || createUpdateService({ rootDir: ROOT_DIR, dataDir: DATA_DIR });
-  installUpdateRoutes({ app, service: updates });
+  installBackupRoutes({ app, dataDir: DATA_DIR, uploadsDir, isOwner: hosted?.isOwner });
+  if (!hosted) {
+    const updates = options.updatesService || createUpdateService({ rootDir: ROOT_DIR, dataDir: DATA_DIR });
+    installUpdateRoutes({ app, service: updates });
+  }
+  if (hosted) app.use('/uploads/presentations', express.static(uploadsDir, { index: false, dotfiles: 'deny' }));
   const multer = require('multer');
   const presentationService = require('./presentations/service').createPresentationService({ dataDir: DATA_DIR, uploadsDir });
-  const tempUploadDir = path.join(ROOT_DIR, 'public', 'uploads', 'temp');
+  const tempUploadDir = hosted ? path.join(DATA_DIR, 'upload-temp') : path.join(ROOT_DIR, 'public', 'uploads', 'temp');
   if (!fs.existsSync(tempUploadDir)) fs.mkdirSync(tempUploadDir, { recursive: true });
   const upload = multer({
     dest: tempUploadDir,
@@ -171,7 +186,7 @@ function createApplication(options = {}) {
   projectionState.settings = settingsService.get().settings;
   projectionState.settingsRevision = settingsService.get().revision;
 
-  const obsBridge = options.obs === false ? null : createObsBridge(loadObsConfig(ROOT_DIR), {
+  const obsBridge = hosted || options.obs === false ? null : createObsBridge(loadObsConfig(ROOT_DIR), {
     getDuration: type => {
       const graphics = settingsService.get().settings.graphics;
       return (type === 'drone' ? graphics.locationDurationSeconds : graphics.bannerDurationSeconds) * 1000;
@@ -192,6 +207,7 @@ function createApplication(options = {}) {
     stateStream.initial(ws);
 
     ws.on('message', (message) => {
+      if (hosted && ws.outputOnly) { ws.close(1008, 'Vista de solo lectura'); return; }
       if (!ws.canControl()) { ws.close(1008, 'Dispositivo sin acceso a la cabina'); return; }
       if (Date.now() - windowStart > 1000) { windowStart = Date.now(); count = 0; }
       if (++count > 40) { ws.close(1008, 'Demasiadas acciones'); return; }
@@ -254,6 +270,12 @@ function createApplication(options = {}) {
 
   // Endpoint dinámico para consultar la IP local actual de conexión
   app.get('/api/ip', (req, res) => {
+    if (hosted) return res.json({
+      ip: new URL(hosted.origin).host,
+      controlUrl: hosted.origin + '/control',
+      pantallaUrl: hosted.origin + '/pantalla',
+      overlayUrl: hosted.origin + '/overlay?obs=1'
+    });
     const ip = getLocalIp();
     const PORT = server.address()?.port || projectionState.networkInfo.port;
     res.json({

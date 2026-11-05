@@ -154,6 +154,7 @@ class BibleService {
     this.dataDir = dataDir || path.join(__dirname, '..', '..', 'data');
     this.factoryDir = path.join(__dirname, '..', '..', 'data', 'factory');
     this.versionsCache = new Map();
+    this.searchIndexCache = new Map();
     this.manifest = null;
     this.initManifest();
   }
@@ -225,6 +226,44 @@ class BibleService {
   getLimits(versionId = 'RVR1960') {
     const version = this.getVersion(versionId);
     return version.limits || {};
+  }
+
+  buildSearchIndex(versionId = 'RVR1960') {
+    const meta = this.findVersionMeta(versionId);
+    if (this.searchIndexCache.has(meta.id)) return this.searchIndexCache.get(meta.id);
+    const version = this.getVersion(meta.id);
+    const index = [];
+    const seen = new Set();
+    for (const [rawBook, chapters] of Object.entries(version.books || {})) {
+      const book = this.findCanonicalBook(rawBook, meta.id) || rawBook;
+      for (const [chapter, verses] of Object.entries(chapters || {})) {
+        for (const [verse, rawText] of Object.entries(verses || {})) {
+          const text = String(rawText || '').trim();
+          if (!text) continue;
+          const key = `${normalizeString(book)}:${chapter}:${verse}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          index.push({ book, chapter, verse, reference: `${book} ${chapter}:${verse}`, text, normalizedText: normalizeString(text) });
+        }
+      }
+    }
+    this.searchIndexCache.set(meta.id, index);
+    return index;
+  }
+
+  searchVerses({ query, versionId = 'RVR1960', limit = 16 } = {}) {
+    const normalizedQuery = normalizeString(query);
+    const version = this.findVersionMeta(versionId).id;
+    if (normalizedQuery.length < 3) return { results: [], total: 0, version, minimumLength: 3 };
+    const matches = [];
+    for (const entry of this.buildSearchIndex(version)) {
+      const position = entry.normalizedText.indexOf(normalizedQuery);
+      if (position < 0) continue;
+      matches.push({ book: entry.book, chapter: entry.chapter, verse: entry.verse, reference: entry.reference, text: entry.text, relevance: position === 0 ? 0 : position });
+    }
+    matches.sort((a, b) => a.relevance - b.relevance || a.reference.localeCompare(b.reference, 'es', { numeric: true }));
+    const safeLimit = Math.max(1, Math.min(30, Number(limit) || 16));
+    return { results: matches.slice(0, safeLimit).map(({ relevance, ...entry }) => entry), total: matches.length, version };
   }
 
   findCanonicalBook(rawInput, versionId = 'RVR1960') {

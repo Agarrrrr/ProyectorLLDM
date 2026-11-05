@@ -1,5 +1,20 @@
 # Notas de cambios
 
+## Versión 1.4.2
+
+### Compatibilidad con macOS y Linux
+
+- Se incorpora soporte oficial multiplataforma en el paquete de distribución (`Proyector-LLDM-1.4.2.zip`) para **Windows**, **macOS** y **Linux**.
+- Nuevos iniciadores de doble clic: `Iniciar Proyector LLDM.command` para macOS y `Iniciar Proyector LLDM.sh` para Linux, empaquetados con permisos de ejecución Unix (`0755`) y saltos de línea `LF`.
+- Apertura automática de la cabina en el navegador predeterminado en macOS (`open`), Linux (`xdg-open`) y Windows (`rundll32`).
+- Conversión de presentaciones (`.ppt`, `.pptx` y `.pdf`) compatible con macOS y Linux mediante detección automática de LibreOffice (`soffice` / `libreoffice`) y Python 3 (`pymupdf`).
+
+### Operación entre dispositivos y limpieza con Esc / Fondo
+
+- Cada dispositivo conectado puede permanecer en su propia pestaña o ventana y utilizar sus propios campos de búsqueda de forma independiente (con prioridad de persistencia para la PC principal), mientras que la **Salida a TV**, la **Salida a OBS** y todos los campos de la **Lista de oraciones** permanecen 100% síncronos en tiempo real.
+- Al pulsar **Esc** o el botón **Fondo** (tanto en PC como en dispositivos móviles), se retira la proyección a reposo y se limpian los campos de búsqueda en los dispositivos, conservando intactos los datos de la Lista de oraciones.
+- Búsqueda por texto bíblico integrada en **Temas y citas** y guías actualizadas en Markdown, HTML y PDF.
+
 ## Versión 1.4.1
 
 ### Personalización de la proyección

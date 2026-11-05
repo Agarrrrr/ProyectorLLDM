@@ -7,22 +7,22 @@ const cookieName = 'proyector_mobile';
 const token = () => randomBytes(32).toString('base64url');
 const loopback = req => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(req.socket.remoteAddress);
 
-function createMobileAccess() {
+function createMobileAccess({ isOwner = loopback, publicOrigin } = {}) {
   let invitation;
   const sessions = new Map();
   const sessionId = req => req.headers.cookie?.split(';').map(part => part.trim())
     .find(part => part.startsWith(cookieName + '='))?.slice(cookieName.length + 1);
-  const authorized = req => loopback(req) || (sessions.get(sessionId(req))?.expires || 0) > Date.now();
+  const authorized = req => isOwner(req) || (sessions.get(sessionId(req))?.expires || 0) > Date.now();
 
   function install(app, getLocalAddress, revokeConnections) {
     app.post('/api/mobile/invite', async (req, res) => {
-      if (!loopback(req)) return res.sendStatus(403);
+      if (!isOwner(req)) return res.sendStatus(403);
       const { host, port } = getLocalAddress();
-      if (!/^(?:10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.)/.test(host)) {
+      if (!publicOrigin && !/^(?:10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.)/.test(host)) {
         return res.status(409).json({ error: 'La PC necesita una dirección IPv4 privada en la red del templo.' });
       }
       const code = token();
-      const url = `http://${host}:${port}/conectar.html#${code}`;
+      const url = `${publicOrigin || `http://${host}:${port}`}/conectar.html#${code}`;
       const qr = await QRCode.toDataURL(url, { width: 320, margin: 3 });
       invitation = { code, expires: Date.now() + inviteAge };
       res.set('Cache-Control', 'no-store').json({ qr, url, expires: invitation.expires });
@@ -42,14 +42,14 @@ function createMobileAccess() {
       if (sessions.size >= 32) sessions.delete(sessions.keys().next().value);
       const id = token();
       sessions.set(id, { id: token(), label, expires: now + sessionAge });
-      res.cookie(cookieName, id, { httpOnly: true, sameSite: 'strict', maxAge: sessionAge, path: '/' }).json({ ok: true });
+      res.cookie(cookieName, id, { secure: !!publicOrigin, httpOnly: true, sameSite: 'strict', maxAge: sessionAge, path: '/' }).json({ ok: true });
     });
     app.get('/api/mobile/sessions', (req, res) => {
-      if (!loopback(req)) return res.sendStatus(403);
+      if (!isOwner(req)) return res.sendStatus(403);
       res.set('Cache-Control', 'no-store').json([...sessions.values()].filter(session => session.expires > Date.now()));
     });
     app.delete('/api/mobile/sessions/:id', (req, res) => {
-      if (!loopback(req)) return res.sendStatus(403);
+      if (!isOwner(req)) return res.sendStatus(403);
       for (const [key, session] of sessions) {
         if (session.id === req.params.id) { sessions.delete(key); break; }
       }
@@ -57,13 +57,14 @@ function createMobileAccess() {
       res.sendStatus(204);
     });
     app.delete('/api/mobile/sessions', (req, res) => {
-      if (!loopback(req)) return res.sendStatus(403);
+      if (!isOwner(req)) return res.sendStatus(403);
       invitation = undefined;
       sessions.clear();
       revokeConnections();
       res.sendStatus(204);
     });
 
+    if (publicOrigin) return;
     app.use((req, res, next) => {
       if (authorized(req)) return next();
       const reading = ['GET', 'HEAD'].includes(req.method);

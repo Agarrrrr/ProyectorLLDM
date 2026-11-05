@@ -36,6 +36,8 @@
 .operator-ui button.btn-gold-outline, .lists-app button.btn-gold-outline {
   background: #dfbb6a0c; border-color: #9a8353; color: #f1d79c;
 }
+.operator-ui button.bible-text-search-result { display: grid; justify-items: stretch; min-height: 0; padding: 11px 13px; border-color: #34465c; background: #111d2b; color: #edf3fb; text-align: left; }
+.operator-ui button.bible-text-search-result:enabled:hover { border-color: #9a8353; background: #18283a; color: #edf3fb; }
 .operator-ui button.btn-danger, .lists-app button.btn-danger {
   color: var(--ui-danger); background: #30242d; border-color: #805360;
 }

@@ -1,0 +1,17 @@
+**
+!Dockerfile
+!package*.json
+!server-web.js
+!src/
+!src/**
+!public/
+!public/**
+public/uploads/
+!data/
+!data/factory/
+!data/factory/**
+!lista-oraciones/
+!lista-oraciones/**
+lista-oraciones/node_modules/
+lista-oraciones/dist/
+lista-oraciones/.env*

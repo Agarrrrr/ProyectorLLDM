@@ -2,9 +2,13 @@ const net = require('node:net');
 const { execFile } = require('node:child_process');
 
 function openBrowser(port) {
-  if (process.env.PROYECTOR_OPEN_BROWSER !== '1' || process.platform !== 'win32') return;
-  execFile('rundll32.exe', ['url.dll,FileProtocolHandler', `http://localhost:${port}/control`], { windowsHide: true }, error => {
-    if (error) console.warn(`[INICIO] Abre http://localhost:${port}/control en tu navegador.`);
+  if (process.env.PROYECTOR_OPEN_BROWSER !== '1') return;
+  const url = `http://localhost:${port}/control`;
+  const [cmd, args] = process.platform === 'win32'
+    ? ['rundll32.exe', ['url.dll,FileProtocolHandler', url]]
+    : [process.platform === 'darwin' ? 'open' : 'xdg-open', [url]];
+  execFile(cmd, args, { windowsHide: true }, error => {
+    if (error) console.warn(`[INICIO] Abre ${url} en tu navegador.`);
   });
 }
 

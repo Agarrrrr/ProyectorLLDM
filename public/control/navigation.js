@@ -5,7 +5,7 @@ import { clearEscapeFields } from './escape.js';
 import { showToast } from './shell.js';
 import { getSelection } from './selection.js';
 import { hideOverlay } from './transmission.js';
-import { suggestionsDiv, updateInputPlaceholders } from './bible.js';
+import { clearBibleTextSearch, suggestionsDiv, updateInputPlaceholders } from './bible.js';
 import { hymnResultsList, hymnSearchInput, hymnSelectedHeader, hymnSlidesGrid, resetHymnSearch, selectedHymn, setHymnListCollapsed, setSelectedHymn } from './hymn.js';
 import { choirResultsList, choirSearchInput, choirSelectedHeader, choirSlidesGrid, resetChoirSearch, selectedChoirSong, setChoirListCollapsed, setSelectedChoirSong } from './choir.js';
 import { currentPresentations, presentationResultsList, presentationSearchInput, presentationSelectedHeader, presentationSlidesGrid, renderPresentationResults, selectedPresentation, setSelectedPresentation } from './presentations.js';
@@ -25,6 +25,7 @@ document.getElementById("footer-btn-prev-sec").addEventListener("click", () => s
 document.getElementById("footer-btn-next-sec").addEventListener("click", () => sendWsAction('NEXT_SECTION'));
 
 document.getElementById('footer-btn-background').addEventListener('click', () => {
+  clearSearchAndInputs({ includeAllCoreTabs: true });
   deselectCurrentSong({ notify: false, blurActive: true });
   sendWsAction('CLEAR_PROJECTION');
 });
@@ -48,8 +49,8 @@ function clearSearchAndInputs({ includeAllCoreTabs = false } = {}) {
     if (resetChoirSearch({ uncollapse: true })) clearedAny = true;
   }
 
-  // Limpiar campos de Temas y Citas Bíblicas
-  for (const id of ['themeInput', 'searchBook', 'chapter', 'verse']) {
+  // Limpiar campos de Temas, Citas Bíblicas, búsqueda por texto y Transmisión
+  for (const id of ['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'customTextInput']) {
     const el = document.getElementById(id);
     if (el && el.value.length > 0) {
       el.value = '';
@@ -57,30 +58,29 @@ function clearSearchAndInputs({ includeAllCoreTabs = false } = {}) {
       clearedAny = true;
     }
   }
+  clearBibleTextSearch();
   if (suggestionsDiv) {
     suggestionsDiv.innerHTML = '';
     suggestionsDiv.classList.remove('show');
   }
   updateInputPlaceholders();
 
-  // Si estamos en Presentaciones o Transmisión, limpiar también el filtro activo
-  if (!includeAllCoreTabs) {
-    if (presentationSearchInput && presentationSearchInput.value.length > 0) {
-      presentationSearchInput.value = '';
-      presentationSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
-      renderPresentationResults(currentPresentations, '');
-      clearedAny = true;
-    }
-    const activePane = document.querySelector('.tab-pane.active');
-    if (activePane && activePane.id !== 'tab-carteleria') {
-      if (clearEscapeFields(activePane, false)) clearedAny = true;
-    }
+  // Limpiar filtro de Presentaciones y cualquier otro campo salvo Lista de Oraciones (tab-carteleria)
+  if (presentationSearchInput && presentationSearchInput.value.length > 0) {
+    presentationSearchInput.value = '';
+    presentationSearchInput.dispatchEvent(new Event('input', { bubbles: true }));
+    renderPresentationResults(currentPresentations, '');
+    clearedAny = true;
+  }
+  const activePane = document.querySelector('.tab-pane.active');
+  if (activePane && activePane.id !== 'tab-carteleria') {
+    if (clearEscapeFields(activePane, false)) clearedAny = true;
   }
 
   return clearedAny;
 }
 
-function deselectCurrentSong({ notify = true, blurActive = true, includePresentation = true } = {}) {
+function deselectCurrentSong({ notify = true, blurActive = true, includePresentation = true, syncServer = true } = {}) {
   let wasSelected = false;
 
   // 1. Quitar selección de Himno Local
@@ -133,12 +133,13 @@ function deselectCurrentSong({ notify = true, blurActive = true, includePresenta
     wasSelected = true;
   }
 
-  request('/api/control/selection', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ clearAll: true })
-  }).catch(() => {});
-
+  if (syncServer) {
+    request('/api/control/selection', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clearAll: true })
+    }).catch(() => {});
+  }
 
   if (blurActive && document.activeElement && document.activeElement.blur) {
     document.activeElement.blur();
@@ -168,6 +169,7 @@ if (btnDeselectChoir) {
 
 function toggleStageState() {
   if (globalState && globalState.phase === 'active') {
+    clearSearchAndInputs({ includeAllCoreTabs: true });
     deselectCurrentSong({ notify: false, blurActive: true });
     sendWsAction('SET_IDLE');
     showToast("Pantalla en Reposo");
@@ -195,7 +197,7 @@ window.addEventListener('keydown', event => {
     if (settings?.open) { closeSettings(); return; }
     if (editorOpen) { closeLyricsEditor(); return; }
     if (shortcutsModal?.style.display === 'flex') { closeShortcutsModal(); return; }
-    clearSearchAndInputs({ includeAllCoreTabs: false });
+    clearSearchAndInputs({ includeAllCoreTabs: true });
     deselectCurrentSong({ notify: false, blurActive: true });
     return;
   }
@@ -218,3 +220,7 @@ window.addEventListener('keydown', event => {
 export { deselectCurrentSong };
 
 window.addEventListener('clear-preparation', () => deselectCurrentSong({ notify: true }));
+window.addEventListener('remote-escape-clear', () => {
+  clearSearchAndInputs({ includeAllCoreTabs: true });
+  deselectCurrentSong({ notify: false, blurActive: true, syncServer: false });
+});

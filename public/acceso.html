@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Entrar a Proyector LLDM</title>
+  <link rel="icon" href="/favicon.svg">
+  <link rel="stylesheet" href="/mobile-connect.css">
+  <script src="/web-access.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Entrar a Proyector LLDM</h1>
+    <form id="web-access">
+      <label for="web-key">Clave de acceso</label>
+      <input id="web-key" type="password" required maxlength="128" autocomplete="current-password">
+      <label for="web-view">Abrir</label>
+      <select id="web-view">
+        <option value="/control">Cabina</option>
+        <option value="/pantalla">Pantalla de TV</option>
+        <option value="/overlay?obs=1">Banners de OBS</option>
+      </select>
+      <button type="submit">Entrar</button>
+      <p id="web-status" role="status"></p>
+    </form>
+  </main>
+</body>
+</html>

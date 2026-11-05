@@ -90,6 +90,27 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 #bibleSearchInputs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(80px, .35fr) minmax(120px, .5fr); }
 #bibleSearchInputs .input-wrapper-relative { min-width: 0; }
 #bibleSearchInputs input { width: 100%; }
+.bible-text-search { display: grid; gap: 7px; margin-top: 14px; min-width: 0; }
+.bible-text-search > label { color: #edf3fb; font-size: 13px; font-weight: 700; }
+.bible-text-search-controls { display: flex; gap: 8px; min-width: 0; }
+.bible-text-search-controls input { min-width: 0; flex: 1; }
+.bible-text-search-controls button { flex: 0 0 auto; }
+.bible-text-search-help { margin: 0; color: #b7c7da; font-size: 12px; }
+.bible-text-search-status { min-height: 0; color: #b7c7da; font-size: 12px; }
+.bible-text-search-status:empty { display: none; }
+.bible-text-search-results { display: grid; gap: 8px; max-height: min(48vh, 520px); overflow-y: auto; overscroll-behavior: contain; }
+.bible-text-search-result { display: grid; gap: 7px; width: 100%; min-width: 0; padding: 11px 13px; border: 1px solid #34465c; border-radius: 9px; background: #111d2b; color: #edf3fb; text-align: left; cursor: pointer; }
+.bible-text-search-result:hover { border-color: #9a8353; background: #18283a; }
+.bible-text-search-result:focus-visible { outline: 3px solid #98c5ff; outline-offset: 2px; }
+.bible-text-search-result-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+.bible-text-search-result-header strong { color: #f0d69d; font-size: 14px; }
+.bible-text-search-result-action { flex: 0 0 auto; color: #b7c7da; font-size: 11px; font-weight: 700; }
+.bible-text-search-result-text { color: #edf3fb; font-size: 13px; line-height: 1.55; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .bible-text-search-controls { flex-wrap: wrap; }
+  .bible-text-search-controls button { width: 100%; }
+  .bible-text-search-results { max-height: 48dvh; }
+}
 .search-inputs button { min-height: 44px; }
 #presentationSearchInput { width: 100%; }
 .shortcuts-modal-card, .lyrics-modal-window { min-width: 0; }

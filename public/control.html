@@ -285,6 +285,17 @@
             </button>
           </div>
 
+          <form id="bibleTextSearchForm" class="bible-text-search" role="search">
+            <label for="bibleTextSearchInput">Buscar por texto bíblico</label>
+            <div class="bible-text-search-controls">
+              <input id="bibleTextSearchInput" class="search-input" type="search" maxlength="300" autocomplete="off" placeholder="Escribe una frase que recuerdes…">
+              <button id="bibleTextSearchButton" type="submit" class="btn-gold">Buscar texto</button>
+            </div>
+            <p class="bible-text-search-help">No necesitas escribir tildes, espacios ni puntuación exactos.</p>
+            <div id="bibleTextSearchStatus" class="bible-text-search-status" role="status" aria-live="polite"></div>
+            <div id="bibleTextSearchResults" class="bible-text-search-results" aria-label="Pasajes encontrados"></div>
+          </form>
+
           <!-- DIAPOSITIVAS BÍBLICAS ACTIVAS (EN MODO CITA + TEXTO) -->
           <div id="bibleSlidesSection" style="display: none; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-soft);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
