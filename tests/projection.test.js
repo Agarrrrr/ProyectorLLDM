@@ -71,7 +71,7 @@ test('todos los cantos caben en su presupuesto estimado sin perder las palabras'
 });
 
 test('los saltos internos del JSON son flexibles; el coro del himno 1 cabe completo con letra grande', () => {
-  const hymn = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'himnario_lldm.json'), 'utf8'))[0];
+  const hymn = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'factory', 'himnario_lldm.json'), 'utf8'))[0];
   const chorusSlides = compileHymnSlides(hymn).filter(slide => slide.sectionType === 'chorus');
   assert.ok(chorusSlides.length > 0);
   assert.ok(chorusSlides.every(slide => slide.totalChunks === 1 && slide.fontSize >= 156 && slide.displayLines.length <= 6));
