@@ -155,19 +155,28 @@ La transmisión a una plataforma externa sí depende de su conexión a internet,
 
 ### 3.1 Descargar desde GitHub
 
-1. Abre [las versiones publicadas de Proyector LLDM](https://github.com/HuriTolentino/ProyectorLLDM/releases).
-2. Elige la versión estable más reciente y descarga su paquete ZIP.
+1. Desde el repositorio, abre **Descarga rápida** y pulsa **Descargar Proyector LLDM (Última versión en ZIP)**. También puedes entrar directamente en [las versiones publicadas](https://github.com/HuriTolentino/ProyectorLLDM/releases).
+2. En la versión estable más reciente, baja hasta **Assets** o **Archivos adjuntos**. Descarga el archivo `Proyector-LLDM-<versión>.zip`. Por ejemplo, en la versión 1.4.1 se llama `Proyector-LLDM-1.4.1.zip`.
 3. Abre la carpeta **Descargas** de Windows cuando termine.
+
+![Enlace Descargar Proyector LLDM en la sección Descarga rápida del repositorio.](capturas/49-descarga-rapida.png)
+
+![La sección Assets con el ZIP de Proyector LLDM en la primera fila, encima de los paquetes Source code.](capturas/50-zip-en-assets.png)
 
 Si recibiste el programa en una memoria USB, puedes comenzar desde el siguiente apartado. Conserva la carpeta completa que te entregaron.
 
 ### 3.2 Extraer el ZIP
 
-1. Haz clic derecho sobre el ZIP descargado.
-2. Selecciona **Extraer todo**.
-3. Elige una carpeta permanente, por ejemplo dentro de **Documentos**.
-4. Termina la extracción.
-5. Entra en la carpeta extraída.
+1. Selecciona el ZIP descargado en el Explorador de archivos.
+2. Pulsa **Extraer todo** en la barra superior o en el menú del clic derecho.
+3. Elige una carpeta permanente, por ejemplo dentro de **Documentos**, y termina la extracción.
+4. Cuando aparezca la carpeta nueva junto al ZIP, ábrela.
+
+![Archivo ZIP seleccionado y botón Extraer todo en la barra del Explorador.](capturas/51-explorador-extraer-todo.png)
+
+![Asistente de Windows con el campo para elegir el destino de la extracción.](capturas/52-elegir-destino-zip.png)
+
+![El archivo ZIP y, debajo, la carpeta descomprimida que debes abrir.](capturas/53-carpeta-extraida.png)
 
 Un ZIP es un paquete comprimido. Abrirlo muestra su contenido, pero eso no significa que ya esté instalado en una carpeta normal. No inicies el programa dentro de la ventana del ZIP.
 
@@ -209,6 +218,8 @@ Una ubicación permanente facilita hacer respaldos y crear accesos directos. Si 
 4. Abre el instalador y sigue sus instrucciones.
 5. Mantén los componentes habituales, incluido npm, y la opción de añadir el programa a la ruta de comandos si aparece.
 6. Finaliza la instalación y cierra las ventanas de comandos que ya estuvieran abiertas.
+
+![Página de descargas de Node.js con la selección LTS, la arquitectura de Windows y el botón Windows Installer (.msi).](capturas/54-descarga-node-lts.png)
 
 LTS identifica una versión con soporte prolongado. No necesitas elegir una versión experimental para utilizar este proyecto.
 
@@ -255,6 +266,8 @@ Si Windows responde que no reconoce alguna de esas órdenes, consulta [Node.js n
 5. Si faltan los componentes del servidor, el archivo intentará descargarlos e instalarlos.
 6. Espera a que termine. El tiempo depende de la computadora y la conexión; no hay un tiempo fijo garantizado.
 7. El programa revisa las actualizaciones configuradas y, cuando termina de iniciar, abre la cabina en el navegador.
+
+![Archivo Iniciar Proyector LLDM.bat seleccionado dentro de la carpeta descomprimida.](capturas/55-lanzador-windows.png)
 
 El iniciador abre el navegador cuando el servidor ya está listo. Antes puede instalar componentes y consultar actualizaciones de GitHub. Si no hay internet, la consulta fallida no elimina la versión existente. Si el puerto ya está en uso, no inicia otra instancia ni modifica los archivos de la que ya está funcionando.
 
@@ -421,8 +434,12 @@ Es solo un ejemplo. Sustituye los números por los que muestra tu computadora. N
 1. Mantén abierta la cabina en la PC y conecta el celular a la misma red local.
 2. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR** y pulsa **Generar QR**. El código se muestra solo después de pulsar ese botón.
 3. Escanea el código con la cámara del celular, abre el enlace y escribe un nombre corto, como «Tablet de cabina».
-4. Pulsa **Conectar**. Cada código sirve para un dispositivo y vence a los cinco minutos.
-5. En el mismo panel de la PC puedes ver los dispositivos y revocar uno por su nombre o revocar todos. Una sesión dura hasta ocho horas.
+4. Pulsa **Conectar a esta cabina**. Cada código sirve para un dispositivo y vence a los cinco minutos.
+5. En la PC, revisa **Dispositivos enlazados** justo debajo del código. Si hace falta, pulsa **Actualizar dispositivos**. Desde ahí puedes revocar una conexión por su nombre o revocarlas todas. Una sesión dura hasta ocho horas.
+
+![Panel de ajustes con el QR de demostración y la sección Dispositivos enlazados justo debajo.](capturas/56-ajustes-codigo-qr.png)
+
+![Pantalla del celular con el nombre Móvil demo y el botón Conectar a esta cabina.](capturas/57-movil-identificar-dispositivo.png)
 
 La computadora puede estar conectada por Ethernet y el celular por Wi-Fi. Una red de invitados puede bloquear la comunicación aunque use el mismo router. El enlace es directo por la red local; úsalo en una red de confianza. Con datos móviles no funciona.
 
@@ -443,6 +460,8 @@ Si el visor tapa un campo, arrástralo o minimízalo. No necesitas cerrar la cab
 ![Cabina móvil con el visor de TV minimizado.](capturas/27-movil-visor-minimizado.png)
 
 **Figura 4.** El control del encabezado permite minimizar el visor y recuperar espacio sin cerrar la cabina.
+
+![Vista de la lista desde el celular con Salida a TV flotante y controles Anterior y Siguiente en el pie.](capturas/58-movil-controles-y-visor.png)
 
 ### 8.4 Trabajar entre varios dispositivos
 
@@ -500,6 +519,8 @@ Puedes utilizar ambas en escenas distintas. Poner `/pantalla` encima de una cám
 7. Configura el ancho y alto de la fuente Navegador con la resolución del lienzo de OBS: **1920 × 1080** para Full HD, **2560 × 1440** para QHD o **3840 × 2160** para 4K. Configura tanto la fuente de TV como la de banners. No dejes la fuente en 1080p para ampliarla después a un lienzo 4K; modifica sus propiedades de ancho y alto.
 8. Acepta los cambios.
 
+![Propiedades de la fuente Navegador de SALIDA TV con los campos URL, Ancho y Alto.](capturas/59-obs-propiedades-pantalla.png)
+
 OBS documenta estas propiedades en su [guía oficial de fuentes Navegador](https://obsproject.com/kb/Browser-Source).
 
 ### 9.3 Direcciones según dónde esté OBS
@@ -521,6 +542,10 @@ Comprueba que la fuente esté visible y que la escena que estás mostrando sea l
 
 La transparencia se aprecia al ver el gráfico sobre la cámara. Abrir la página sola en un navegador puede mostrar un fondo claro de la propia ventana; eso no demuestra por sí solo que la fuente sea opaca.
 
+Para comprobarlo con una foto, crea una escena aparte en OBS. En **Fuentes**, pulsa **+ → Imagen** y abre una foto de referencia. Añade encima una fuente **Navegador** con `/overlay?obs=1` al final de la dirección de tu cabina. Dale el ancho y el alto del lienzo.
+
+![Escena de prueba en OBS con Overlay clásico encima de Foto de referencia en la lista de fuentes.](capturas/60-obs-foto-y-overlay.png)
+
 ### 9.5 Mantener estable la fuente
 
 Recargar o apagar una fuente Navegador vuelve a cargar su página. En el overlay, un banner que ya había sido enviado puede necesitar enviarse otra vez después de esa recarga.
@@ -536,6 +561,10 @@ Si OBS tiene una opción para cerrar la fuente cuando no es visible, ten en cuen
 5. Pulsa **Ocultar Banner**.
 6. Comprueba que el banner se retira.
 7. Envía una portada a TV y confirma que no cambia por sí sola el gráfico de cámara.
+
+Para repetir el ejemplo, en la cabina elige el estilo **Clásico** en **Ajustes → OBS**, guarda el cambio y pulsa **Banner en OBS** en un canto. El rótulo aparece sobre la foto en la escena de prueba.
+
+![El banner Clásico muestra el número y el título del canto sobre la foto de referencia en OBS.](capturas/61-obs-banner-clasico-en-escena.png)
 
 Para el uso habitual mediante una fuente Navegador no necesitas configurar el enlace adicional de control de OBS del [apartado 23](#23-configuracion-adicional-de-integracion-con-obs).
 
@@ -654,6 +683,8 @@ Seleccionar un canto prepara sus acciones. Para mostrarlo utiliza un botón de e
 
 **Figura 5.** Después de seleccionar un himno aparecen los botones para enviar su portada, enviar la letra, mostrar el banner o quitar la selección. La biblioteca está dentro de Opciones avanzadas de Ajustes; también puedes habilitar Editar letra en la interfaz principal. Comprueba el título antes de elegir la acción.
 
+![Detalle del himno 15 seleccionado con las acciones Enviar portada a TV, Enviar letra a TV y Banner en OBS.](capturas/62-himnario-preparar-canto.png)
+
 ### 11.2 Mostrar solo la portada
 
 Pulsa **Enviar portada a TV**. Se muestra el número y título del himno, sin entrar directamente a su letra.
@@ -675,6 +706,8 @@ Enviar la letra no reproduce una grabación musical del canto. Esta función mue
 ![Salida real de TV mostrando letra grande de un canto.](capturas/04-letra-en-tv.png)
 
 **Figura 7.** Ejemplo de la salida de TV después de enviar letra. La cabina utiliza esta misma salida dentro de su minivisor.
+
+![Minivisor Salida a TV en vivo con la letra del himno y los controles para avanzar.](capturas/63-himno-en-salida-tv.png)
 
 ### 11.4 Cómo se distribuye la letra
 
@@ -703,6 +736,8 @@ No busques únicamente en Himnario un canto que pertenece al catálogo del coro.
 ![Controles del catálogo del coro con acciones de título, letra y OBS.](capturas/06-coro-acciones.png)
 
 **Figura 8.** El coro tiene su propio catálogo y sus propias acciones. Revisa que estés trabajando en Coro cuando el canto pertenece a esa sección.
+
+![Búsqueda de amigo en el catálogo Coro con las coincidencias debajo del campo.](capturas/64-coro-buscar-canto.png)
 
 ### 11.7 Enviar un banner del canto
 
@@ -891,6 +926,12 @@ En TV, la referencia aparece centrada sobre el texto. Los números de versículo
 
 ![Salida a TV con la referencia centrada y el número de versículo resaltado.](capturas/45-cita-con-texto-tv.png)
 
+El mismo pasaje se ve de dos maneras en **Salida a TV**. **Solo Cita** muestra la referencia y **Cita + Texto** añade el versículo.
+
+![Solo Cita muestra Salmos 23:1 sin el texto del versículo.](capturas/66-cita-sin-texto.png)
+
+![Cita más Texto muestra Salmos 23:1 junto al texto del versículo.](capturas/67-cita-con-texto.png)
+
 Tras instalar el programa y sus dependencias, las traducciones incluidas funcionan sin internet. Si una cita se rechaza, revisa el libro, el capítulo y el rango de versículos para la traducción seleccionada.
 
 ### 13.3 Introducir la cita con Enter
@@ -1039,6 +1080,10 @@ La duración de rotación no hace avanzar una vista enviada de esta forma. Para 
 ![Vista previa de una lista y botón Enviar esta vista a TV.](capturas/13-vista-fija.png)
 
 **Figura 25.** Elige la vista en el selector, revísala y pulsa Enviar esta vista a TV para mantenerla fija. Cambiar el selector no la envía.
+
+![Vista fija de las 9:00 a. m. con la vista previa a la izquierda y el resultado a la derecha.](capturas/68-lista-vista-fija-0900.png)
+
+![Vista fija de las 5:00 a. m. tras volver a pulsar Enviar esta vista a TV. Los nombres de los ejemplos son ficticios.](capturas/69-lista-vista-fija-0500.png)
 
 ### 14.9 Iniciar la versión rotativa
 
