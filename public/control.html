@@ -848,19 +848,22 @@
         <label>Ciudad y ubicación<input id="churchCity" name="churchCity" type="text" maxlength="160" autocomplete="address-level2"></label>
       </fieldset></section>
 <section role="tabpanel" id="settings-panel-lyrics" aria-labelledby="settings-tab-lyrics" data-settings-panel="lyrics" hidden>      <fieldset class="settings-section" id="lyricsAppearanceSection"><legend>Letras en las TV</legend>
-        <p class="settings-note">Prepara y revisa los cuadros antes de guardar. Los ajustes de Himnario y Coro son independientes.</p>
+        <p class="settings-note">Prepara y revisa los cuadros antes de guardar. Los ajustes de Himnario, Coro y Biblia son independientes.</p>
         <div class="lyrics-configuration"><div id="lyricsAppearanceFields" class="lyrics-options-grid"></div>
-        <div class="song-upload-actions"><label class="song-file-button">Importar fuente<input id="songFontUpload" type="file" accept=".ttf,.otf,.woff,.woff2"></label><label class="song-file-button">Agregar fondo<input id="songBackgroundUpload" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
-        <p class="settings-note">TTF, OTF, WOFF o WOFF2; fondos PNG, JPG o WebP. Máximo 8 MB por archivo.</p>
+        <div id="lyricsAssetControls"><div class="song-upload-actions"><label class="song-file-button">Importar fuente<input id="songFontUpload" type="file" accept=".ttf,.otf,.woff,.woff2"></label><label class="song-file-button">Agregar fondo<input id="songBackgroundUpload" type="file" accept="image/png,image/jpeg,image/webp"></label></div>
+        <p class="settings-note">TTF, OTF, WOFF o WOFF2; fondos PNG, JPG o WebP. Máximo 8 MB por archivo.</p></div>
         <button type="button" id="resetLyricsAppearance">Restablecer este diseño</button></div>
-        <div class="lyrics-live-preview"><label>Canto para previsualizar<select id="lyricsPreviewSong"></select></label>
-        <iframe id="lyricsAppearancePreview" class="graphics-preview" src="about:blank" title="Vista previa de letras de cantos"></iframe>
+        <div class="lyrics-live-preview"><label><span id="lyricsPreviewLabel">Canto para previsualizar</span><select id="lyricsPreviewSong"></select></label>
+        <iframe id="lyricsAppearancePreview" class="graphics-preview" src="about:blank" title="Vista previa de letras en TV"></iframe>
         <div class="lyrics-preview-navigation"><button type="button" id="lyricsPreviewPrevious">Anterior</button><output id="lyricsPreviewPosition" aria-live="polite"></output><button type="button" id="lyricsPreviewNext">Siguiente</button></div>
         <p id="lyricsPreviewMessage" class="settings-message" role="status"></p>
         </div>
       </fieldset></section>
 <section role="tabpanel" id="settings-panel-background" aria-labelledby="settings-tab-background" data-settings-panel="background" hidden>      <fieldset class="settings-section"><legend>Fondo de las TV</legend>
         <label>Diseño<select data-graphics-field="background"><option value="institutional">Institucional · logo sobre blanco</option><option value="classic">Centenario · líneas doradas</option></select></label>
+        <label class="song-checkbox"><input data-graphics-field="animateBackground" type="checkbox">Animar las líneas del fondo Centenario</label>
+        <label class="song-checkbox"><input data-graphics-field="animateLogo" type="checkbox">Animar el logo en TV y OBS</label>
+        <label class="song-checkbox"><input data-graphics-field="showGlow" type="checkbox">Mostrar resplandor del fondo y del logo</label>
         <iframe id="settingsBackgroundPreview" class="graphics-preview" src="about:blank" title="Vista previa del fondo de TV"></iframe>
       </fieldset>
       <fieldset class="settings-section"><legend>Duración en TV</legend>

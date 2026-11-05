@@ -6,6 +6,9 @@
     if (!settings?.graphics) return;
     const graphics = settings.graphics;
     document.documentElement.dataset.background = graphics.background;
+    for (const key of ['animateBackground', 'animateLogo', 'showGlow']) {
+      document.documentElement.dataset[key] = String(graphics[key] !== false);
+    }
     window.dispatchEvent(new CustomEvent('graphics-changed', { detail: graphics }));
   }
   function acceptState(state) {

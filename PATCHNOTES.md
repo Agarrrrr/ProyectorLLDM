@@ -1,5 +1,23 @@
 # Notas de cambios
 
+## Versión 1.4.1
+
+### Personalización de la proyección
+
+- En **Ajustes → Fondo de TV**, puedes desactivar por separado el movimiento de las líneas doradas del fondo Centenario, la animación del logo en TV y OBS, y el resplandor del fondo y del logo. Los tres efectos vienen activados en instalaciones nuevas y al actualizar desde una versión anterior.
+- En **Ajustes → Letras**, Himnario y Coro tienen controles independientes para la separación entre renglones y la sombra del texto. La separación se toma en cuenta al calcular cuántos renglones caben por diapositiva.
+- En la misma pestaña, el perfil **Biblia** permite cambiar el color del texto y el color de la cita y los números de versículo, además de desactivar la sombra. La vista previa muestra los formatos **Solo cita** y **Cita con texto** antes de guardar.
+- Los ajustes de proyección se conservan al reiniciar y se incluyen en el respaldo de configuración.
+
+### Cambios incorporados desde 1.4.0
+
+- Conexión de dispositivos por código QR en la red local. La cabina puede ajustar cuánto tiempo se muestran las citas bíblicas y los temas en TV. Con 0 segundos se retiran manualmente.
+- Proyector Lite está disponible en el navegador, con una interfaz más cercana a la cabina de escritorio y una guía para usar su salida en OBS.
+
+### Actualización en Windows
+
+- Extrae `Proyector-LLDM-1.4.1.zip` en una carpeta nueva. Conserva la instalación anterior y consulta **Actualizar el programa** en la guía para trasladar tu configuración y tus datos.
+
 ## Versión 1.4.0
 
 - Proyección bíblica en modo Solo Cita o Cita + Texto, con ocho traducciones disponibles sin internet.

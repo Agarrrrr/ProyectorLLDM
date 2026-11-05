@@ -411,6 +411,11 @@ const stageIdle = document.getElementById('stage-idle');
       targetLayer.style.transition = 'none'; targetLayer.classList.remove('active');
       targetLayer.innerHTML = html;
       const appearance = payload.appearance;
+      const bibleStyle = payload.type === 'bible' ? payload.bibleStyle : null;
+      targetLayer.classList.toggle('without-text-shadow', (bibleStyle || appearance)?.textShadow === false);
+      targetLayer.style.setProperty('--bible-text-color', bibleStyle?.color || '');
+      targetLayer.style.setProperty('--bible-accent-color', bibleStyle?.indicatorColor || '');
+      targetLayer.style.setProperty('--song-line-gap', outputLength(appearance?.lineGap ?? 3));
       if (appearance) {
         targetLayer.style.setProperty('--song-family', 'Song_' + appearance.font);
         targetLayer.style.setProperty('--song-variation', '"wght" ' + (appearance.fontWeight || 800));
@@ -512,7 +517,10 @@ const stageIdle = document.getElementById('stage-idle');
             incomingRevision = revision;
             document.fonts.ready.then(async () => {
               if (incomingRevision !== revision || socket.readyState !== WebSocket.OPEN) return;
-              const committed = await renderDisplay(data.state.displayPayload, revision);
+              const payload = data.state.displayPayload;
+              const committed = await renderDisplay(payload?.type === 'bible'
+                ? { ...payload, bibleStyle: data.state.settings?.lyrics?.bible }
+                : payload, revision);
               if (!committed) return;
               requestAnimationFrame(() => {
                 if (incomingRevision !== revision || socket.readyState !== WebSocket.OPEN) return;

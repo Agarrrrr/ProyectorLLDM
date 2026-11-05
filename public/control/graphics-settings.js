@@ -24,7 +24,8 @@ function updatePreview(includeSample = false) {
 }
 fields.forEach(field => field.addEventListener('input', () => {
   if (!draft) return;
-  draft.graphics[field.dataset.graphicsField] = ['range', 'number'].includes(field.type) ? (field.value === '' ? null : Number(field.value)) : field.value;
+  draft.graphics[field.dataset.graphicsField] = field.type === 'checkbox' ? field.checked
+    : ['range', 'number'].includes(field.type) ? (field.value === '' ? null : Number(field.value)) : field.value;
   document.querySelector('[data-graphics-field="bannerTone"]').disabled = draft.graphics.bannerStyle === 'classic';
   updatePreview();
 }));
@@ -43,7 +44,11 @@ export function openGraphicsSettings(settings) {
   if (!settings?.graphics) throw new Error('Reinicia el servidor de Proyector LLDM y recarga la página para activar los ajustes de gráficos.');
   draft = settings;
   previewVisible = true; toggle.textContent = 'Ocultar ejemplo';
-  fields.forEach(field => { field.value = draft.graphics[field.dataset.graphicsField]; });
+  fields.forEach(field => {
+    const value = draft.graphics[field.dataset.graphicsField];
+    if (field.type === 'checkbox') field.checked = value !== false;
+    else field.value = value;
+  });
   document.querySelector('[data-graphics-field="bannerTone"]').disabled = draft.graphics.bannerStyle === 'classic';
   background.src = '/idle.html?appearancePreview=1';
   overlay.src = '/overlay?obs=1&appearancePreview=1';

@@ -398,7 +398,7 @@ body, html {
 }
 
 /* Song stanzas preserve source lines and wrap only between complete words. */
-.song-layout { gap: 0.1875rem; }
+.song-layout { gap: var(--song-line-gap, 0.1875rem); }
 .song-layout .hymn-line {
   font-size: var(--song-font-size);
   line-height: 1.01;
@@ -499,3 +499,10 @@ body, html {
 
 .bible-text-line { white-space: nowrap; }
 .bible-text-line .bible-verse-num { margin: 0; vertical-align: baseline; }
+
+:is(.bible-text-body, .display-chapter-verse-number) { color: var(--bible-text-color, #fff); }
+:is(.bible-citation-title, .bible-verse-num, .display-book-title) { color: var(--bible-accent-color, #cc9900); }
+.without-text-shadow :is(.hymn-line, .hymn-subtle-indicator, .hymn-cover-number, .hymn-cover-title,
+  .bible-text-body, .bible-citation-title, .bible-verse-num, .display-book-title, .display-chapter-verse-number) {
+  text-shadow: none;
+}

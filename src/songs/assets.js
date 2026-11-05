@@ -33,7 +33,7 @@ function createSongAssets({ app, dataDir }) {
   function all() { return [...builtin, ...imported.map(asset => ({ ...asset, file: path.join(directory, asset.filename), url: '/song-assets/' + asset.filename }))]; }
   function find(id, kind) { return all().find(asset => asset.id === id && asset.kind === kind); }
   function validate(lyrics) {
-    for (const value of Object.values(lyrics)) {
+    for (const value of [lyrics.hymn, lyrics.choir]) {
       if (!find(value.font, 'font')) throw new Error('La fuente seleccionada no está disponible.');
       if (!['original', 'solid'].includes(value.background) && !find(value.background, 'image')) throw new Error('El fondo seleccionado no está disponible.');
     }

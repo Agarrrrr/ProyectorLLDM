@@ -26,13 +26,16 @@ test('ajustes, preparación y posición sobreviven al reinicio; los datos de igl
   settings.keyboard.nextSlide = ['KeyN', 'Space'];
   assert.equal(settings.operator.showLyricsEditor, false);
   settings.operator.showLyricsEditor = true;
-  settings.graphics = { background: 'classic', bannerStyle: 'angular', bannerTone: 'ivory', bannerPosition: 'bottom-right', logoColor: 'white', logoPosition: 'top-left', logoSize: 180, bannerDurationSeconds: 12, locationDurationSeconds: 0 };
+  settings.graphics = { ...settings.graphics, background: 'classic', bannerTone: 'ivory', bannerPosition: 'bottom-right', logoColor: 'white', logoPosition: 'top-left', logoSize: 180, bannerDurationSeconds: 12, locationDurationSeconds: 0, animateBackground: false, animateLogo: false, showGlow: false };
+  settings.lyrics.choir.lineGap = 12;
+  settings.lyrics.choir.textShadow = false;
+  settings.lyrics.bible = { color: '#eeeeee', indicatorColor: '#aabbcc', textShadow: false };
   assert.equal((await send('/api/settings', { revision: initial.revision, settings }, 'PUT')).status, 200);
   assert.equal((await send('/api/settings', { revision: initial.revision, settings }, 'PUT')).status, 409);
   const renamed = structuredClone(settings); renamed.church.name = 'Otro nombre';
   assert.equal((await send('/api/settings', { revision: 1, settings: renamed }, 'PUT')).status, 400);
   assert.equal((await send('/api/settings', { revision: 1, settings: { ...settings, operator: { showLyricsEditor: 'true' } } }, 'PUT')).status, 400);
-  for (const graphics of [{ ...settings.graphics, logoSize: 9999 }, { ...settings.graphics, logoColor: 'unknown' }, { ...settings.graphics, bannerPosition: 'outside' }]) {
+  for (const graphics of [{ ...settings.graphics, logoSize: 9999 }, { ...settings.graphics, logoColor: 'unknown' }, { ...settings.graphics, bannerPosition: 'outside' }, { ...settings.graphics, showGlow: 'false' }]) {
     assert.equal((await send('/api/settings', { revision: 1, settings: { ...settings, graphics } }, 'PUT')).status, 400);
   }
   for (const value of [-1, 3601, 1.5, null, '30']) {
@@ -48,6 +51,9 @@ test('ajustes, preparación y posición sobreviven al reinicio; los datos de igl
   await send('/api/control/selection', { type: 'choir', id: 'coro_001' });
   await send('/api/control/drafts', { themeInput: 'Preparado para después', activeTab: 'tab-coro' }, 'PATCH');
   await send('/api/project/choir', { choirId: 'coro_001', startIndex: 1 });
+  const { appearance } = (await get('/api/state')).displayPayload;
+  assert.equal(appearance.lineGap, 12);
+  assert.equal(appearance.textShadow, false);
   await instance.close();
   base = await start();
   const restored = await get('/api/state');

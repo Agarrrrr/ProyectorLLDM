@@ -104,6 +104,11 @@ body { font-family: 'Montserrat', 'Segoe UI', sans-serif; }
 [data-banner-style="angular"] .shimmer-sweep { display: none; }
 [data-banner-style="angular"] .drone-wrapper { max-width: 75rem; }
 .logo-box { width: var(--obs-logo-size, 13.4375rem); height: calc(var(--obs-logo-size, 13.4375rem) * .7953); }
+:root:is([data-animate-logo="false"], [data-show-glow="false"]) .logo-star-sparkle,
+:root[data-animate-logo="false"] .logo-shimmer-overlay { display: none; }
+:root:is([data-animate-logo="false"], [data-show-glow="false"]) .logo-box.gleam-active {
+  filter: drop-shadow(0 0.25rem 0.625rem rgba(0, 0, 0, 0.45)) drop-shadow(0 0.125rem 0.1875rem rgba(0, 0, 0, 0.25));
+}
 .logo-img { opacity: 1; }
 .logo-tint { position: absolute; inset: 0; display: none; mask: url('/logo_lldm_oficial.svg') center / contain no-repeat; background: var(--obs-logo-tint); }
 [data-logo-color]:not([data-logo-color="official"]) .logo-img { opacity: 0; }

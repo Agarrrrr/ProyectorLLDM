@@ -86,6 +86,15 @@ body, html {
   animation: logoGlowOnPass 2.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
 }
 
+:root[data-animate-background="false"] :is(.pulse-gold-lines-left, .pulse-gold-lines-right),
+:root:is([data-animate-logo="false"], [data-show-glow="false"]) .trigger-gleam .center-logo-container {
+  animation: none;
+}
+:root[data-animate-logo="false"] .shooting-star-track { display: none; }
+:root[data-show-glow="false"] :is(.pulse-gold-lines-left, .pulse-gold-lines-right, #vectorLogoLLDM, [filter="url(#starGlowFilter)"]) {
+  filter: none !important;
+}
+
 @keyframes logoGlowOnPass {
   0% {
     filter: drop-shadow(0 0 0 rgba(235, 185, 50, 0));

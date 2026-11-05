@@ -14,6 +14,7 @@ const controls = [
 const CHURCH_NAME = 'La Luz del Mundo';
 const graphicsDefaults = {
   background: 'institutional', bannerStyle: 'angular', bannerTone: 'navy',
+  animateBackground: true, animateLogo: true, showGlow: true,
   bannerPosition: 'top-right', logoColor: 'official', logoPosition: 'bottom-left', logoSize: 215,
   bannerDurationSeconds: 30, locationDurationSeconds: 75,
   bibleDurationSeconds: 120, themeDurationSeconds: 120
@@ -33,7 +34,8 @@ function validate(value) {
     bannerDurationSeconds: graphicsDefaults.bannerDurationSeconds,
     locationDurationSeconds: graphicsDefaults.locationDurationSeconds,
     bibleDurationSeconds: graphicsDefaults.bibleDurationSeconds,
-    themeDurationSeconds: graphicsDefaults.themeDurationSeconds, ...value.graphics
+    themeDurationSeconds: graphicsDefaults.themeDurationSeconds,
+    animateBackground: true, animateLogo: true, showGlow: true, ...value.graphics
   };
   const choices = {
     background: ['institutional', 'classic'], bannerStyle: ['angular', 'classic'],
@@ -44,6 +46,7 @@ function validate(value) {
   if (!graphics || typeof graphics !== 'object' || Array.isArray(graphics) ||
       Object.keys(graphics).some(key => !Object.hasOwn(graphicsDefaults, key)) ||
       Object.entries(choices).some(([key, values]) => !values.includes(graphics[key])) ||
+      ['animateBackground', 'animateLogo', 'showGlow'].some(key => typeof graphics[key] !== 'boolean') ||
       !Number.isInteger(graphics.logoSize) || graphics.logoSize < 120 || graphics.logoSize > 300) throw new Error('Opciones de gráficos no válidas.');
   for (const key of ['bannerDurationSeconds', 'locationDurationSeconds']) {
     if (!Number.isInteger(graphics[key]) || graphics[key] < 0 || graphics[key] > 3600) throw new Error('La duración de OBS debe ser un número entero de 0 a 3600 segundos. Usa 0 para ocultar manualmente.');
@@ -73,7 +76,7 @@ function createSettingsService({ app, dataDir, onChange, validateExtra = () => {
   let snapshot = fs.existsSync(filename) ? JSON.parse(fs.readFileSync(filename, 'utf8')) : { revision: 0, settings: structuredClone(defaults) };
   // Old installations gain the new options without losing church data or shortcuts.
   snapshot.settings.lyrics ??= structuredClone(lyricsDefaults);
-  for (const type of ['hymn', 'choir']) snapshot.settings.lyrics[type] = { ...lyricsDefaults[type], ...snapshot.settings.lyrics[type] };
+  for (const type of Object.keys(lyricsDefaults)) snapshot.settings.lyrics[type] = { ...lyricsDefaults[type], ...snapshot.settings.lyrics[type] };
   snapshot.settings.graphics = { ...graphicsDefaults, ...snapshot.settings.graphics };
   snapshot.settings.operator ??= structuredClone(defaults.operator);
   const normalizedChurch = { ...snapshot.settings.church, name: CHURCH_NAME };

@@ -6,6 +6,7 @@
 .lyrics-control-group { border:0;padding:0;margin:0;min-width:0; }
 .settings-section .lyrics-control-group legend { padding:0 0 9px;font-size:13px;color:var(--ui-secondary);font-weight:600; }
 .lyrics-sizing-fields,.lyrics-color-fields { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
+.bible-color-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .lyrics-background-fields { display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:16px;align-items:end; }
 .lyrics-configuration,.lyrics-live-preview { display:grid;gap:16px;min-width:0;align-content:start; }
 .lyrics-live-preview { position:sticky;top:0; }
@@ -13,8 +14,10 @@
 #lyricsAppearanceSection>.settings-note { grid-column:1/-1; }
 #settingsDialog:has(#settings-panel-lyrics:not([hidden])) { width:min(1160px,calc(100vw - 24px)); }
 .song-checkbox { display:flex!important;align-items:center;gap:10px!important; }
-.song-checkbox input { width:20px;height:20px;accent-color:#e5c276; }
+.settings-section .song-checkbox input { width:20px;height:20px;padding:0;flex:none;accent-color:#e5c276; }
+#lyricsAssetControls .settings-note { margin-top:8px; }
 .song-upload-actions,.lyrics-preview-navigation,.library-toolbar,.song-delete-actions { display:flex;gap:10px;align-items:center;flex-wrap:wrap; }
+.lyrics-preview-navigation[hidden] { display:none; }
 .song-file-button { position:relative;padding:10px 14px;min-height:42px;border:1px solid var(--ui-line);border-radius:8px;background:var(--ui-control);color:var(--ui-text);cursor:pointer;overflow:hidden; }
 .song-file-button input { position:absolute;inset:0;opacity:0;cursor:pointer; }
 .song-file-button:focus-within { outline:2px solid #e5c276;outline-offset:2px; }

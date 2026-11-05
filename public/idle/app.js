@@ -7,6 +7,7 @@ let timerId = null;
 
 // Disparar la animacion del destello
 function triggerDestello() {
+  if (document.documentElement.dataset.animateLogo === 'false') return;
   stage.classList.remove('trigger-gleam');
   void stage.offsetWidth; // Forzar reflow en el navegador
   stage.classList.add('trigger-gleam');
@@ -15,6 +16,10 @@ function triggerDestello() {
     stage.classList.remove('trigger-gleam');
   }, 3000);
 }
+
+window.addEventListener('graphics-changed', ({ detail }) => {
+  if (detail.animateLogo === false) stage.classList.remove('trigger-gleam');
+});
 
 // Programar el siguiente destello aleatorio entre 15 y 30 minutos
 function scheduleNextDestello() {

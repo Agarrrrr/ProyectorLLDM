@@ -61,7 +61,7 @@ function validateContents(directory) {
         throw new Error('Una fuente o fondo del respaldo tiene un formato inválido: ' + asset.filename);
       }
     }
-    for (const profile of Object.values(settings.lyrics)) {
+    for (const profile of [settings.lyrics.hymn, settings.lyrics.choir]) {
       if (!['montserrat', 'inter', 'outfit', 'playfair'].includes(profile.font) && !assets.some(asset => asset.kind === 'font' && asset.id === profile.font)) throw new Error('Falta una fuente de los ajustes.');
       if (!['original', 'solid', 'preset-navy', 'preset-burgundy', 'preset-emerald', 'preset-slate'].includes(profile.background) &&
         !assets.some(asset => asset.kind === 'image' && asset.id === profile.background)) throw new Error('Falta un fondo de los ajustes.');

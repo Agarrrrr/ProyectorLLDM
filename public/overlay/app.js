@@ -93,7 +93,7 @@ function cambiarPosicionLogo(pos) {
 }
 
 function activarBrilloLogo() {
-    if (!streamLogoBox) return;
+    if (!streamLogoBox || document.documentElement.dataset.animateLogo === 'false') return;
     streamLogoBox.classList.remove('gleam-active');
     void streamLogoBox.offsetWidth; // Forzar reflow a 60 FPS
     streamLogoBox.classList.add('gleam-active');
