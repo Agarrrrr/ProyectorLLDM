@@ -46,6 +46,7 @@
 
 - Cada dispositivo conectado puede permanecer en su propia pestaña o ventana y utilizar sus propios campos de búsqueda de forma independiente (con prioridad de persistencia para la PC principal), mientras que la **Salida a TV**, la **Salida a OBS** y todos los campos de la **Lista de oraciones** permanecen 100% síncronos en tiempo real.
 - Al pulsar **Esc** o el botón **Fondo** (tanto en PC como en dispositivos móviles), se retira la proyección a reposo y se limpian los campos de búsqueda en los dispositivos, conservando intactos los datos de la Lista de oraciones.
+- Nuevo **Banner Inferior de Ministro y Ubicación (OBS)** en la pestaña **Transmisión**: permite escribir el rango y nombre del ministro (ej. `P.E. ELIAS DÍAZ`, `D.E.`, `E.E.`) en un apartado propio que se guarda de forma persistente (sin borrarse al pulsar `Esc` / `Fondo` ni al reiniciar) y proyecta en la parte inferior centrada de `/overlay` el nombre del ministro junto con la ubicación configurada en **Ajustes → Iglesia**, adaptándose tanto al estilo **Clásico** como a **Paneles angulares**.
 - Búsqueda por texto bíblico integrada en **Temas y citas** y guías actualizadas en Markdown, HTML y PDF.
 
 ## Versión 1.4.1

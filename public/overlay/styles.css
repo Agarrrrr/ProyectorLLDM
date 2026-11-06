@@ -791,3 +791,93 @@ body {
 .drone-wrapper { width: max-content; max-width: 112.5rem; }
 .drone-card { min-width: 0; }
 .drone-header { min-width: 0; max-width: 100%; }
+
+/* --- BANNER INFERIOR CENTRADO PARA MINISTRO Y UBICACIÓN --- */
+.minister-wrapper {
+    position: absolute;
+    bottom: 4.0625rem;
+    left: 50%;
+    transform: translateX(-50%) translateZ(0);
+    z-index: 85;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    max-width: 112.5rem;
+}
+
+.minister-banner {
+    max-width: 82rem;
+}
+
+.minister-content {
+    padding: 0.75rem 2.25rem 0.75rem 1.5625rem;
+    max-width: 79.5rem;
+}
+
+#ministerBody {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    min-width: 0;
+    max-width: 100%;
+    align-self: stretch;
+    opacity: 0;
+    transform: translateX(-0.625rem);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.45s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.45s;
+    will-change: transform, opacity;
+}
+
+.minister-banner.active #ministerBody {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.minister-banner.exiting .badge-bar {
+    animation: ministerBadgeExit 0.48s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+
+@keyframes ministerBadgeExit {
+    0% {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+}
+
+.minister-name {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, sans-serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--azul-lldm);
+    text-transform: uppercase;
+    letter-spacing: 0.03125rem;
+    line-height: 1.12;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+}
+
+.minister-location {
+    font-family: 'Montserrat', 'Segoe UI', Tahoma, sans-serif;
+    font-size: 1.5625rem;
+    font-weight: 800;
+    color: var(--azul-lldm);
+    text-transform: uppercase;
+    letter-spacing: 0.035rem;
+    line-height: 1.15;
+    margin-top: 0.15rem;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow: visible;
+    overflow-wrap: anywhere;
+}

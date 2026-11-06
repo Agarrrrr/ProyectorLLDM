@@ -1,6 +1,6 @@
 (() => {
   const baseSizes = new WeakMap();
-  const selector = '.main-title, .hymn-num, .hymn-title, .bible-book, .bible-verse, .category-tag, .sub-detail, .drone-tag, .drone-title';
+  const selector = '.main-title, .hymn-num, .hymn-title, .bible-book, .bible-verse, .category-tag, .sub-detail, .drone-tag, .drone-title, .minister-name, .minister-location';
   function fit(container, maxHeight) {
     const viewport = window.OutputViewport;
     const scale = viewport.scale();
@@ -15,7 +15,7 @@
         || elements.some(element => element.scrollWidth > element.clientWidth + 1);
       if (!overflows) break;
       for (const element of elements) {
-        const minimum = element.matches('.category-tag, .sub-detail, .drone-tag') ? 12 : 18;
+        const minimum = element.matches('.category-tag, .sub-detail, .drone-tag, .minister-location') ? 12 : 18;
         element.style.fontSize = viewport.length(Math.max(minimum, baseSizes.get(element) * factor));
       }
     }

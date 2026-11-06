@@ -441,6 +441,24 @@
             </button>
           </div>
 
+          <!-- APARTADO EXCLUSIVO: MINISTRO Y UBICACIÓN (BANNER INFERIOR CENTRADO EN OBS) -->
+          <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
+              <label for="ministerInput" style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                <svg class="icon" viewBox="0 0 24 24" style="width: 15px; height: 15px; stroke: var(--gold-light);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Ministro y Ubicación (Banner Inferior OBS)</span>
+              </label>
+              <span style="font-size: 11px; color: #94a3b8;">Se guarda automáticamente · Toma la ubicación de Ajustes → Iglesia</span>
+            </div>
+            <div class="search-inputs">
+              <input type="text" id="ministerInput" class="search-input" style="flex: 1;" placeholder="Rango y nombre del ministro (ej: P.E. ELIAS DÍAZ, D.E. ..., E.E. ...)..." autocomplete="off">
+              <button type="button" id="generateMinisterButton" class="btn-gold" title="Mostrar banner inferior centrado con el rango/nombre del ministro y la ubicación en Cámaras OBS (/overlay)">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Ministro (OBS)</span>
+              </button>
+            </div>
+          </div>
+
           <!-- ENLACES SEPARADOS: 1) PANTALLAS DEL TEMPLO (/pantalla) Y 2) CÁMARAS OBS FONDO TRANSPARENTE (/overlay) -->
           <div style="margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
             <!-- SALIDA 1: PANTALLAS DEL TEMPLO -->
@@ -899,7 +917,7 @@
           <label>Duración de ubicación (segundos)<input data-graphics-field="locationDurationSeconds" type="number" min="0" max="3600" step="1" inputmode="numeric" required></label>
         </div>
         <p class="settings-note">Usa 0 para mantener el gráfico hasta ocultarlo manualmente. Guarda para aplicar la duración a los siguientes envíos. Los ejemplos de esta ventana permanecen visibles para revisar su diseño.</p>
-        <label>Previsualizar<select id="settingsGraphicSample"><option value="bible">Cita bíblica</option><option value="theme">Tema</option><option value="choir">Coro</option><option value="special">Carta apostólica</option><option value="drone">Ubicación</option></select></label>
+        <label>Previsualizar<select id="settingsGraphicSample"><option value="bible">Cita bíblica</option><option value="theme">Tema</option><option value="choir">Coro</option><option value="special">Carta apostólica</option><option value="drone">Ubicación</option><option value="minister">Ministro y ubicación</option></select></label>
         <iframe id="settingsOverlayPreview" class="graphics-preview graphics-preview-obs" src="about:blank" title="Vista previa de los gráficos de OBS"></iframe>
         <div class="graphics-preview-actions"><button type="button" id="settingsReplayGraphic">Repetir animación</button><button type="button" id="settingsToggleGraphic">Ocultar ejemplo</button></div>
       </fieldset></section>

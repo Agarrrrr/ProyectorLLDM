@@ -144,5 +144,64 @@ document.getElementById("clearCustomButton").addEventListener("click", () => {
 });
 
 // ==============================================================
+// BANNER INFERIOR DE MINISTRO Y UBICACIÓN (OBS) CON PERSISTENCIA
+// ==============================================================
+const ministerInputEl = document.getElementById("ministerInput");
+const generateMinisterBtn = document.getElementById("generateMinisterButton");
+
+function persistMinisterName(val) {
+  try { localStorage.setItem("lldm_minister_name", val); } catch {}
+  request('/api/control/drafts', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ministerInput: val })
+  }).catch(() => {});
+}
+
+if (ministerInputEl) {
+  try {
+    const localSaved = localStorage.getItem("lldm_minister_name");
+    if (localSaved && !ministerInputEl.value) ministerInputEl.value = localSaved;
+  } catch {}
+
+  let saveTimer = null;
+  ministerInputEl.addEventListener("input", () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => persistMinisterName(ministerInputEl.value.trim()), 250);
+  });
+  ministerInputEl.addEventListener("change", () => {
+    clearTimeout(saveTimer);
+    persistMinisterName(ministerInputEl.value.trim());
+  });
+  ministerInputEl.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      generateMinisterBtn?.click();
+    }
+  });
+}
+
+if (generateMinisterBtn) {
+  generateMinisterBtn.addEventListener("click", () => {
+    const ministerName = (ministerInputEl?.value || "").trim();
+    if (!ministerName) {
+      showToast("Escribe el rango y nombre del ministro (ej: P.E. ELIAS DÍAZ)");
+      ministerInputEl?.focus();
+      return;
+    }
+    persistMinisterName(ministerName);
+    const church = getSettings()?.church;
+    const locationText = church?.city || church?.address || '';
+    broadcastToOverlay({
+      type: 'minister',
+      minister: ministerName,
+      location: locationText,
+      fullText: [ministerName, locationText].filter(Boolean).join(' - ')
+    });
+    showToast(`Banner de Ministro en OBS: ${ministerName}`);
+  });
+}
+
+// ==============================================================
 // 8. LÓGICA DE HIMNARIO LLDM (BÚSQUEDA Y PROYECCIÓN ÁGIL EN MÓVIL)
 // ==============================================================

@@ -30,6 +30,10 @@ const streamLogoBox = document.getElementById('streamLogoBox');
 const droneWrapper = document.getElementById('droneWrapper');
 const droneHeaderTag = document.getElementById('droneHeaderTag');
 const droneMainText = document.getElementById('droneMainText');
+const ministerBanner = document.getElementById('ministerBanner');
+const ministerBody = document.getElementById('ministerBody');
+const ministerNameText = document.getElementById('ministerNameText');
+const ministerLocationText = document.getElementById('ministerLocationText');
 const logoTint = document.createElement('span');
 logoTint.className = 'logo-tint';
 streamLogoBox.appendChild(logoTint);
@@ -52,6 +56,10 @@ window.addEventListener('graphics-changed', event => {
     window.LldmOverlayLayout.reset(droneWrapper.querySelector('.drone-card'));
     window.LldmOverlayLayout.fit(bannerBody, 130);
     window.LldmOverlayLayout.fit(droneWrapper.querySelector('.drone-card'), 220);
+    if (ministerBody) {
+        window.LldmOverlayLayout.reset(ministerBody);
+        window.LldmOverlayLayout.fit(ministerBody, 150);
+    }
 });
 
 if (window.obsstudio || window.location.search.includes('obs=1')) {
@@ -119,6 +127,11 @@ function getGraphicKey(data) {
     if (!data) return '';
 
     // Caso 0: Toma de Dron (Cuadro en medio)
+    if (data.type === 'minister') {
+        const min = String(data.minister || data.text || '').toLowerCase().trim();
+        const loc = String(data.location || data.churchCity || '').toLowerCase().trim();
+        return `minister:${min}:${loc}`;
+    }
     if (data.type === 'drone') {
         const loc = String(data.location || data.text || 'tijuana').toLowerCase().trim();
         return `drone:${loc}`;
@@ -169,19 +182,21 @@ function getGraphicKey(data) {
 function isAnyGraphicActive() {
     const bannerOn = bannerWrapper && (bannerWrapper.classList.contains('active') || bannerWrapper.classList.contains('exiting'));
     const droneOn = droneWrapper && (droneWrapper.classList.contains('active') || droneWrapper.classList.contains('exiting'));
-    return bannerOn || droneOn;
+    const ministerOn = ministerBanner && (ministerBanner.classList.contains('active') || ministerBanner.classList.contains('exiting'));
+    return bannerOn || droneOn || ministerOn;
 }
 
 function isAnyGraphicExiting() {
     const bannerEx = bannerWrapper && bannerWrapper.classList.contains('exiting');
     const droneEx = droneWrapper && droneWrapper.classList.contains('exiting');
-    return bannerEx || droneEx;
+    const ministerEx = ministerBanner && ministerBanner.classList.contains('exiting');
+    return bannerEx || droneEx || ministerEx;
 }
 
 function mostrarGrafico(data) {
     if (!data) return;
 
-    const raw = String(data.text || data.fullText || data.book || data.location || '').trim();
+    const raw = String(data.text || data.fullText || data.book || data.location || data.minister || '').trim();
     if (!raw && !data.book && !data.theme && !data.chapterVerse && !data.location) {
         pendingGraphicData = null;
         ocultarBanner(true);
@@ -239,6 +254,35 @@ function desplegarGrafico(data) {
     currentActiveKey = getGraphicKey(data);
 
     // A) CASO ESPECIAL: Cuadro de Dron (Toma Aérea centrada en medio)
+    if (data.type === 'minister') {
+        if (bannerWrapper.classList.contains('active') || bannerWrapper.classList.contains('exiting')) {
+            bannerWrapper.classList.remove('active', 'exiting');
+        }
+        if (droneWrapper && (droneWrapper.classList.contains('active') || droneWrapper.classList.contains('exiting'))) {
+            droneWrapper.classList.remove('active', 'exiting');
+        }
+
+        const minText = (data.minister || data.text || 'MINISTRO').trim();
+        const locText = (data.location || data.churchCity || '').trim();
+        ministerNameText.textContent = preventShortWidows(minText);
+        ministerLocationText.textContent = preventShortWidows(locText);
+        ministerLocationText.style.display = locText ? '' : 'none';
+
+        window.LldmOverlayLayout.fit(ministerBody, 150);
+        document.fonts.ready.then(() => window.LldmOverlayLayout.fit(ministerBody, 150));
+        ministerBanner.classList.remove('exiting', 'active');
+        void ministerBanner.offsetWidth;
+
+        requestAnimationFrame(() => {
+            ministerBanner.classList.add('active');
+        });
+
+        scheduleGraphicHide(graphicDuration(data));
+        return;
+    }
+    if (ministerBanner && (ministerBanner.classList.contains('active') || ministerBanner.classList.contains('exiting'))) {
+        ministerBanner.classList.remove('active', 'exiting');
+    }
     if (data.type === 'drone') {
         if (bannerWrapper.classList.contains('active') || bannerWrapper.classList.contains('exiting')) {
             bannerWrapper.classList.remove('active', 'exiting');
@@ -248,7 +292,6 @@ function desplegarGrafico(data) {
         const tagText = data.tag || "LA LUZ DEL MUNDO";
         droneHeaderTag.textContent = tagText;
         droneMainText.textContent = preventShortWidows(locText);
-
         window.LldmOverlayLayout.fit(droneWrapper.querySelector('.drone-card'), 220);
         document.fonts.ready.then(() => window.LldmOverlayLayout.fit(droneWrapper.querySelector('.drone-card'), 220));
         droneWrapper.classList.remove('exiting', 'active');
@@ -452,6 +495,31 @@ function ocultarBanner(cancelarCola = false) {
     }
 
     // 1. Si el Cuadro Dron está activo o saliendo
+    if (ministerBanner && (ministerBanner.classList.contains('active') || ministerBanner.classList.contains('exiting'))) {
+        if (ministerBanner.classList.contains('exiting')) return;
+
+        ministerBanner.classList.remove('active');
+        ministerBanner.classList.add('exiting');
+        isTransitioning = true;
+
+        if (exitTimer) clearTimeout(exitTimer);
+
+        exitTimer = setTimeout(() => {
+            ministerBanner.classList.remove('exiting');
+            exitTimer = null;
+            isTransitioning = false;
+            currentActiveKey = '';
+
+            if (pendingGraphicData) {
+                const nextData = pendingGraphicData;
+                pendingGraphicData = null;
+                setTimeout(() => {
+                    desplegarGrafico(nextData);
+                }, 120);
+            }
+        }, graphicExitDelay(1150));
+        return;
+    }
     if (droneWrapper && (droneWrapper.classList.contains('active') || droneWrapper.classList.contains('exiting'))) {
         if (droneWrapper.classList.contains('exiting')) return;
 
@@ -596,4 +664,8 @@ function probarDron(lugar) {
 
 function probarCoro(texto) {
     mostrarGrafico({ type: 'custom', text: texto });
+}
+
+function probarMinistro(nombre, lugar) {
+    mostrarGrafico({ type: 'minister', minister: nombre, location: lugar });
 }

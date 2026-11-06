@@ -103,6 +103,13 @@ body { font-family: 'Montserrat', 'Segoe UI', sans-serif; }
 [data-banner-style="angular"] .hymn-layout { align-items: center; }
 [data-banner-style="angular"] .shimmer-sweep { display: none; }
 [data-banner-style="angular"] .drone-wrapper { max-width: 75rem; }
+[data-banner-style="angular"] .minister-wrapper { max-width: 75rem; }
+[data-banner-style="angular"] .minister-banner .banner-content { transform-origin: center center; }
+[data-banner-style="angular"] #ministerBody { position: relative; z-index: 1; opacity: 1; transform: none; transition: none; align-items: center; text-align: center; }
+[data-banner-style="angular"] .minister-banner.active #ministerBody { animation: angular-caption .65s ease .68s both; }
+[data-banner-style="angular"] .minister-banner.exiting #ministerBody { animation: angular-caption-out .24s ease both; }
+[data-banner-style="angular"] .minister-name { font-family: 'Montserrat', sans-serif; font-size: 2.125rem; font-weight: 700; letter-spacing: 0.00625rem; color: var(--graphic-ink); }
+[data-banner-style="angular"] .minister-location { font-family: 'Montserrat', sans-serif; font-size: 1.3125rem; font-weight: 700; letter-spacing: 0.05rem; color: var(--graphic-highlight); margin-top: 0.125rem; }
 .logo-box { width: var(--obs-logo-size, 13.4375rem); height: calc(var(--obs-logo-size, 13.4375rem) * .7953); }
 :root:is([data-animate-logo="false"], [data-show-glow="false"]) .logo-star-sparkle,
 :root[data-animate-logo="false"] .logo-shimmer-overlay { display: none; }
@@ -121,10 +128,10 @@ body { font-family: 'Montserrat', 'Segoe UI', sans-serif; }
 @media (prefers-reduced-motion: reduce) {
   .broadcast-watermark { transition: none; }
   .shimmer-sweep, .logo-shimmer-overlay, .logo-star-sparkle { display: none; }
-  [data-banner-style="angular"] :is(.banner-content,.drone-card,.drone-header,.drone-title,#bannerBody),
+  [data-banner-style="angular"] :is(.banner-content,.drone-card,.drone-header,.drone-title,#bannerBody,#ministerBody),
   [data-banner-style="angular"] .angular-facets::before,
   [data-banner-style="angular"] .angular-facets::after { animation-duration: .01s !important; animation-delay: 0s !important; }
   [data-banner-style="angular"] :is(.banner-content,.drone-card)::before { animation: none !important; }
   [data-banner-style="angular"] .angular-lines::after { animation: none; }
-  [data-banner-style="angular"] #bannerBody { transition-duration: .01s; transition-delay: 0s; }
+  [data-banner-style="angular"] :is(#bannerBody,#ministerBody) { transition-duration: .01s; transition-delay: 0s; }
 }
