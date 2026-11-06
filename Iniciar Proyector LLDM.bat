@@ -17,12 +17,14 @@ if %errorlevel% neq 0 (
   exit /b 1
 )
 
-if not exist "node_modules\" (
+node -e "for (const d of Object.keys(require('./package.json').dependencies || {})) require.resolve(d)" >nul 2>nul
+if %errorlevel% neq 0 (
   echo.
-  echo [PRIMERA VEZ] Instalando componentes necesarios automaticamente...
+  echo [COMPONENTES] Instalando o actualizando componentes necesarios automaticamente...
   echo Esto tomara solo unos segundos. Por favor espera...
   echo.
   call npm ci --omit=dev --ignore-scripts
+  if errorlevel 1 call npm install --omit=dev --ignore-scripts
   if errorlevel 1 (
     echo [ERROR] No se pudieron instalar los componentes. Revisa internet y vuelve a abrir este archivo.
     pause

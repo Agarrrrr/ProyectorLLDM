@@ -25,7 +25,7 @@ const defaultFiles = {
   'presentations.json': []
 };
 const fileRules = {
-  'song-assets': /^(?:index\.json|font-[a-f0-9]{24}\.(?:otf|ttf|woff2?)|image-[a-f0-9]{24}\.(?:jpg|webp|png))$/,
+  'song-assets': /^(?:index\.json|font-[a-f0-9]{24}\.(?:otf|ttf|woff2?)|image-[a-f0-9]{24}\.(?:jpg|webp|png)|bg-(?:img|vid|html)-[a-f0-9]{24}\.(?:png|jpg|webp|gif|svg|html|mp4|webm))$/,
   presentations: /^pres_[a-f0-9-]{36}\/slide_\d+\.png$/
 };
 const files = Object.values(sections).flat();
@@ -47,13 +47,14 @@ function validateContents(directory) {
     if (!validRevision(snapshot)) throw new Error('Revisión de ajustes inválida.');
     const settings = validateSettings(snapshot.settings);
     const assets = has('song-assets/index.json') ? json('song-assets/index.json') : [];
-    if (!Array.isArray(assets) || assets.some(asset => !asset || !['font', 'image'].includes(asset.kind) ||
+    if (!Array.isArray(assets) || assets.some(asset => !asset || !['font', 'image', 'background'].includes(asset.kind) ||
       typeof asset.id !== 'string' || typeof asset.name !== 'string' ||
       typeof asset.filename !== 'string' || !entryAllowed('song-assets/' + asset.filename) ||
       !asset.filename.startsWith(asset.id + '.') || !has('song-assets/' + asset.filename))) throw new Error('Índice de fuentes o fondos inválido.');
     for (const asset of assets) {
       const filename = path.join(directory, 'song-assets', asset.filename);
-      if (fs.statSync(filename).size > 8 * 1024 * 1024) throw new Error('Una fuente o fondo supera 8 MiB.');
+      const maxBytes = asset.kind === 'background' ? 32 * 1024 * 1024 : 8 * 1024 * 1024;
+      if (fs.statSync(filename).size > maxBytes) throw new Error('Una fuente o fondo supera el tamaño máximo permitido.');
       try {
         const { extension } = inspectSongAsset(asset.kind, asset.filename, fs.readFileSync(filename));
         if (path.extname(asset.filename) !== extension) throw new Error();
@@ -63,8 +64,12 @@ function validateContents(directory) {
     }
     for (const profile of [settings.lyrics.hymn, settings.lyrics.choir]) {
       if (!['montserrat', 'inter', 'outfit', 'playfair'].includes(profile.font) && !assets.some(asset => asset.kind === 'font' && asset.id === profile.font)) throw new Error('Falta una fuente de los ajustes.');
-      if (!['original', 'solid', 'preset-navy', 'preset-burgundy', 'preset-emerald', 'preset-slate'].includes(profile.background) &&
+      if (!['original', 'solid', 'transparent', 'preset-navy', 'preset-burgundy', 'preset-emerald', 'preset-slate'].includes(profile.background) &&
         !assets.some(asset => asset.kind === 'image' && asset.id === profile.background)) throw new Error('Falta un fondo de los ajustes.');
+    }
+    if (settings.graphics?.background && !['institutional', 'classic', 'transparent', 'preset-navy', 'preset-burgundy', 'preset-emerald', 'preset-slate'].includes(settings.graphics.background) &&
+      !assets.some(asset => ['image', 'background'].includes(asset.kind) && asset.id === settings.graphics.background)) {
+      throw new Error('Falta un fondo de TV de los ajustes.');
     }
   }
   if (has('lista-oraciones.json')) {

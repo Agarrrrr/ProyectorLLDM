@@ -177,7 +177,7 @@ function createApplication(options = {}) {
 
   const songAssets = createSongAssets({ app, dataDir: DATA_DIR });
   const songCompiler = createSongCompiler({ getSettings: () => settingsService.get().settings, assets: songAssets });
-  const settingsService = createSettingsService({ app, dataDir: DATA_DIR, validateExtra: value => { songAssets.validate(value.lyrics); songCompiler.refresh(projectionState, value); }, onChange(snapshot) {
+  const settingsService = createSettingsService({ app, dataDir: DATA_DIR, validateExtra: value => { songAssets.validate(value.lyrics, value.graphics); songCompiler.refresh(projectionState, value); }, onChange(snapshot) {
     songCompiler.refresh(projectionState, snapshot.settings)();
     projectionState.settings = snapshot.settings;
     projectionState.settingsRevision = snapshot.revision;

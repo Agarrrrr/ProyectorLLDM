@@ -14,7 +14,11 @@ set "STARTUP_BAT=%STARTUP_DIR%\iniciar_cabina.bat"
 (
   echo @echo off
   echo cd /d "%PROJECT_DIR%"
-  echo if not exist "node_modules\" call npm install
+  echo node -e "for (const d of Object.keys(require('./package.json').dependencies ^|^| {})) require.resolve(d)" ^>nul 2^>nul
+  echo if %%errorlevel%% neq 0 ^(
+  echo   call npm ci --omit=dev --ignore-scripts
+  echo   if errorlevel 1 call npm install --omit=dev --ignore-scripts
+  echo ^)
   echo where forever ^>nul 2^>nul
   echo if %%errorlevel%% equ 0 ^(
   echo   call forever stopall 2^>nul

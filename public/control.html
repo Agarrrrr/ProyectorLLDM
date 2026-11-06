@@ -870,8 +870,11 @@
         <p id="lyricsPreviewMessage" class="settings-message" role="status"></p>
         </div>
       </fieldset></section>
-<section role="tabpanel" id="settings-panel-background" aria-labelledby="settings-tab-background" data-settings-panel="background" hidden>      <fieldset class="settings-section"><legend>Fondo de las TV</legend>
-        <label>Diseño<select data-graphics-field="background"><option value="institutional">Institucional · logo sobre blanco</option><option value="classic">Centenario · líneas doradas</option></select></label>
+<section role="tabpanel" id="settings-panel-background" aria-labelledby="settings-tab-background" data-settings-panel="background" hidden>      <fieldset class="settings-section"><legend>Fondo de reposo en las TV</legend>
+        <label>Diseño en reposo<select data-graphics-field="background"><option value="institutional">Institucional · logo sobre blanco</option><option value="classic">Centenario · líneas doradas (animado)</option><option value="transparent">Transparente · cámaras en TV (canto → cámaras → canto)</option></select></label>
+        <div class="song-upload-actions"><label class="song-file-button">Importar fondo de reposo<input id="tvBackgroundUpload" type="file" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,.mp4,.webm,.html,.htm,image/png,image/jpeg,image/webp,image/gif,image/svg+xml,video/mp4,video/webm,text/html"></label></div>
+        <p class="settings-note">Importa tu propio fondo de reposo: imágenes (PNG, JPG, WebP, GIF), videos en bucle (MP4, WebM) o fondos animados vectoriales/web (SVG, HTML como el oficial). O elige «Transparente» si colocas las cámaras debajo de /pantalla en OBS para seguir el ciclo canto → cámaras → canto (máx. 32 MB).</p>
+        <p id="tvBackgroundMessage" class="settings-message" role="status"></p>
         <label class="song-checkbox"><input data-graphics-field="animateBackground" type="checkbox">Animar las líneas del fondo Centenario</label>
         <label class="song-checkbox"><input data-graphics-field="animateLogo" type="checkbox">Animar el logo en TV y OBS</label>
         <label class="song-checkbox"><input data-graphics-field="showGlow" type="checkbox">Mostrar resplandor del fondo y del logo</label>

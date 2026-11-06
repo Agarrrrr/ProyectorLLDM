@@ -26,25 +26,37 @@ test('ajustes, preparación y posición sobreviven al reinicio; los datos de igl
   settings.keyboard.nextSlide = ['KeyN', 'Space'];
   assert.equal(settings.operator.showLyricsEditor, false);
   settings.operator.showLyricsEditor = true;
-  settings.graphics = { ...settings.graphics, background: 'classic', bannerTone: 'ivory', bannerPosition: 'bottom-right', logoColor: 'white', logoPosition: 'top-left', logoSize: 180, bannerDurationSeconds: 12, locationDurationSeconds: 0, animateBackground: false, animateLogo: false, showGlow: false };
+  settings.graphics = { ...settings.graphics, background: 'transparent', bannerTone: 'ivory', bannerPosition: 'bottom-right', logoColor: 'white', logoPosition: 'top-left', logoSize: 180, bannerDurationSeconds: 12, locationDurationSeconds: 0, animateBackground: false, animateLogo: false, showGlow: false };
   settings.lyrics.choir.lineGap = 12;
   settings.lyrics.choir.textShadow = false;
   settings.lyrics.bible = { color: '#eeeeee', indicatorColor: '#aabbcc', textShadow: false };
   assert.equal((await send('/api/settings', { revision: initial.revision, settings }, 'PUT')).status, 200);
   assert.equal((await send('/api/settings', { revision: initial.revision, settings }, 'PUT')).status, 409);
+
+  const form = new FormData();
+  form.append('file', new Blob(['<!DOCTYPE html><html><body><svg viewBox="0 0 1920 1080"></svg></body></html>'], { type: 'text/html' }), 'mi-fondo-animado.html');
+  const uploadRes = await fetch(base + '/api/song-assets/background', { method: 'POST', body: form });
+  assert.equal(uploadRes.status, 200);
+  const uploadedBg = await uploadRes.json();
+  assert.match(uploadedBg.id, /^bg-html-[a-f0-9]{24}$/);
+  assert.equal((await fetch(base + '/song-assets/' + uploadedBg.id)).status, 200);
+
+  settings.graphics.background = uploadedBg.id;
+  assert.equal((await send('/api/settings', { revision: 1, settings }, 'PUT')).status, 200);
+
   const renamed = structuredClone(settings); renamed.church.name = 'Otro nombre';
-  assert.equal((await send('/api/settings', { revision: 1, settings: renamed }, 'PUT')).status, 400);
-  assert.equal((await send('/api/settings', { revision: 1, settings: { ...settings, operator: { showLyricsEditor: 'true' } } }, 'PUT')).status, 400);
-  for (const graphics of [{ ...settings.graphics, logoSize: 9999 }, { ...settings.graphics, logoColor: 'unknown' }, { ...settings.graphics, bannerPosition: 'outside' }, { ...settings.graphics, showGlow: 'false' }]) {
-    assert.equal((await send('/api/settings', { revision: 1, settings: { ...settings, graphics } }, 'PUT')).status, 400);
+  assert.equal((await send('/api/settings', { revision: 2, settings: renamed }, 'PUT')).status, 400);
+  assert.equal((await send('/api/settings', { revision: 2, settings: { ...settings, operator: { showLyricsEditor: 'true' } } }, 'PUT')).status, 400);
+  for (const graphics of [{ ...settings.graphics, logoSize: 9999 }, { ...settings.graphics, logoColor: 'unknown' }, { ...settings.graphics, bannerPosition: 'outside' }, { ...settings.graphics, showGlow: 'false' }, { ...settings.graphics, background: 'bg-html-000000000000000000000000' }]) {
+    assert.equal((await send('/api/settings', { revision: 2, settings: { ...settings, graphics } }, 'PUT')).status, 400);
   }
   for (const value of [-1, 3601, 1.5, null, '30']) {
-    assert.equal((await send('/api/settings', { revision: 1, settings: { ...settings, graphics: { ...settings.graphics, bannerDurationSeconds: value } } }, 'PUT')).status, 400);
+    assert.equal((await send('/api/settings', { revision: 2, settings: { ...settings, graphics: { ...settings.graphics, bannerDurationSeconds: value } } }, 'PUT')).status, 400);
   }
   const invalid = structuredClone(settings); invalid.keyboard.previousSlide = ['KeyN'];
-  assert.equal((await send('/api/settings', { revision: 1, settings: invalid }, 'PUT')).status, 400);
+  assert.equal((await send('/api/settings', { revision: 2, settings: invalid }, 'PUT')).status, 400);
   invalid.keyboard.previousSlide = ['Escape'];
-  assert.equal((await send('/api/settings', { revision: 1, settings: invalid }, 'PUT')).status, 400);
+  assert.equal((await send('/api/settings', { revision: 2, settings: invalid }, 'PUT')).status, 400);
   assert.equal((await send('/api/project/theme', { title: 'La fe' })).status, 200);
   assert.equal((await get('/api/state')).displayPayload.subtitle, 'La Luz del Mundo • Colonia Central');
   await send('/api/control/selection', { type: 'hymn', id: '001' });

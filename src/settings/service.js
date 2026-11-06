@@ -38,13 +38,16 @@ function validate(value) {
     animateBackground: true, animateLogo: true, showGlow: true, ...value.graphics
   };
   const choices = {
-    background: ['institutional', 'classic'], bannerStyle: ['angular', 'classic'],
+    bannerStyle: ['angular', 'classic'],
     bannerTone: ['navy', 'ivory', 'burgundy'], bannerPosition: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
     logoColor: ['official', 'gold', 'white', 'navy', 'silver'],
     logoPosition: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'hidden']
   };
+  const validTvBackground = typeof graphics?.background === 'string' &&
+    /^(institutional|classic|transparent|preset-(navy|burgundy|emerald|slate)|image-[a-f0-9]{24}|bg-(img|vid|html)-[a-f0-9]{24})$/.test(graphics.background);
   if (!graphics || typeof graphics !== 'object' || Array.isArray(graphics) ||
       Object.keys(graphics).some(key => !Object.hasOwn(graphicsDefaults, key)) ||
+      !validTvBackground ||
       Object.entries(choices).some(([key, values]) => !values.includes(graphics[key])) ||
       ['animateBackground', 'animateLogo', 'showGlow'].some(key => typeof graphics[key] !== 'boolean') ||
       !Number.isInteger(graphics.logoSize) || graphics.logoSize < 120 || graphics.logoSize > 300) throw new Error('Opciones de gráficos no válidas.');

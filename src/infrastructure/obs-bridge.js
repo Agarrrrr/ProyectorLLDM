@@ -11,7 +11,8 @@ function loadObsConfig(rootDir) {
     password: process.env.OBS_PASSWORD ?? local.password ?? '',
     scene: process.env.OBS_SCENE || local.scene || 'Camara principal',
     group: process.env.OBS_GROUP || local.group || 'texto himnario',
-    source: process.env.OBS_SOURCE || local.source || 'himnario'
+    source: process.env.OBS_SOURCE || local.source || 'himnario',
+    browserSources: Array.isArray(local.browserSources) ? local.browserSources : ['Navegador', 'FondoTv']
   };
 }
 
@@ -94,6 +95,11 @@ function createObsBridge(config, { onGraphic, onHide, onConnection = () => {}, g
           connected = true;
           onConnection(true);
           itemId = undefined;
+          if (Array.isArray(config.browserSources)) {
+            for (const inputName of config.browserSources) {
+              request('PressInputPropertiesButton', { inputName, propertyName: 'refreshnocache' }).catch(() => {});
+            }
+          }
         } else if (message.op === 7) {
           pending.get(message.d.requestId)?.(message.d);
           pending.delete(message.d.requestId);

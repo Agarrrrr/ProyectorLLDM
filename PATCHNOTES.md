@@ -1,5 +1,18 @@
 # Notas de cambios
 
+## Versión 1.4.3
+
+### Fondo de reposo personalizable e importable en TV y modo Transparente (canto → cámaras → canto)
+
+- En **Ajustes → Fondo de TV**, ahora puedes importar cualquier fondo de reposo propio: imágenes (**PNG, JPG, WebP, GIF**), videos en bucle (**MP4, WebM**) o fondos animados vectoriales y web (**SVG, HTML** como el fondo oficial animado).
+- Nuevo modo **Transparente · cámaras en TV (canto → cámaras → canto)**: al volver a reposo (**Esc** o botón **Fondo**), la salida `/pantalla` se vuelve completamente transparente mediante transición suave para dejar visibles las cámaras colocadas debajo en OBS, y al proyectar el siguiente canto vuelve a cubrir la pantalla automáticamente.
+- Los fondos de reposo importados se incluyen y validan dentro de los respaldos ZIP de configuración.
+
+### Arranque autoverificado y reconexión automática con OBS
+
+- Los iniciadores (`Iniciar Proyector LLDM.bat`, `iniciar_cabina.bat`, `Activar Inicio Automatico al Prender PC.bat`, `.command` y `.sh`) ahora verifican todas las dependencias de `package.json` antes de iniciar el servidor. Si una actualización agrega paquetes nuevos, los instalan automáticamente sin fallar en el arranque.
+- Al conectar con OBS vía WebSocket, el puente refresca automáticamente las fuentes de navegador (`Navegador` y `FondoTv`) por si OBS inició antes que el servidor.
+
 ## Versión 1.4.2
 
 ### Compatibilidad con macOS y Linux

@@ -26,12 +26,12 @@ if ! command -v node >/dev/null 2>&1; then
   exit 1
 fi
 
-if [ ! -d "node_modules" ]; then
+if ! node -e "for (const d of Object.keys(require('./package.json').dependencies || {})) require.resolve(d)" >/dev/null 2>&1; then
   echo ""
-  echo "[PRIMERA VEZ] Instalando componentes necesarios automaticamente..."
+  echo "[COMPONENTES] Instalando o actualizando componentes necesarios automaticamente..."
   echo "Esto tomara solo unos segundos. Por favor espera..."
   echo ""
-  if ! npm ci --omit=dev --ignore-scripts; then
+  if ! npm ci --omit=dev --ignore-scripts && ! npm install --omit=dev --ignore-scripts; then
     echo "[ERROR] No se pudieron instalar los componentes. Revisa internet y vuelve a abrir este archivo."
     printf "Presiona Enter para cerrar..."
     read -r _ || true

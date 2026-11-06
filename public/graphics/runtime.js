@@ -1,14 +1,65 @@
 // Shared appearance for the real TV and OBS outputs; previews stay local.
 (() => {
   const preview = new URLSearchParams(location.search).has('appearancePreview');
+  if (preview) document.documentElement.dataset.preview = 'true';
   let revision = -1, draftShown = false;
+  function renderCustomBackground(bg) {
+    const container = document.getElementById('custom-background');
+    const badge = document.getElementById('transparent-preview-badge');
+    if (badge) badge.hidden = !(preview && bg === 'transparent');
+    if (!container) return;
+    const img = document.getElementById('custom-background-img');
+    const video = document.getElementById('custom-background-video');
+    const frame = document.getElementById('custom-background-frame');
+    if (['institutional', 'classic', 'transparent'].includes(bg)) {
+      container.hidden = true;
+      if (img) { img.hidden = true; img.removeAttribute('src'); }
+      if (video) { video.hidden = true; video.pause?.(); video.removeAttribute('src'); }
+      if (frame) { frame.hidden = true; frame.src = 'about:blank'; }
+      return;
+    }
+    const url = bg.startsWith('preset-')
+      ? '/graphics/song-backgrounds/' + bg.slice('preset-'.length) + '.svg'
+      : '/song-assets/' + encodeURIComponent(bg);
+    container.hidden = false;
+    const isVideo = bg.startsWith('bg-vid-');
+    const isHtml = bg.startsWith('bg-html-');
+    if (img) {
+      img.hidden = isVideo || isHtml;
+      if (!img.hidden && img.getAttribute('src') !== url) img.src = url;
+      else if (img.hidden) img.removeAttribute('src');
+    }
+    if (video) {
+      video.hidden = !isVideo;
+      if (isVideo) {
+        if (video.getAttribute('src') !== url) {
+          video.src = url;
+          video.play?.().catch(() => {});
+        }
+      } else {
+        video.pause?.();
+        video.removeAttribute('src');
+      }
+    }
+    if (frame) {
+      frame.hidden = !isHtml;
+      if (isHtml) {
+        if (frame.getAttribute('src') !== url) frame.src = url;
+      } else {
+        frame.src = 'about:blank';
+      }
+    }
+  }
   function apply(settings) {
     if (!settings?.graphics) return;
     const graphics = settings.graphics;
-    document.documentElement.dataset.background = graphics.background;
+    const bg = graphics.background || 'institutional';
+    document.documentElement.dataset.background = bg;
+    document.documentElement.dataset.backgroundMode = ['institutional', 'classic', 'transparent'].includes(bg) ? bg : 'custom';
     for (const key of ['animateBackground', 'animateLogo', 'showGlow']) {
       document.documentElement.dataset[key] = String(graphics[key] !== false);
     }
+    renderCustomBackground(bg);
     window.dispatchEvent(new CustomEvent('graphics-changed', { detail: graphics }));
   }
   function acceptState(state) {
