@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { prepareDatabase, compareAlphabetical } = require('./search');
 
-function createCatalogRepository({ dataDir: DATA_DIR, watchFiles = true }) {
+function createCatalogRepository({ dataDir: DATA_DIR, factoryDir = path.join(DATA_DIR, 'factory'), watchFiles = true }) {
   let himnario = [];
   let coro = [];
 
-  const FACTORY_DIR = path.join(DATA_DIR, 'factory');
+  const FACTORY_DIR = factoryDir;
   const BACKUPS_DIR = path.join(DATA_DIR, 'backups');
   if (!fs.existsSync(FACTORY_DIR)) fs.mkdirSync(FACTORY_DIR, { recursive: true });
   if (!fs.existsSync(BACKUPS_DIR)) fs.mkdirSync(BACKUPS_DIR, { recursive: true });

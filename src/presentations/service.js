@@ -5,7 +5,7 @@ const { execFile } = require('child_process');
 const { promisify } = require('util');
 const runFile = promisify(execFile);
 
-function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(process.env.PRESENTATION_MAX_EDGE) || 3840 }) {
+function createPresentationService({ dataDir, uploadsDir, bundledConverter, run = runFile, maxEdge = Number(process.env.PRESENTATION_MAX_EDGE) || 3840 }) {
   if (!Number.isSafeInteger(maxEdge) || maxEdge < 1280 || maxEdge > 7680) throw new Error('PRESENTATION_MAX_EDGE debe estar entre 1280 y 7680 píxeles.');
   const DATA_DIR = dataDir;
   const PRESENTATIONS_FILE = path.join(DATA_DIR, 'presentations.json');
@@ -38,7 +38,7 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     let lastError;
     for (const cmd of candidates) {
       try {
-        return await runFile(cmd, args, options);
+        return await run(cmd, args, options);
       } catch (error) {
         lastError = error;
         if (error.code !== 'ENOENT') throw error;
@@ -117,6 +117,7 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
         '-env:UserInstallation=' + pathToFileURL(profileDir).href,
         '--headless', '--convert-to', 'pdf', '--outdir', outDir, input
       ], { timeout: 120000, windowsHide: true });
+      if (!fs.existsSync(pdf)) throw new Error('No se pudo convertir el archivo de PowerPoint. Comprueba que se abra y no tenga contraseña.');
       await convertPdfWithPython(pdf, outDir);
     } finally {
       await fs.promises.rm(input, { force: true });
@@ -154,7 +155,20 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     }
   }
   function preparePdfSupport() {
+    if (bundledConverter) return Promise.resolve(true);
     return pdfSupport ??= installPdfSupport();
+  }
+
+  async function convertBundled(filePath, outDir, extension) {
+    try {
+      await run(path.join(bundledConverter, 'runtime', 'bin', 'java.exe'), [
+        '-Djava.awt.headless=true', '-Xmx768m', '-cp', path.join(bundledConverter, 'lib', '*'),
+        'RenderSlides', extension, path.resolve(filePath), outDir, String(maxEdge)],
+      { timeout: 120000, windowsHide: true });
+    } catch (error) {
+      console.warn('[PRESENTACIONES]', error.stderr || error.message);
+      throw new Error('No se pudo convertir la presentación. Comprueba que el archivo se abra y no tenga contraseña.');
+    }
   }
 
   async function convertPdfWithPython(filePath, outDir, retried = false) {
@@ -234,7 +248,9 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     console.log(`[PRESENTATION] Procesando "${presentationTitle}" (${ext}) en ${presDir}...`);
 
     try {
-      if (ext === '.pptx' || ext === '.ppt') {
+      if (bundledConverter && ['.pdf', '.ppt', '.pptx'].includes(ext)) {
+        await convertBundled(firstFile.path, presDir, ext);
+      } else if (ext === '.pptx' || ext === '.ppt') {
         if (process.platform === 'win32') await convertPptxWithPowerpoint(firstFile.path, presDir);
         else await convertWithLibreOffice(firstFile.path, presDir, ext);
       } else if (ext === '.pdf') {
@@ -253,7 +269,7 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
       // Leer diapositivas generadas
       const slideFiles = fs.readdirSync(presDir)
         .filter(f => /^slide_\d+\.png$/i.test(f))
-        .sort((a, b) => a.localeCompare(b));
+        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
       if (slideFiles.length === 0) {
         throw new Error('No se pudieron extraer diapositivas del archivo.');

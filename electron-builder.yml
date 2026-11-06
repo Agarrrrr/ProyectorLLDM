@@ -1,0 +1,43 @@
+appId: com.proyectorlldm.desktop
+productName: Proyector LLDM
+copyright: Copyright © Huri Tolentino
+directories:
+  output: output/windows
+files:
+  - desktop/main.js
+  - desktop/icon.png
+  - src/**/*
+  - public/**/*
+  - '!public/uploads{,/**/*}'
+  - data/factory/**/*
+  - lista-oraciones/dist/**/*
+  - config/obs.example.json
+  - config/releases.json
+  - LICENSE
+  - package.json
+extraMetadata:
+  main: desktop/main.js
+extraResources:
+  - from: output/converter
+    to: converter
+extraFiles:
+  - from: Iniciar Proyector LLDM.bat
+    to: Iniciar Proyector LLDM.bat
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: desktop/icon.ico
+  executableName: Proyector LLDM
+  artifactName: Proyector-LLDM-Setup-${version}.${ext}
+nsis:
+  installerIcon: desktop/icon.ico
+  uninstallerIcon: desktop/icon.ico
+  installerHeader: desktop/installer-header.bmp
+  installerSidebar: desktop/installer-sidebar.bmp
+  installerLanguages: [es_ES]
+  language: '3082'
+  oneClick: false
+  perMachine: false
+  include: desktop/installer.nsh
+publish: null

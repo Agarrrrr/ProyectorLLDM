@@ -13,20 +13,7 @@ set "STARTUP_BAT=%STARTUP_DIR%\iniciar_cabina.bat"
 
 (
   echo @echo off
-  echo cd /d "%PROJECT_DIR%"
-  echo node -e "for (const d of Object.keys(require('./package.json').dependencies ^|^| {})) require.resolve(d)" ^>nul 2^>nul
-  echo if %%errorlevel%% neq 0 ^(
-  echo   call npm ci --omit=dev --ignore-scripts
-  echo   if errorlevel 1 call npm install --omit=dev --ignore-scripts
-  echo ^)
-  echo where forever ^>nul 2^>nul
-  echo if %%errorlevel%% equ 0 ^(
-  echo   call forever stopall 2^>nul
-  echo   call forever start server.js
-  echo ^) else ^(
-  echo   start "Proyector LLDM" /min cmd /c "node server.js"
-  echo ^)
-  echo exit
+  echo call "%PROJECT_DIR%\Iniciar Proyector LLDM.bat"
 ) > "%STARTUP_BAT%"
 
 echo [LISTO] Se guardo el arranque automatico en:

@@ -12,39 +12,27 @@ Desarrollado con dedicación por **Huri Tolentino**.
 
 ---
 
-## Descarga rápida y puesta en marcha (en 3 pasos)
+## Descarga e instalación
 
-> [!TIP]
-> **No necesitas saber programación ni usar la terminal (Git).** Solo sigue estos pasos:
+### Windows
 
-### Paso 1: Descargar el programa
-Haz clic en el siguiente enlace y descarga el archivo **`.zip`** de la versión más reciente:
+1. Abre [la versión piloto 1.5.0 en GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/tag/v1.5.0-pilot.1) y descarga **`Proyector-LLDM-Setup-1.5.0.exe`**. El instalador piloto no tiene firma digital y Windows puede mostrar una advertencia.
+2. Ejecuta el instalador. La opción **Iniciar Proyector LLDM al entrar a Windows** viene marcada. Puedes desmarcarla antes de instalar. Abre **Proyector LLDM** desde el acceso creado o desde el menú Inicio.
+3. La cabina se abre en una ventana de escritorio. Puedes importar PDF y presentaciones PPT/PPTX sin conexión y sin instalar Node.js, Python, PowerPoint ni LibreOffice.
 
-**[Descargar Proyector LLDM (Última versión en ZIP)](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest)**
+La cabina puede avisarte si hay una versión nueva. Descarga el instalador, cierra la cabina y ejecútalo cuando te convenga. El instalador actualiza la copia existente y conserva los datos del usuario.
 
-*(En la sección de archivos adjuntos al final de la página, haz clic en `Proyector-LLDM-X.X.X.zip`).*
+Si vienes de la edición ZIP, descarga un respaldo de la instalación anterior desde Ajustes, marca la opción de incluir presentaciones si las quieres conservar y restáuralo en la aplicación instalada. El BAT incluido en la versión 1.5.0 también abre la aplicación instalada y usa la misma preferencia de actualización.
 
-### Paso 2: Descomprimir el archivo
-* Ve a tu carpeta de **Descargas**.
-* Haz clic derecho sobre el archivo ZIP y selecciona **«Extraer todo...»**.
-* Elige una carpeta fija en tu computadora (por ejemplo, en `C:\ProyectorLLDM` o en tus Documentos). **Nunca abras el programa directamente dentro del ZIP sin descomprimir.**
+### ZIP multiplataforma (Windows, macOS y Linux)
 
-### Paso 3: Iniciar el programa
-* Entra a la carpeta descomprimida.
-* Abre el iniciador según tu sistema operativo:
-  * **Windows:** Haz doble clic en **`Iniciar Proyector LLDM.bat`**.
-  * **macOS:** Haz doble clic en **`Iniciar Proyector LLDM.command`** (si macOS pregunta por seguridad la primera vez, haz clic derecho → *Abrir*).
-  * **Linux:** Ejecuta **`./Iniciar\ Proyector\ LLDM.sh`** (o haz doble clic y elige *Ejecutar en terminal*).
-* Listo. El archivo se encargará de comprobar e instalar todo lo necesario automáticamente la primera vez y abrirá la cabina en tu navegador web.
-
-> [!NOTE]
-> **Requisito único en la PC:** Tener instalado **[Node.js](https://nodejs.org/)** (versión LTS recomendada, gratuita). Si no lo tienes, descárgalo e instálalo con las opciones predeterminadas antes de abrir el programa. Python **no** es necesario para usar el programa; solo para importar archivos PDF.
+También puedes descargar **`Proyector-LLDM-X.X.X.zip`** desde la misma página. Extrae todo en una carpeta fija y abre `Iniciar Proyector LLDM.bat` en Windows, `Iniciar Proyector LLDM.command` en macOS o `Iniciar Proyector LLDM.sh` en Linux. En Windows, si ya existe una instalación de escritorio registrada, el BAT de la versión 1.5.0 abre esa aplicación y usa sus datos en lugar de iniciar el ZIP. Para migrar, crea el respaldo desde el ZIP anterior antes de instalar la aplicación. Esta edición necesita [Node.js](https://nodejs.org/) y puede necesitar internet al iniciarse por primera vez para instalar dependencias. Python y PyMuPDF son necesarios para importar PDF; para PowerPoint se necesita PowerPoint en Windows, o LibreOffice y Python en macOS y Linux.
 
 ---
 
 ## Cómo se usa (Pantallas y Direcciones)
 
-Una vez que abres **`Iniciar Proyector LLDM.bat`**, el programa corre de forma local en tu computadora. Puedes abrir estas direcciones en tu navegador web (Google Chrome, Edge, etc.):
+Una vez que abres Proyector LLDM, el programa corre de forma local en tu computadora. Puedes abrir estas direcciones en tu navegador web (Google Chrome, Edge, etc.):
 
 | Dirección | Uso | Dónde se abre |
 | :--- | :--- | :--- |
@@ -53,11 +41,11 @@ Una vez que abres **`Iniciar Proyector LLDM.bat`**, el programa corre de forma l
 | **`http://localhost:4000/overlay?obs=1`** | **Banners para OBS Studio** | Como fuente de **Navegador** en OBS Studio para sobreponer títulos sobre la cámara. |
 
 ### Control desde celular o tablet
-Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR**. Genera un código, escanéalo y dale un nombre corto al dispositivo. Desde ese mismo panel puedes desconectarlo. La PC puede estar conectada por cable Ethernet.
+Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes → Wi-Fi**. Genera un código, escanéalo y dale un nombre corto al dispositivo. Desde ese mismo panel puedes desconectarlo. La PC puede estar conectada por cable Ethernet.
 
 Abre [Proyector LLDM Lite](https://proyector.lldmcoro.com/) para proyectar cantos, citas, temas y listas desde el navegador. Guarda las listas en el navegador y sincroniza la TV entre ventanas del mismo perfil. La personalización avanzada, el enlace de celulares por QR, OBS y la conversión de presentaciones están en la edición de escritorio.
 
-La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Python es **opcional**: solo se necesita para importar PDF (y PowerPoint en macOS y Linux, junto con LibreOffice). Si Python ya está instalado, la cabina instala sola PyMuPDF al abrirse (con internet). Sin Python todo lo demás funciona: cantos, Biblia, temas, listas, OBS e importar presentaciones como imágenes PNG/JPG/WebP (en Windows, PowerPoint también se importa con PowerPoint instalado).
+El instalador de Windows incluye la conversión local de PDF y PowerPoint. El ZIP multiplataforma mantiene sus requisitos propios, descritos en la sección de descarga.
 
 Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 
@@ -65,7 +53,7 @@ Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV
 
 ## Vista previa de la Cabina
 
-![Cabina de operación de Proyector LLDM](docs/capturas/01-cabina-inicial.png)
+![Cabina de Proyector LLDM en su ventana de escritorio para Windows](docs/capturas/71-cabina-escritorio.png)
 
 ---
 
@@ -119,18 +107,13 @@ El programa incluye documentación detallada ilustrada paso a paso:
 
 ## Cómo actualizar a una nueva versión
 
-Cuando salga una nueva versión:
-1. En la cabina de tu versión actual, ve a **Ajustes → Avanzado → Opciones avanzadas → Respaldo de la instalación** y descarga tu copia de seguridad.
-2. Descarga el ZIP de la nueva versión desde [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases).
-3. Descomprímelo en una carpeta nueva.
-4. Para conservar tus datos, copia tu carpeta `data` anterior a la nueva carpeta (o usa el botón de restaurar respaldo en Ajustes).
-5. Abre **`Iniciar Proyector LLDM.bat`** (Windows), **`Iniciar Proyector LLDM.command`** (macOS) o **`Iniciar Proyector LLDM.sh`** (Linux) y listo.
+En Windows instalado, ve a **Ajustes → Avanzado → Actualizaciones del programa** y pulsa **Descargar instalador** si hay una versión nueva. Cierra la cabina y ejecuta el archivo descargado. Para la edición ZIP, descarga y extrae la nueva versión en una carpeta separada. Crea un respaldo desde la cabina anterior y restáuralo en la nueva. Consulta [Publicar y actualizar el programa](docs/ACTUALIZACIONES.md) para más detalles.
 
 ---
 
 ## Soporte y Solución de problemas comunes
 
-* **¿La ventana se cierra sola al abrir?** Asegúrate de tener instalado [Node.js](https://nodejs.org/) en tu computadora.
+* **¿El iniciador ZIP se cierra solo al abrir?** Asegúrate de tener instalado [Node.js](https://nodejs.org/) en tu computadora.
 * **¿El celular no abre la cabina?** Verifica que tanto la computadora como el celular estén conectados a la misma red WiFi del templo y que el firewall de Windows permita la conexión de Node.js.
 * **¿En OBS no se ve transparente?** En la fuente de navegador de OBS Studio, asegúrate de marcar la casilla de verificación *"Apagar la fuente cuando no esté visible"* y dejar el fondo transparente.
 

@@ -1,6 +1,6 @@
 {
   "name": "proyector-lldm",
-  "version": "1.4.6",
+  "version": "1.5.0",
   "description": "Cabina de proyección LLDM para TV y transmisión OBS",
   "main": "server.js",
   "scripts": {
@@ -8,6 +8,9 @@
     "test": "node --test tests/*.test.js",
     "build:lists": "npm --prefix lista-oraciones run build",
     "build:release": "python scripts/package-release.py",
+    "build:converter": "pwsh -NoProfile -File scripts/build-converter.ps1",
+    "test:converter": "node scripts/test-bundled-converter.cjs",
+    "build:windows": "electron-builder --win nsis --x64 --publish never",
     "setup:lists": "npm --prefix lista-oraciones ci && npm run build:lists",
     "benchmark": "node scripts/benchmark.cjs"
   },
@@ -29,6 +32,8 @@
     "node": ">=20"
   },
   "devDependencies": {
+    "electron": "45.2.3",
+    "electron-builder": "26.18.0",
     "esbuild": "^0.28.2"
   }
 }

@@ -4,6 +4,7 @@ const path = require('node:path');
 const defaultRepository = 'HuriTolentino/ProyectorLLDM';
 
 function stableVersion(value) {
+  if (typeof value !== 'string') return null;
   const match = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(value);
   return match && match.slice(1).map(Number);
 }
@@ -15,49 +16,57 @@ function isNewer(candidate, installed) {
   return difference !== -1 && next[difference] > current[difference];
 }
 
-function createUpdateService({ rootDir, dataDir = path.join(rootDir, 'data'), fetchRelease = fetch }) {
+function createUpdateService({ rootDir, dataDir = path.join(rootDir, 'data'), fetchRelease = fetch, installed = false }) {
   const preferencesFile = path.join(dataDir, 'update-preferences.json');
   const current = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf8')).version;
-  let releaseRepository = defaultRepository;
+  let repository = defaultRepository;
   try {
     const configured = JSON.parse(fs.readFileSync(path.join(rootDir, 'config', 'releases.json'), 'utf8')).repository;
-    if (typeof configured === 'string' && /^[\w.-]+\/[\w.-]+$/.test(configured)) releaseRepository = configured;
+    if (typeof configured === 'string' && /^[\w.-]+\/[\w.-]+$/.test(configured)) repository = configured;
   } catch {}
   let automaticChecks = true;
   try { automaticChecks = JSON.parse(fs.readFileSync(preferencesFile, 'utf8'))?.automaticChecks !== false; } catch {}
   let status = { current, available: false, message: 'Sin consulta de versión todavía.' };
   let startupCheck;
-  function snapshot() { return { ...status, preferences: { automaticChecks } }; }
+  let checkId = 0;
+  function snapshot() { return { ...status, installed, preferences: { automaticChecks } }; }
 
   async function check() {
-    if (!automaticChecks) {
-      status.message = 'Consulta al iniciar desactivada.';
+    const id = ++checkId;
+    const finish = (message, extra = {}) => {
+      if (id === checkId) status = { current, available: false, checkedAt: new Date().toISOString(), message, ...extra };
       return snapshot();
-    }
+    };
+    if (!automaticChecks) return finish('Aviso de nuevas versiones desactivado.');
+    status = { current, available: false, checking: true, message: 'Buscando una versión nueva…' };
     try {
-      const response = await fetchRelease('https://api.github.com/repos/' + releaseRepository + '/releases/latest', {
+      const response = await fetchRelease('https://api.github.com/repos/' + repository + '/releases/latest', {
         headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Proyector-LLDM' },
         signal: AbortSignal.timeout(3500), redirect: 'error'
       });
-      if (response.status === 404) {
-        status.message = 'No hay una versión pública disponible para descargar.';
-      } else {
-        if (!response.ok) throw new Error('Consulta no disponible');
-        const release = await response.json();
-        const tag = release.tag_name;
-        if (typeof tag !== 'string' || !stableVersion(tag)) throw new Error('Versión inválida');
-        const available = !release.draft && !release.prerelease && isNewer(tag, current);
-        if (available) {
-          status = {
-            current, latest: tag, available, downloadUrl: 'https://github.com/' + releaseRepository + '/releases/tag/' + tag,
-            patchNotes: typeof release.body === 'string' ? release.body.slice(0, 24000) : '',
-            message: 'Hay una versión nueva disponible para descargar.'
-          };
-        } else status.message = 'Esta instalación está al día.';
+      if (response.status === 404) return finish('No hay una versión pública disponible para descargar.');
+      if (!response.ok) throw new Error('Consulta no disponible');
+      const release = await response.json();
+      const tag = release.tag_name;
+      if (!stableVersion(tag)) throw new Error('Versión inválida');
+      if (release.draft || release.prerelease || !isNewer(tag, current)) return finish('Esta instalación está al día.');
+      const releaseBase = 'https://github.com/' + repository + '/releases/';
+      let downloadUrl = releaseBase + 'tag/' + tag;
+      if (installed) {
+        const assetName = 'Proyector-LLDM-Setup-' + tag.replace(/^v/, '') + '.exe';
+        const hasInstaller = Array.isArray(release.assets) &&
+          release.assets.some(asset => asset?.name === assetName && asset.state === 'uploaded' && asset.size > 0);
+        if (!hasInstaller) return finish('La nueva versión aún no tiene un instalador de Windows disponible.');
+        downloadUrl = releaseBase + 'download/' + tag + '/' + assetName;
       }
-    } catch { status.message = 'No se pudo comprobar si hay una versión nueva. Puedes seguir usando la cabina.'; }
-    status.checkedAt = new Date().toISOString();
-    return snapshot();
+      return finish(installed ? 'Hay una versión nueva. Descarga el instalador y ejecútalo cuando termines de usar la cabina.' :
+        'Hay una versión nueva disponible para descargar.', {
+        latest: tag, available: true, downloadUrl,
+        patchNotes: typeof release.body === 'string' ? release.body.slice(0, 24000) : ''
+      });
+    } catch {
+      return finish('No se pudo comprobar si hay una versión nueva. Puedes seguir usando la cabina.');
+    }
   }
 
   function configure(value) {
@@ -65,7 +74,10 @@ function createUpdateService({ rootDir, dataDir = path.join(rootDir, 'data'), fe
     fs.mkdirSync(dataDir, { recursive: true });
     fs.writeFileSync(preferencesFile + '.tmp', JSON.stringify({ automaticChecks: value.automaticChecks }, null, 2));
     fs.renameSync(preferencesFile + '.tmp', preferencesFile);
-    automaticChecks = value.automaticChecks;
+    if (automaticChecks !== value.automaticChecks) {
+      automaticChecks = value.automaticChecks;
+      startupCheck = check();
+    }
     return snapshot();
   }
 

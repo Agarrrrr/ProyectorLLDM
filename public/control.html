@@ -1044,12 +1044,12 @@
 <section role="tabpanel" id="settings-panel-advanced" aria-labelledby="settings-tab-advanced" data-settings-panel="advanced" hidden>
       
       <fieldset class="settings-section quick-editor-setting"><legend>Interfaz principal</legend><label class="settings-toggle"><input id="showQuickLyricsEditor" type="checkbox" role="switch"><span>Mostrar «Editar letra» en Himnario y Coro</span></label><p class="settings-note">Muestra el botón junto a las acciones del canto seleccionado. Guarda los ajustes para aplicar el cambio.</p></fieldset>
-      <details class="settings-advanced update-settings"><summary>Actualizaciones de GitHub</summary><div class="settings-section">
+      <details class="settings-advanced update-settings"><summary>Actualizaciones del programa</summary><div class="settings-section">
         <p id="updatesCurrent" class="settings-note">Sin consulta de versión todavía.</p>
-        <label class="settings-toggle"><input id="automaticUpdateChecks" form="updatePreferencesForm" type="checkbox" role="switch"><span>Buscar versiones al iniciar el programa</span></label>
-        <p class="settings-note">Si hay una versión nueva, podrás descargarla e instalarla en otra carpeta. Conserva tu instalación anterior para trasladar sus datos.</p>
+        <label class="settings-toggle"><input id="automaticUpdateChecks" form="updatePreferencesForm" type="checkbox" role="switch" disabled><span id="updatePreferenceLabel">Buscar versiones al iniciar el programa</span></label>
+        <p id="updatePreferenceHelp" class="settings-note"></p>
         <a id="downloadUpdate" class="btn-secondary" target="_blank" rel="noopener noreferrer" hidden>Descargar nueva versión</a>
-        <div class="settings-actions"><button type="submit" form="updatePreferencesForm" id="saveUpdatePreferences">Guardar preferencias de actualización</button></div>
+        <div class="settings-actions"><button type="submit" form="updatePreferencesForm" id="saveUpdatePreferences" disabled>Guardar preferencias de actualización</button></div>
         <p id="updatesStatus" class="settings-message" role="status" aria-live="polite"></p>
         <details id="updateNotes" hidden><summary>Notas de la versión disponible</summary><p id="updateNotesText" class="settings-note" style="white-space:pre-wrap;overflow-wrap:anywhere"></p></details>
       </div></details>

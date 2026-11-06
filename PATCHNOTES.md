@@ -1,5 +1,12 @@
 # Notas de cambios
 
+## Versión 1.5.0
+
+- Instalador de Windows de 64 bits en español, con la identidad de Proyector LLDM y opción para iniciar al entrar a Windows. Abre la cabina desde el menú Inicio o el archivo BAT.
+- Importación local de PDF, PPT y PPTX en la edición instalada con el conversor incluido.
+- Aviso de nuevas versiones y enlace directo al instalador de Windows. El instalador actualiza la copia existente y conserva los datos.
+- Guía de usuario con capturas de instalación, uso de la ventana de escritorio y migración desde el ZIP.
+
 ## Versión 1.4.6
 
 ### Conexión Wi-Fi para celulares sin fricción y Hotspot de PC

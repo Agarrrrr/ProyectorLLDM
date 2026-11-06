@@ -18,6 +18,8 @@ La vista general aparece al principio; las demás figuras están junto a los pas
 
 Si un visor de archivos no muestra las capturas, abre el HTML en un navegador. El archivo principal utiliza la carpeta `capturas`; la versión `GUIA_DE_USUARIO_PORTATIL.html` integra las imágenes y puede copiarse por separado.
 
+Consulta también el [tutorial de instalación y uso en YouTube](https://youtu.be/Z_ffszcXWqo). El video muestra la edición ZIP; para el instalador de Windows sigue los pasos de esta guía.
+
 ## Índice
 
 1. [Qué hace el programa y cómo se organiza](#1-que-hace-el-programa-y-como-se-organiza)
@@ -61,7 +63,7 @@ La computadora de cabina debe permanecer encendida y con el programa funcionando
 
 ### 1.2 La cabina de control
 
-Es la página donde buscas cantos, escribes temas, preparas listas y decides qué enviar.
+Es la pantalla donde buscas cantos, escribes temas, preparas listas y decides qué enviar. El instalador de Windows la abre en su propia ventana de escritorio; el ZIP la abre en el navegador.
 
 En la computadora de cabina se abre con esta dirección:
 
@@ -115,7 +117,9 @@ Para retirar el contenido de las TV se muestra el fondo institucional. Para reti
 
 ## 2. Qué necesitas antes de comenzar
 
-### 2.1 Para la operación básica
+**Elige tu edición:** el instalador de Windows incluye los componentes y convierte PDF, PPT y PPTX sin internet ni programas adicionales. El ZIP funciona en Windows, macOS y Linux y tiene los requisitos siguientes.
+
+### 2.1 Para la operación básica con el ZIP
 
 - Una computadora con Windows, macOS o Linux capaz de ejecutar Node.js y un navegador moderno. El paquete incluye archivos de inicio preparados para los tres sistemas.
 - Permiso para instalar programas en esa computadora.
@@ -128,7 +132,7 @@ No es necesario instalar Git, un editor de código ni herramientas de programaci
 
 La composición de TV utiliza proporciones 16:9 y se dibuja al tamaño real de la salida. Letras, márgenes, fondos vectoriales y logos conservan su proporción en 720p, 1080p, QHD y 4K. Una pantalla con distinta proporción muestra márgenes para conservar el contenido completo.
 
-### 2.2 Según lo que vayas a utilizar
+### 2.2 Según lo que vayas a utilizar con el ZIP
 
 | Necesidad | Qué debes tener |
 | --- | --- |
@@ -153,13 +157,30 @@ La transmisión a una plataforma externa sí depende de su conexión a internet,
 
 ## 3. Descargar y extraer el programa
 
+### 3.0 Instalar la aplicación de Windows
+
+1. En [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest), descarga `Proyector-LLDM-Setup-X.X.X.exe` de la última versión.
+2. Abre el instalador y sigue sus instrucciones. **Iniciar Proyector LLDM al entrar a Windows** aparece marcada en una instalación nueva; desmárcala si no deseas iniciar con tu sesión.
+3. Abre **Proyector LLDM** desde Inicio o su acceso directo. La cabina aparece en una ventana propia.
+4. Para trasladar datos del ZIP, crea un respaldo desde la cabina anterior y restáuralo en la aplicación instalada según el apartado 19.2. Comprueba los datos antes de retirar la copia anterior.
+
+![Instalador de Windows con la opción de inicio automático.](capturas/70-instalador-windows.png)
+
+**Instalador:** elige si Proyector se abre al entrar en Windows.
+
+![Ventana de la cabina de escritorio en Windows.](capturas/71-cabina-escritorio.png)
+
+**Cabina de escritorio:** la aplicación instalada se abre en su propia ventana.
+
+El resto de este capítulo y el capítulo 4 corresponden al ZIP; la aplicación instalada no necesita Node.js. En Windows, si ya existe una instalación de escritorio registrada, el BAT del ZIP 1.5.0 abre esa aplicación y usa sus datos. Para migrar, crea el respaldo en el ZIP anterior antes de instalar la aplicación.
+
 ### 3.1 Descargar desde GitHub
 
-1. Desde el repositorio, abre **Descarga rápida** y pulsa **Descargar Proyector LLDM (Última versión en ZIP)**. También puedes entrar directamente en [las versiones publicadas](https://github.com/HuriTolentino/ProyectorLLDM/releases).
+1. Abre [las versiones publicadas](https://github.com/HuriTolentino/ProyectorLLDM/releases) o el enlace de descarga del repositorio.
 2. En la versión estable más reciente, baja hasta **Assets** o **Archivos adjuntos**. Descarga el archivo `Proyector-LLDM-<versión>.zip`. Por ejemplo, en la versión 1.4.2 se llama `Proyector-LLDM-1.4.2.zip`.
 3. Abre la carpeta **Descargas** de tu computadora cuando termine.
 
-![Enlace Descargar Proyector LLDM en la sección Descarga rápida del repositorio.](capturas/49-descarga-rapida.png)
+![Ejemplo anterior del enlace de descarga del repositorio; su presentación puede cambiar.](capturas/49-descarga-rapida.png)
 
 ![La sección Assets con el ZIP de Proyector LLDM en la primera fila, encima de los paquetes Source code.](capturas/50-zip-en-assets.png)
 
@@ -210,7 +231,7 @@ Una ubicación permanente facilita hacer respaldos y crear accesos directos. Si 
 
 <a id="4-instalar-nodejs"></a>
 
-## 4. Instalar Node.js
+## 4. Instalar Node.js (solo ZIP)
 
 ### 4.1 Descargar el instalador
 
@@ -259,6 +280,8 @@ Si Windows responde que no reconoce alguna de esas órdenes, consulta [Node.js n
 
 ## 5. Abrir el programa por primera vez
 
+En Windows instalado, abre **Proyector LLDM** desde Inicio o su acceso directo. La ventana de escritorio es la cabina; mantén la aplicación abierta mientras usas TV, OBS o dispositivos conectados. Las instrucciones siguientes son para el ZIP.
+
 ### 5.1 Iniciar la cabina
 
 1. Abre la carpeta principal del proyecto.
@@ -298,7 +321,7 @@ La primera comprobación puede hacerse sin conectar todavía las TV del templo. 
 
 ### 5.4 La ventana del programa debe seguir abierta
 
-La ventana de comandos mantiene funcionando la instalación iniciada con el archivo habitual.
+En el ZIP, la ventana de comandos mantiene funcionando la instalación. En Windows instalado, la propia ventana de Proyector mantiene el servicio; cerrarla termina el programa.
 
 Puedes minimizarla. Cerrar esa ventana normalmente detiene ese proceso y deja a los navegadores sin conexión.
 
@@ -306,7 +329,7 @@ Cerrar una pestaña de cabina no equivale a apagar el programa. Mientras el serv
 
 ### 5.5 Inicios posteriores
 
-Para volver a utilizarlo, abre la misma carpeta y el mismo archivo de inicio.
+En el ZIP, abre la misma carpeta y el mismo archivo de inicio. En Windows instalado, usa el acceso de Proyector LLDM.
 
 No abras dos copias para la misma instalación. Si el programa ya está funcionando, abre directamente la dirección de la cabina en el navegador.
 
@@ -315,6 +338,8 @@ El archivo `iniciar_cabina.bat` es un inicio más simple: no instala componentes
 <a id="6-si-falta-el-editor-de-listas"></a>
 
 ## 6. Si falta el editor de listas
+
+Estas instrucciones de reconstrucción corresponden al ZIP; el instalador de Windows ya incluye el editor.
 
 El programa utiliza una versión ya preparada del editor, situada en `lista-oraciones/dist`. Una descarga completa de esta versión puede incluirla y no necesitar reconstrucción.
 
@@ -1198,15 +1223,15 @@ Comparte el PNG original como archivo si el medio de envío reduce la calidad de
 
 | Formato | Cómo lo utiliza el programa |
 | --- | --- |
-| PPT y PPTX | PowerPoint de escritorio (en Windows) o LibreOffice junto con Python 3 y PyMuPDF (en macOS y Linux) exportan las diapositivas como imágenes. |
-| PDF | Python (o Python 3 en macOS/Linux) y PyMuPDF convierten las páginas en imágenes. |
+| PPT y PPTX | El instalador de Windows convierte sin conexión. El ZIP necesita PowerPoint de escritorio en Windows, o LibreOffice, Python 3 y PyMuPDF en macOS y Linux. |
+| PDF | El instalador de Windows convierte sin conexión. El ZIP necesita Python y PyMuPDF. |
 | PNG, JPG, JPEG y WebP | Se incorporan como diapositivas de imagen. |
 
 La importación no reproduce animaciones, transiciones de PowerPoint, videos, narraciones ni audio incluidos en el archivo original.
 
 El servidor tiene un límite de 300 MB por archivo y recibe hasta 100 archivos por envío. No es una recomendación de tamaño: archivos grandes o documentos extensos pueden tardar o agotar el tiempo de conversión.
 
-### 16.2 Preparar PowerPoint o LibreOffice
+### 16.2 Preparar PowerPoint o LibreOffice (solo ZIP)
 
 En Windows, Microsoft PowerPoint de escritorio debe estar instalado en la computadora que ejecuta el servidor, aunque subas el archivo desde un celular u otra PC. En macOS y Linux, el servidor utiliza LibreOffice (`soffice` o `libreoffice`) junto con Python 3 y PyMuPDF para convertir archivos `.ppt` y `.pptx`.
 
@@ -1214,7 +1239,7 @@ Abre PowerPoint directamente al menos una vez, completa su activación o configu
 
 Para conservar una composición cercana a la salida del templo, prepara las diapositivas en formato 16:9.
 
-### 16.3 Preparar la importación de PDF
+### 16.3 Preparar la importación de PDF (solo ZIP)
 
 Este apartado es opcional si no vas a importar PDF. Puedes pedir apoyo para realizarlo una sola vez.
 
@@ -1549,6 +1574,8 @@ Mientras no guardes, el restablecimiento es solo un borrador. Si cambiaste de op
 
 ### 19.1 Dónde se guarda la información
 
+En Windows instalado, los datos se guardan en el perfil del usuario, separados de la aplicación. En el ZIP están en la carpeta de la instalación. Usa el respaldo de la cabina para migrar entre ediciones; las rutas de la tabla describen el ZIP.
+
 La información se guarda en la computadora de cabina. El celular no guarda una copia completa del servidor por el hecho de abrir la página.
 
 | Ubicación | Qué conserva |
@@ -1591,6 +1618,8 @@ En el otro equipo, selecciona el archivo y pulsa **Importar al historial**. Si l
 
 ### 19.4 Actualizar sin reemplazar los datos por una descarga limpia
 
+Estos pasos de carpetas corresponden al ZIP. La aplicación instalada conserva sus datos al actualizarse; consulta el apartado 19.7.
+
 1. Haz primero un respaldo completo.
 2. Descarga la versión nueva en una carpeta distinta.
 3. Extrae la versión nueva.
@@ -1608,7 +1637,7 @@ No sobrescribas tus archivos locales con los datos de ejemplo o predeterminados 
 
 ### 19.5 Pasar a otra computadora
 
-Además de los datos, prepara en la nueva PC los programas que uses: Node.js, PowerPoint para importar PPT/PPTX y Python con PyMuPDF para PDF.
+En la nueva PC instala Proyector LLDM y restaura el respaldo desde la cabina. El instalador de Windows incluye el convertidor; el ZIP requiere Node.js y, según el formato, PowerPoint o LibreOffice y Python con PyMuPDF.
 
 La IP local puede cambiar. Actualiza las direcciones guardadas en celulares, otras computadoras y fuentes de OBS que apunten a la PC anterior.
 
@@ -1624,9 +1653,11 @@ Verifica las presentaciones desde sus miniaturas. Copiar solo `presentations.jso
 
 Restaurar una copia antigua también devuelve los datos a la fecha de esa copia. Los cambios posteriores no aparecerán a menos que se recuperen de otra fuente.
 
-### 19.7 Actualizaciones automáticas desde GitHub
+### 19.7 Avisos de nuevas versiones desde GitHub
 
-La cabina busca una versión publicada al iniciar. Si encuentra una posterior, abre **Ajustes → Avanzado → Actualizaciones de GitHub** para ver las novedades y usar **Descargar nueva versión**. Puedes desactivar la búsqueda con **Buscar versiones al iniciar el programa** y guardar la preferencia.
+**Aplicación instalada en Windows:** si hay un instalador nuevo, la cabina muestra un aviso. En **Ajustes → Avanzado → Actualizaciones del programa**, pulsa **Descargar instalador**. Cierra Proyector LLDM cuando hayas terminado de usarlo y ejecuta el archivo descargado. El instalador actualiza la copia existente y conserva los datos del usuario. Puedes desactivar el aviso desde ese mismo apartado. Si falla la consulta, puedes seguir usando la cabina.
+
+**Edición ZIP:** la cabina busca una versión publicada al iniciar. Si encuentra una posterior, abre **Ajustes → Avanzado → Actualizaciones del programa** para ver las novedades y usar **Descargar nueva versión**. Puedes desactivar el aviso en ese mismo apartado y guardar la preferencia.
 
 ![Consulta de versiones publicadas en Ajustes.](capturas/39-actualizaciones-github.png)
 
@@ -1962,11 +1993,13 @@ Si falla la conexión, confirma primero si el contenido visible continúa en las
 
 ### 22.1 Inicio manual habitual
 
-Utiliza **Iniciar Proyector LLDM.bat** y conserva su ventana abierta mientras operas.
+En Windows instalado, abre **Proyector LLDM** desde Inicio o el acceso directo. Durante la instalación puedes elegir **Iniciar Proyector LLDM al entrar a Windows**, para tu cuenta de Windows.
+
+Para el ZIP, utiliza **Iniciar Proyector LLDM.bat** y conserva su ventana abierta mientras operas.
 
 Si el programa está funcionando en segundo plano, puede no existir esa ventana visible. Abrir o cerrar la cabina del navegador no controla necesariamente ese proceso.
 
-### 22.2 Crear un acceso de inicio de Windows
+### 22.2 Crear un acceso de inicio de Windows (ZIP)
 
 Una forma de iniciar la instalación al entrar en tu cuenta de Windows es crear un acceso directo:
 
@@ -1979,7 +2012,7 @@ Una forma de iniciar la instalación al entrar en tu cuenta de Windows es crear 
 
 Esto actúa al entrar en esa cuenta de Windows, no antes de que alguien inicie sesión. No coloques una copia aislada del archivo de inicio sin su carpeta de trabajo: usa un acceso que apunte a la instalación completa.
 
-### 22.3 Utilidad automática incluida
+### 22.3 Utilidad automática incluida (ZIP)
 
 El proyecto también contiene **Activar Inicio Automatico al Prender PC.bat**. Crea un archivo de inicio para la cuenta actual y guarda la ruta de la instalación.
 
@@ -1989,7 +2022,7 @@ No necesitas instalar `forever` para la operación normal de esta guía.
 
 ### 22.4 Quitar el inicio automático
 
-Abre `shell:startup` y retira únicamente el acceso directo de Proyector LLDM, o el archivo `iniciar_cabina.bat` que esa utilidad haya creado en esa carpeta de inicio.
+Para la aplicación instalada, desactiva Proyector LLDM en las aplicaciones de inicio de Windows. Para el ZIP, abre `shell:startup` y retira únicamente el acceso directo de Proyector LLDM, o el archivo `iniciar_cabina.bat` que esa utilidad haya creado en esa carpeta de inicio.
 
 Retirar el inicio automático no elimina las letras, listas ni configuraciones del proyecto.
 
@@ -1997,7 +2030,7 @@ Si moviste la instalación, corrige el acceso o vuelve a crear el inicio con la 
 
 ### 22.5 Cerrar y reiniciar
 
-En el inicio manual, puedes detener el programa desde su ventana de comandos con **Ctrl+C** y confirmar si Windows lo solicita. Después vuelve a abrir el archivo de inicio para arrancarlo.
+En Windows instalado, cierra la ventana de Proyector normalmente. Si descargaste una actualización, ejecuta el instalador después de cerrar la cabina. En el ZIP, puedes detener el programa desde su ventana de comandos con **Ctrl+C** y confirmar si Windows lo solicita. Después vuelve a abrir el archivo de inicio para arrancarlo.
 
 Cerrar solo el navegador no reinicia el servidor. Si se inició en segundo plano o mediante un administrador, detén específicamente ese proceso con ayuda de quien configuró el arranque.
 

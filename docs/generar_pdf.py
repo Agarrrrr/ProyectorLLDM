@@ -102,7 +102,8 @@ def paragraph(value, kind='body'):
 
 def figure(filename, caption):
     image = Image(str(SOURCE.parent / filename))
-    scale = min(CONTENT_WIDTH / image.imageWidth, 400 / image.imageHeight, 1.0)
+    max_height = 220 if filename.endswith("70-instalador-windows.png") else 400
+    scale = min(CONTENT_WIDTH / image.imageWidth, max_height / image.imageHeight, 1.0)
     image.drawWidth = image.imageWidth * scale
     image.drawHeight = image.imageHeight * scale
     image.hAlign = 'CENTER'

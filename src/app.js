@@ -41,6 +41,10 @@ function createApplication(options = {}) {
     verifyClient: ({ req }) => hosted
       ? hosted.validRequest(req) && (mobile.authorized(req) || (isOutput(req) && hosted.canView(req)))
       : validLocalRequest(req) && (isOutput(req) || mobile.authorized(req)) });
+  // ws forwards HTTP bind errors too. The startup listener handles those retries.
+  wss.on('error', error => {
+    if (server.listening) console.error('[WS]', error.message);
+  });
 
   const PORT = options.port ?? (parseInt(process.env.PORT, 10) || 4000);
 
@@ -120,12 +124,12 @@ function createApplication(options = {}) {
     const updates = options.updatesService || createUpdateService({ rootDir: ROOT_DIR, dataDir: DATA_DIR });
     installUpdateRoutes({ app, service: updates });
   }
-  if (hosted) app.use('/uploads/presentations', express.static(uploadsDir, { index: false, dotfiles: 'deny' }));
+  if (hosted || options.uploadsDir) app.use('/uploads/presentations', express.static(uploadsDir, { index: false, dotfiles: 'deny' }));
   const multer = require('multer');
-  const presentationService = require('./presentations/service').createPresentationService({ dataDir: DATA_DIR, uploadsDir });
+  const presentationService = require('./presentations/service').createPresentationService({ dataDir: DATA_DIR, uploadsDir, ...options.converters });
   // Al iniciar la cabina real (no en pruebas) se deja listo el soporte de PDF en segundo plano.
   if (options.watchFiles !== false) presentationService.preparePdfSupport().catch(() => {});
-  const tempUploadDir = hosted ? path.join(DATA_DIR, 'upload-temp') : path.join(ROOT_DIR, 'public', 'uploads', 'temp');
+  const tempUploadDir = hosted || options.uploadsDir ? path.join(DATA_DIR, 'upload-temp') : path.join(ROOT_DIR, 'public', 'uploads', 'temp');
   if (!fs.existsSync(tempUploadDir)) fs.mkdirSync(tempUploadDir, { recursive: true });
   const upload = multer({
     dest: tempUploadDir,
@@ -134,7 +138,7 @@ function createApplication(options = {}) {
 
   // 1. CARGA DE BASES DE DATOS EN MEMORIA
 
-  const catalogs = createCatalogRepository({ dataDir: DATA_DIR, watchFiles: options.watchFiles !== false });
+  const catalogs = createCatalogRepository({ dataDir: DATA_DIR, factoryDir: options.factoryDir, watchFiles: options.watchFiles !== false });
   // 3. ESTADO GLOBAL DE PROYECCIÓN
   const { state: projectionState, updateDisplayPayload } = createProjection({ localIp: LOCAL_IP, port: PORT });
   const session = createSession({ state: projectionState, dataDir: DATA_DIR });
@@ -340,28 +344,35 @@ function createApplication(options = {}) {
   });
 
   // Iniciar servidor con recuperación de puertos
-  function startServer(port) {
-    server.listen(port, options.host, () => {
+  function startServer(port, attempts = 0) {
+    function onListening() {
+      server.off('error', onStartError);
       const actualPort = server.address().port;
-      options.onStarted?.(actualPort);
       Object.assign(projectionState.networkInfo, {
         port: actualPort, networkUrl: `http://${LOCAL_IP}:${actualPort}/control`,
         obsUrl: `http://${LOCAL_IP}:${actualPort}/pantalla`, overlayUrl: `http://${LOCAL_IP}:${actualPort}/overlay`
       });
+      options.onStarted?.(actualPort);
       console.log(`=======================================================`);
-      console.log(`[OK] CABINA DE PROYECCION LLDM: http://localhost:${port}`);
-      console.log(`[OK] Acceso Red Local (LAN): http://${LOCAL_IP}:${port}/control`);
-      console.log(`[OK] Fuente OBS Pantalla (16:9, hasta 4K): http://localhost:${port}/pantalla`);
-      console.log(`[OK] Fuente Transmisión OBS (Banners): http://localhost:${port}/overlay`);
+      console.log(`[OK] CABINA DE PROYECCION LLDM: http://localhost:${actualPort}`);
+      console.log(`[OK] Acceso Red Local (LAN): http://${LOCAL_IP}:${actualPort}/control`);
+      console.log(`[OK] Fuente OBS Pantalla (16:9, hasta 4K): http://localhost:${actualPort}/pantalla`);
+      console.log(`[OK] Fuente Transmisión OBS (Banners): http://localhost:${actualPort}/overlay`);
       console.log(`=======================================================`);
-    }).on('error', (err) => {
-      if (err.code === 'EADDRINUSE') {
+    }
+    function onStartError(err) {
+      server.off('listening', onListening);
+      if (err.code === 'EADDRINUSE' && port < 65535 && attempts < 10) {
         console.warn(`[WARN] Puerto ${port} ocupado, intentando en ${port + 1}...`);
-        startServer(port + 1);
+        startServer(port + 1, attempts + 1);
       } else {
         console.error('[SERVER ERROR]', err);
+        if (options.onStartError) options.onStartError(err);
+        else void close();
       }
-    });
+    }
+    server.once('error', onStartError);
+    server.listen(port, options.host, onListening);
   }
 
   async function close() {
