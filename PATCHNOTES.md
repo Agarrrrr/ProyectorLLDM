@@ -1,5 +1,13 @@
 # Notas de cambios
 
+## Versión 1.4.4
+
+### Dispositivos conectados que se actualizan solos
+
+- La cabina, los celulares enlazados, `/pantalla`, `/overlay` y el fondo de TV se recargan automáticamente cuando el servidor se reinicia o se actualiza a una nueva versión, sin tener que refrescar a mano.
+- Se retiró el enlace «Abrir enlace de conexión» bajo el QR de **Ajustes → Avanzado**; el celular se conecta únicamente escaneando el código.
+- Python queda documentado como **opcional**: solo se usa para importar PDF (o PowerPoint en macOS/Linux). Si falta, la cabina muestra un mensaje claro con la alternativa de subir imágenes PNG/JPG.
+
 ## Versión 1.4.3
 
 ### Fondo de reposo personalizable e importable en TV y modo Transparente (canto → cámaras → canto)

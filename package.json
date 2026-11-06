@@ -1,6 +1,6 @@
 {
   "name": "proyector-lldm",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Cabina de proyección LLDM para TV y transmisión OBS",
   "main": "server.js",
   "scripts": {

@@ -86,6 +86,9 @@ function createApplication(options = {}) {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     next();
   });
+  // Cada arranque o actualización genera un identificador distinto; los dispositivos conectados se recargan al notarlo.
+  const BUILD_ID = require('../package.json').version + '-' + Date.now().toString(36);
+  app.get('/api/build', (req, res) => res.set('Cache-Control', 'no-store').json({ id: BUILD_ID }));
   app.use(express.static(PUBLIC_DIR, { redirect: false }));
 
   // Integración con LLDM Cartelería digital

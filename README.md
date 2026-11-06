@@ -38,7 +38,7 @@ Haz clic en el siguiente enlace y descarga el archivo **`.zip`** de la versión 
 * Listo. El archivo se encargará de comprobar e instalar todo lo necesario automáticamente la primera vez y abrirá la cabina en tu navegador web.
 
 > [!NOTE]
-> **Requisito único en la PC:** Tener instalado **[Node.js](https://nodejs.org/)** (versión LTS recomendada, gratuita). Si no lo tienes, descárgalo e instálalo con las opciones predeterminadas antes de abrir el programa.
+> **Requisito único en la PC:** Tener instalado **[Node.js](https://nodejs.org/)** (versión LTS recomendada, gratuita). Si no lo tienes, descárgalo e instálalo con las opciones predeterminadas antes de abrir el programa. Python **no** es necesario para usar el programa; solo para importar archivos PDF.
 
 ---
 
@@ -57,7 +57,7 @@ Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes �
 
 Abre [Proyector LLDM Lite](https://proyector.lldmcoro.com/) para proyectar cantos, citas, temas y listas desde el navegador. Guarda las listas en el navegador y sincroniza la TV entre ventanas del mismo perfil. La personalización avanzada, el enlace de celulares por QR, OBS y la conversión de presentaciones están en la edición de escritorio.
 
-La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Para importar PDF o PowerPoint en macOS y Linux se utiliza Python 3 (`pymupdf`) y LibreOffice si están instalados en el sistema.
+La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Python es **opcional**: solo se necesita para importar PDF (y PowerPoint en macOS y Linux, junto con LibreOffice) mediante `pymupdf`. Sin Python todo lo demás funciona: cantos, Biblia, temas, listas, OBS e importar presentaciones como imágenes PNG/JPG/WebP (en Windows, PowerPoint también se importa con PowerPoint instalado).
 
 Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 

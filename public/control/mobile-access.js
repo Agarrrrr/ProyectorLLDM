@@ -3,7 +3,6 @@ import { request } from './api.js';
 const create = document.getElementById('createMobileQr');
 const revoke = document.getElementById('revokeMobileSessions');
 const qr = document.getElementById('mobileQrImage');
-const link = document.getElementById('mobileQrLink');
 const status = document.getElementById('mobileQrStatus');
 const sessions = document.getElementById('mobileSessions');
 const panel = create.closest('details');
@@ -12,9 +11,8 @@ let timer;
 
 function hideCode() {
   clearTimeout(timer);
-  qr.hidden = link.hidden = true;
+  qr.hidden = true;
   qr.removeAttribute('src');
-  link.removeAttribute('href');
 }
 async function loadSessions() {
   try {
@@ -66,8 +64,7 @@ create.addEventListener('click', () => run(async () => {
   const result = await response.json();
   if (!settings.open || !panel.open) return;
   qr.src = result.qr;
-  link.href = result.url;
-  qr.hidden = link.hidden = false;
+  qr.hidden = false;
   status.textContent = 'Escanea el código desde el celular.';
   timer = setTimeout(() => {
     hideCode();

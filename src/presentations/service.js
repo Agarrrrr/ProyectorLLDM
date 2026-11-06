@@ -151,6 +151,15 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
       const { stdout: res } = await runFirstAvailable(pythonCandidates,
         [pyScriptPath, filePath, outDir], { encoding: 'utf8', timeout: 120000, windowsHide: true });
       console.log('[PDF CONVERT OUTPUT]', res.trim());
+    } catch (error) {
+      const detail = String(error.stderr || error.message || '');
+      if (error.code === 'ENOENT') {
+        throw new Error('Para importar PDF (y PPT/PPTX en macOS o Linux) hace falta instalar Python en la PC de cabina; es opcional y solo se usa para esto. Si no lo quieres instalar, exporta las diapositivas como imágenes PNG o JPG y súbelas. Buscar cantos, proyectar temas y editar listas no necesitan Python.');
+      }
+      if (/No module named ['"]?fitz/i.test(detail)) {
+        throw new Error('Python está instalado, pero falta PyMuPDF para leer PDF. Abre Símbolo del sistema y ejecuta: python -m pip install --upgrade pymupdf. También puedes subir las diapositivas como imágenes PNG o JPG.');
+      }
+      throw error;
     } finally {
       if (fs.existsSync(pyScriptPath)) {
         try { fs.unlinkSync(pyScriptPath); } catch (_) {}

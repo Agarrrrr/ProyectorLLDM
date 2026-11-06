@@ -914,7 +914,6 @@
         <p class="settings-note">Genera el QR en el navegador de la PC. Conecta el celular a la misma red del templo. El código se usa una vez y vence en cinco minutos.</p>
         <div class="settings-actions"><button type="button" id="createMobileQr">Generar QR</button><button type="button" id="revokeMobileSessions">Desconectar todos</button></div>
         <img id="mobileQrImage" alt="QR para conectar un celular a esta cabina" width="240" height="240" hidden>
-        <a id="mobileQrLink" hidden>Abrir enlace de conexión</a>
         <p id="mobileQrStatus" class="settings-message" role="status"></p>
         <h3>Dispositivos enlazados</h3>
         <ul id="mobileSessions"></ul>
@@ -960,5 +959,6 @@
     </form>
   </dialog>
   <dialog id="songDeleteDialog" class="song-delete-dialog" aria-labelledby="songDeleteTitle"><h2 id="songDeleteTitle">Eliminar canto</h2><p id="songDeleteStep"></p><p id="songDeleteDescription"></p><label id="songDeleteLabel" hidden>Escribe el título exacto<input id="songDeleteInput" autocomplete="off"></label><p id="songDeleteError" role="alert"></p><div class="song-delete-actions"><button type="button" id="songDeleteCancel">Cancelar</button><button type="button" id="songDeleteConfirm">Continuar</button></div></dialog>
+  <script src="/auto-update.js" defer></script>
 </body>
 </html>
