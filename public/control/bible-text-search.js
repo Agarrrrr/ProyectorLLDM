@@ -94,6 +94,9 @@ export function setupBibleTextSearch({ getMode, getVersion, onSelect }) {
     clearTimeout(searchTimer);
     searchBibleText(getVersion, getMode);
   });
+  window.addEventListener('bible-version-changed', () => {
+    if (input.value.trim()) searchBibleText(getVersion, getMode);
+  });
   input.addEventListener('input', () => {
     searchSequence++;
     window.dispatchEvent(new Event('capture-shared-drafts'));

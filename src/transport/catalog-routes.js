@@ -92,7 +92,7 @@ function installCatalogRoutes({ app, catalogs, projectionState, broadcastState, 
     const version = String(req.query.version || 'RVR1960');
     if (query.length > 300) return res.status(400).json({ error: 'La búsqueda no puede superar 300 caracteres.' });
     try {
-      res.json(bible.searchVerses({ query, version, limit: req.query.limit }));
+      res.json(bible.searchVerses({ query, versionId: version, limit: req.query.limit }));
     } catch (err) {
       res.status(400).json({ error: err.message || 'No se pudo buscar en el texto bíblico.' });
     }

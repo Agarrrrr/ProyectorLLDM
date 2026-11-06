@@ -1,5 +1,11 @@
 # Notas de cambios
 
+## Versión 1.4.6
+
+### Buscador de texto bíblico
+
+- Corregido: el buscador por texto siempre mostraba los pasajes de Reina Valera 1960 aunque eligieras otra traducción. Ahora los resultados salen de la versión seleccionada y se actualizan al cambiarla.
+
 ## Versión 1.4.5
 
 ### PDF sin instalar nada a mano

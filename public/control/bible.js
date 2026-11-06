@@ -389,6 +389,7 @@ if (bibleVersionSelect) {
     currentBibleVersion = bibleVersionSelect.value;
     localStorage.setItem('proyector_bible_version', currentBibleVersion);
     await loadBibleLimits(currentBibleVersion);
+    window.dispatchEvent(new Event('bible-version-changed'));
     showToast(`Versión de la Biblia seleccionada: ${currentBibleVersion}`);
   });
 }
