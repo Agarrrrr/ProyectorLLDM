@@ -1,7 +1,7 @@
 /* Shared controls for the cabin and the embedded lists editor. */
 :root { --button-bg: #203149; --button-border: #455c78; --button-text: #edf3fb; --button-gold: #e5c276; }
 button { font-family: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-:where(button:not(.tab-item):not(.section-tab):not(.slide-card):not(.settings-launch):not(.btn-show-hymn-list):not(.btn-show-choir-list)) {
+:where(button:not(.tab-item):not(.section-tab):not(.slide-card):not(.settings-launch):not(.btn-show-hymn-list):not(.btn-show-choir-list):not(.ip-badge-pill)) {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 40px; padding: 10px 14px; border: 1px solid var(--button-border); border-radius: 8px;
   background: var(--button-bg); color: var(--button-text); font-size: 13px; font-weight: 650; line-height: 1.3;

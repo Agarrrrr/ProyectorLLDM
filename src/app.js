@@ -76,9 +76,19 @@ function createApplication(options = {}) {
   app.patch('/api/lists', express.json({ limit: '5mb', inflate: false }));
   app.use(express.json({ limit: '100kb', inflate: false }));
   hosted?.install(app);
-  mobile.install(app, () => ({ host: getLocalIp(), port: server.address()?.port || PORT }), () => {
-    for (const ws of wss.clients) if (!ws.outputOnly && !ws.canControl()) ws.close(1008, 'Sesión revocada');
-  });
+  mobile.install(
+    app,
+    () => ({ host: getLocalIp(), port: server.address()?.port || PORT }),
+    () => {
+      for (const ws of wss.clients) if (!ws.outputOnly && !ws.canControl()) ws.close(1008, 'Sesión revocada');
+    },
+    device => {
+      const msg = JSON.stringify({ type: 'MOBILE_DEVICE_JOINED', device });
+      for (const ws of wss.clients) {
+        if (ws.readyState === WebSocket.OPEN) ws.send(msg);
+      }
+    }
+  );
   if (hosted) app.use((req, res, next) => hosted.protect(req, res, next, mobile.authorized(req)));
   app.set('json replacer', cleanWireValue);
   // UTF-8 Charset explícito para todas las respuestas de API

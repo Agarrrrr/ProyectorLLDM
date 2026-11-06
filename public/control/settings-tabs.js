@@ -15,6 +15,9 @@ export function activateSettingsTab(section, focus = false) {
   for (const panel of panels) panel.hidden = panel.dataset.settingsPanel !== section;
   body.scrollTop = 0;
   try { localStorage.setItem('lldm.settings.section', section); } catch {}
+  if (section === 'wifi') {
+    window.dispatchEvent(new CustomEvent('wifi-tab-activated'));
+  }
 }
 
 for (const tab of tabs) {

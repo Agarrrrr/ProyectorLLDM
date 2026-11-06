@@ -8,7 +8,7 @@ Desarrollado con dedicación por **Huri Tolentino**.
 
 ## Tutorial en video
 
-[Ver el tutorial de instalación y uso (1080p, 16:9)](docs/tutorial-proyectorlldm.mp4). Muestra la descarga y extracción del ZIP, la instalación de Node.js cuando hace falta y el uso de la cabina, el control móvil y OBS. La versión actual de GitHub se distribuye en ZIP; no incluye un instalador EXE. Los nombres que aparecen en el ejemplo de la lista son ficticios.
+[Ver el tutorial de instalación y uso en YouTube](https://youtu.be/Z_ffszcXWqo). El video explica cómo iniciar la edición ZIP y usar la cabina, el control móvil y OBS.
 
 ---
 

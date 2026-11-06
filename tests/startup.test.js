@@ -23,7 +23,7 @@ test('arranque real, prevención de doble instancia y modo ZIP sin impedir la ca
   const children = new Set();
   t.after(async () => {
     await Promise.all([...children].map(async child => { if (child.exitCode === null && child.signalCode === null) { const stopped = once(child, 'exit'); child.kill(); await stopped; } }));
-    fs.rmSync(directory, { recursive: true, force: true });
+    try { fs.rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 }); } catch {}
   });
   function launch() {
     const child = spawn(process.execPath, ['--require', './release-fixture.js', 'server.js'], { cwd: directory, env: { ...process.env, NODE_PATH: path.join(root, 'node_modules'), PORT: String(port), PROYECTOR_OPEN_BROWSER: '0' }, windowsHide: true });

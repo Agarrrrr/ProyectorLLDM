@@ -93,12 +93,7 @@ async function updateNetworkIpDisplay(ipFromServer) {
   if (monEl) monEl.textContent = ip || window.location.hostname;
 }
 
-const headerIpBadge = document.getElementById('header-ip-badge');
-if (headerIpBadge) {
-  headerIpBadge.addEventListener('click', () => {
-    showToast('Enlaza un celular desde Ajustes → Avanzado → Conectar celular por QR.');
-  });
-}
+
 
 // CONTROL DEL MODAL DE ATAJOS DE TECLADO (F1)
 

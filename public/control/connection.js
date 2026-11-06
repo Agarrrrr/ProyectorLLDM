@@ -22,6 +22,8 @@ export function connectProjection({ onState, onConnection }) {
         connectionHandler(true);
       } else if (message.type === 'LISTS_UPDATE') {
         window.dispatchEvent(new CustomEvent('lists-updated', { detail: message }));
+      } else if (message.type === 'MOBILE_DEVICE_JOINED') {
+        window.dispatchEvent(new CustomEvent('mobile-device-joined', { detail: message.device }));
       }
     } catch (error) {
       console.error('No se pudo sincronizar la cabina:', error);

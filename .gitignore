@@ -27,3 +27,12 @@ data/update-status.json
 .codex/
 tmp/
 output/
+
+# Archivos locales de producción del tutorial
+/.tutorial-work/
+/docs/.tutorial-proyectorlldm*.ffskill-*.mp4
+/docs/.tutorial-proyectorlldm*.ffskill-lock
+/docs/tutorial-proyectorlldm*.mp4
+/docs/tutorial-proyectorlldm_sheet.png
+/docs/tutorial-[0-9][0-9]-*.png
+/docs/tutorial-frame-*.png

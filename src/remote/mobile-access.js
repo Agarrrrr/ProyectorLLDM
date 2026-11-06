@@ -14,7 +14,7 @@ function createMobileAccess({ isOwner = loopback, publicOrigin } = {}) {
     .find(part => part.startsWith(cookieName + '='))?.slice(cookieName.length + 1);
   const authorized = req => isOwner(req) || (sessions.get(sessionId(req))?.expires || 0) > Date.now();
 
-  function install(app, getLocalAddress, revokeConnections) {
+  function install(app, getLocalAddress, revokeConnections, onSessionJoined = () => {}) {
     app.post('/api/mobile/invite', async (req, res) => {
       if (!isOwner(req)) return res.sendStatus(403);
       const { host, port } = getLocalAddress();
@@ -41,7 +41,9 @@ function createMobileAccess({ isOwner = loopback, publicOrigin } = {}) {
       for (const [id, session] of sessions) if (session.expires <= now) sessions.delete(id);
       if (sessions.size >= 32) sessions.delete(sessions.keys().next().value);
       const id = token();
-      sessions.set(id, { id: token(), label, expires: now + sessionAge });
+      const device = { id: token(), label, expires: now + sessionAge };
+      sessions.set(id, device);
+      onSessionJoined(device);
       res.cookie(cookieName, id, { secure: !!publicOrigin, httpOnly: true, sameSite: 'strict', maxAge: sessionAge, path: '/' }).json({ ok: true });
     });
     app.get('/api/mobile/sessions', (req, res) => {
@@ -62,6 +64,18 @@ function createMobileAccess({ isOwner = loopback, publicOrigin } = {}) {
       sessions.clear();
       revokeConnections();
       res.sendStatus(204);
+    });
+    app.post('/api/mobile/open-hotspot', (req, res) => {
+      if (!isOwner(req)) return res.sendStatus(403);
+      const { exec } = require('node:child_process');
+      if (process.platform === 'win32') {
+        exec('cmd.exe /c start ms-settings:network-mobilehotspot');
+      } else if (process.platform === 'darwin') {
+        exec('open "x-apple.systempreferences:com.apple.preferences.sharing"');
+      } else {
+        exec('gnome-control-center wifi || nm-connection-editor || true');
+      }
+      res.json({ ok: true, message: 'Se abrió la configuración de Zona Wi-Fi móvil.' });
     });
 
     if (publicOrigin) return;

@@ -2,6 +2,21 @@
 
 ## Versión 1.4.6
 
+### Conexión Wi-Fi para celulares sin fricción y Hotspot de PC
+
+- **Pestaña dedicada Wi-Fi y botón directo**: se sustituyó la IP numérica visible del encabezado por el botón **Wi-Fi (QR)**, que abre directamente la pestaña **Wi-Fi** en Ajustes y genera el código QR al instante.
+- **Actualización automática en tiempo real**: al escanear el QR desde el celular y pulsar «Entrar a la cabina», la ventana en la computadora se actualiza sola al momento (oculta el código QR, muestra la confirmación en verde con el nombre del celular y lo incorpora a la lista de dispositivos enlazados).
+- **Detección automática de celular**: el formulario móvil autodetecta el modelo del dispositivo (ej. `iPhone`, `iPad`, `Celular Android`) para acceder sin necesidad de escribir texto si no se desea.
+- **Solución Hotspot para templos sin router**: nuevo botón **📶 Compartir Wi-Fi desde esta PC (Hotspot)** en Ajustes que abre con un clic la configuración nativa de Windows o macOS para emitir Wi-Fi directamente desde la computadora sin requerir internet.
+
+### Selectores de color nativos y estilizados
+
+- En **Ajustes → Letras en las TV**, todos los controles de color (estrofas, coro, indicador, fondo y citas bíblicas) son ahora selectores nativos estilizados. Cuentan con un marco oscuro integrado, muestra de color de alta definición, efecto luminoso dorado y el valor HEX visible en mayúsculas (`#FFFFFF`), abriendo la paleta nativa del sistema operativo con un solo clic.
+
+### Banner Inferior de Ministro y Ubicación (OBS)
+
+- Nuevo control persistente en la pestaña **Transmisión** para definir el rango y nombre del ministro (ej. `P.E. ELIAS DÍAZ`, `D.E.`, `E.E.`) con su botón para enviar a OBS, proyectándose centrado en la parte inferior de `/overlay` con la colonia y ciudad de la congregación.
+
 ### Buscador de texto bíblico
 
 - Corregido: el buscador por texto siempre mostraba los pasajes de Reina Valera 1960 aunque eligieras otra traducción. Ahora los resultados salen de la versión seleccionada y se actualizan al cambiarla.

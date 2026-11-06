@@ -1,13 +1,73 @@
 :root:not([data-quick-lyrics-editor="true"]) :is(#btnOpenHymnLyricsEditor,#btnOpenChoirLyricsEditor) { display: none !important; }
 .lyrics-options-grid { display:grid;gap:20px;min-width:0; }
-.lyrics-options-grid input[type=color] { width:64px;height:44px;padding:4px;cursor:pointer; }
-.lyrics-options-grid input[type=color]::-webkit-color-swatch-wrapper { padding:2px; }
-.lyrics-options-grid input[type=color]::-webkit-color-swatch { border:0;border-radius:4px; }
+/* Selectores de color nativos y estilizados */
+.color-picker-label { display: flex !important; flex-direction: column; gap: 6px; font-size: 13px; min-width: 0; }
+.color-picker-label > span { font-weight: 600; color: #edf3fb; font-size: 13px; }
+.color-picker-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0e1724;
+  border: 1px solid #45566d;
+  border-radius: 8px;
+  padding: 4px 10px 4px 6px;
+  min-height: 44px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.color-picker-wrapper:hover {
+  border-color: #d4af37;
+  background: #141f2f;
+}
+.color-picker-wrapper:focus-within {
+  border-color: #e5c276;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
+  outline: none;
+}
+.color-picker-wrapper input[type="color"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+  margin: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 6px;
+}
+.color-picker-wrapper input[type="color"]::-webkit-color-swatch {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+}
+.color-picker-wrapper input[type="color"]::-moz-color-swatch {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+}
+.color-picker-hex {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #edf3fb;
+  user-select: all;
+  min-width: 60px;
+}
 .lyrics-control-group { border:0;padding:0;margin:0;min-width:0; }
 .settings-section .lyrics-control-group legend { padding:0 0 9px;font-size:13px;color:var(--ui-secondary);font-weight:600; }
 .lyrics-sizing-fields,.lyrics-color-fields { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px; }
 .bible-color-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
-.lyrics-background-fields { display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:16px;align-items:end; }
+.lyrics-background-fields { display:grid;grid-template-columns:minmax(0,1fr) minmax(140px, 180px);gap:16px;align-items:end; }
 .lyrics-configuration,.lyrics-live-preview { display:grid;gap:16px;min-width:0;align-content:start; }
 .lyrics-live-preview { position:sticky;top:0; }
 #lyricsAppearanceSection { grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);column-gap:32px;align-items:start; }

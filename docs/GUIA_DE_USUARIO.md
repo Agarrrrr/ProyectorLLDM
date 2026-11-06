@@ -417,27 +417,17 @@ La salida se adapta automáticamente a la ventana del navegador. Usa pantalla co
 
 ## 8. Conectar un celular, una tablet u otra computadora
 
-### 8.1 Identificar la dirección de cabina en la red
+### 8.1 Conexión sin fricciones y código QR instantáneo
 
-En la cabina de escritorio aparece un control **Wi-Fi** con la dirección local de la computadora y su puerto.
+En el encabezado de la cabina de escritorio se incluye el botón **Wi-Fi (QR)**. Al pulsarlo (o abrir **Ajustes → Wi-Fi**), se abre directamente el apartado de conexión inalámbrica y se genera automáticamente el código QR en pantalla. Se eliminó la visualización de direcciones IP crudas para simplificar el uso y evitar confusiones a los operadores.
 
-Un ejemplo de dirección sería:
+### 8.2 Pasos para enlazar el celular o tablet
 
-```text
-http://192.168.1.50:4000/control
-```
-
-Es solo un ejemplo. Sustituye los números por los que muestra tu computadora. No copies esos números si tu cabina muestra otros.
-
-`localhost` significa «este mismo dispositivo». Escribir `localhost` en el celular hace que busque un servidor en el celular, no en la computadora de cabina.
-
-### 8.2 Abrir el control remoto
-
-1. Mantén abierta la cabina en la PC y conecta el celular a la misma red local.
-2. En la PC, abre **Ajustes → Avanzado → Conectar celular por QR** y pulsa **Generar QR**. El código se muestra solo después de pulsar ese botón.
-3. Escanea el código con la cámara del celular, abre el enlace y escribe un nombre corto, como «Tablet de cabina».
-4. Pulsa **Conectar a esta cabina**. Cada código sirve para un dispositivo y vence a los cinco minutos.
-5. En la PC, revisa **Dispositivos enlazados** justo debajo del código. Si hace falta, pulsa **Actualizar dispositivos**. Desde ahí puedes revocar una conexión por su nombre o revocarlas todas. Una sesión dura hasta ocho horas.
+1. **Misma red Wi-Fi**: Conecta el celular a la misma red Wi-Fi que la computadora de cabina *(desactiva los datos móviles 4G/5G en el celular si experimentas problemas de enlace)*.
+2. **Escanear el código QR**: Abre la cámara o lector QR de tu celular y apunta al código generado en la PC.
+3. **Detección automática y entrada rápida**: El celular detecta automáticamente el modelo del dispositivo (ej. `iPhone`, `iPad`, `Celular Android`). Solo pulsa **Entrar a la cabina** (o ingresa un apodo personalizado si lo prefieres).
+4. **Actualización automática en la PC**: En cuanto el celular se enlaza, la ventana en la computadora se actualiza sola al instante: oculta el código QR usado por seguridad, muestra la confirmación en verde con el nombre del dispositivo y lo agrega a la lista de **Dispositivos enlazados**.
+5. **¿No hay router o internet en el templo? (Zona Wi-Fi / Hotspot de la PC)**: Si el templo no cuenta con módem ni router, pulsa el botón **📶 Compartir Wi-Fi desde esta PC (Hotspot)** en la pestaña Wi-Fi de Ajustes. Se abrirá la configuración nativa de Windows o macOS para activar la zona inalámbrica de la laptop/computadora con un solo clic. El celular se conecta a esa red emitida por la PC y funciona de forma autónoma sin internet.
 
 ![Panel de ajustes con el QR de demostración y la sección Dispositivos enlazados justo debajo.](capturas/56-ajustes-codigo-qr.png)
 
@@ -1368,7 +1358,7 @@ Los créditos a Huri Tolentino aparecen al principio de esta ventana.
 
 **Figura 33.** Las pestañas permiten ir directamente a cada grupo de opciones. Guardar ajustes y Restablecer ajustes permanecen en el pie del diálogo.
 
-En la pestaña Letras, los controles se agrupan por distribución y tamaño, fuente, colores y fondo. En escritorio, la vista previa queda a su lado; en tablet o móvil, aparece debajo.
+En la pestaña Letras, los controles se agrupan por distribución y tamaño, fuente, colores y fondo. Los selectores de color son controles nativos estilizados que muestran la muestra de color integrada junto a su código HEX en mayúsculas (ej. `#FFFFFF`), abriendo la paleta nativa del sistema operativo con un solo clic y actualizando la previsualización al instante. En escritorio, la vista previa queda a su lado; en tablet o móvil, aparece debajo.
 
 Solo se desplaza el contenido de la pestaña. Los botones del pie permanecen visibles en PC, tablet y móvil. En pantallas estrechas, las seis pestañas se distribuyen en dos filas. Puedes moverte entre pestañas con las flechas izquierda y derecha cuando el botón de una pestaña tiene el foco; Inicio y Fin saltan a la primera y última.
 

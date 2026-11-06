@@ -58,7 +58,8 @@ function renderControls() {
   }
 }
 
-async function openSettings() {
+export async function openSettings(targetSection) {
+  const section = typeof targetSection === 'string' ? targetSection : undefined;
   try {
     snapshot = await (await request('/api/settings')).json();
     acceptSettings(snapshot.settings, snapshot.revision);
@@ -66,11 +67,21 @@ async function openSettings() {
     renderOperatorSettings();
     openUpdateSettings();
     for (const [key, id] of Object.entries(fields)) document.getElementById(id).value = draft.church[key];
-    resetLibrary(); await openLyricsAppearance(draft, snapshot.defaults); openSettingsTabs();
+    resetLibrary(); await openLyricsAppearance(draft, snapshot.defaults);
+    if (section) {
+      activateSettingsTab(section);
+    } else {
+      openSettingsTabs();
+    }
     message.textContent = ''; capture = null; renderControls(); openGraphicsSettings(draft); openSurface(dialog, () => dialog.showModal());
+    if (section === 'wifi') {
+      window.dispatchEvent(new CustomEvent('generate-mobile-qr'));
+    }
   } catch (error) { showToast(error.message); }
 }
-document.querySelectorAll('[data-open-settings]').forEach(button => button.addEventListener('click', openSettings));
+document.querySelectorAll('[data-open-settings]').forEach(button => button.addEventListener('click', () => {
+  openSettings(button.dataset.openSettings || undefined);
+}));
 export function closeSettings() { closeSurface(dialog, () => dialog.close()); }
 document.getElementById('closeSettings').addEventListener('click', closeSettings);
 dialog.addEventListener('cancel', event => { event.preventDefault(); closeSettings(); });

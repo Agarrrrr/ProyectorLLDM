@@ -9,6 +9,10 @@ const position = document.getElementById('lyricsPreviewPosition');
 const navigation = position.parentElement;
 let draft, defaults, assets = [], type = 'hymn', slides = [], index = 1, sequence = 0, loadingSongs = 0, timer;
 function option(value, label, selected) { return `<option value="${escapeHtml(value)}"${value === selected ? ' selected' : ''}>${escapeHtml(label)}</option>`; }
+function colorField(field, label, value) {
+  const hex = (value || '#ffffff').toUpperCase();
+  return `<label class="color-picker-label"><span>${escapeHtml(label)}</span><div class="color-picker-wrapper"><input data-lyrics-field="${escapeHtml(field)}" type="color" value="${escapeHtml(value || '#ffffff')}" aria-label="${escapeHtml(label)}"><span class="color-picker-hex">${escapeHtml(hex)}</span></div></label>`;
+}
 function renderFields() {
   const value = draft.lyrics[type];
   const isBible = type === 'bible';
@@ -17,8 +21,8 @@ function renderFields() {
   document.getElementById('lyricsPreviewLabel').textContent = isBible ? 'Formato para previsualizar' : 'Canto para previsualizar';
   fields.innerHTML = `<label>Aplicar a<select id="lyricsAppearanceType">${option('hymn','Himnario',type)}${option('choir','Coro',type)}${option('bible','Biblia',type)}</select></label>`
     + (isBible ? `<fieldset class="lyrics-control-group"><legend>Colores de la Biblia</legend><div class="lyrics-color-fields bible-color-fields">
-      <label>Texto<input data-lyrics-field="color" type="color" value="${value.color}"></label>
-      <label>Cita y versículos<input data-lyrics-field="indicatorColor" type="color" value="${value.indicatorColor}"></label>
+      ${colorField('color', 'Texto', value.color)}
+      ${colorField('indicatorColor', 'Cita y versículos', value.indicatorColor)}
     </div></fieldset>` : `<fieldset class="lyrics-control-group"><legend>Distribución y tamaño</legend><div class="lyrics-sizing-fields">
       <label>Límite de renglones<input data-lyrics-field="maxLines" type="number" min="1" step="1" value="${value.maxLines}"></label>
       <label>Tamaño mínimo<input data-lyrics-field="minFontSize" type="number" min="24" max="400" step="1" value="${value.minFontSize}"></label>
@@ -27,16 +31,32 @@ function renderFields() {
     </div></fieldset>
     <label>Fuente<select data-lyrics-field="font">${assets.filter(a=>a.kind==='font').map(a=>option(a.id,a.name,value.font)).join('')}</select></label>
     <fieldset class="lyrics-control-group"><legend>Colores de la letra</legend><div class="lyrics-color-fields">
-      <label>Estrofas<input data-lyrics-field="color" type="color" value="${value.color}"></label>
-      <label>Coro<input data-lyrics-field="chorusColor" type="color" value="${value.chorusColor}"></label>
-      <label>Indicador<input data-lyrics-field="indicatorColor" type="color" value="${value.indicatorColor}"></label>
+      ${colorField('color', 'Estrofas', value.color)}
+      ${colorField('chorusColor', 'Coro', value.chorusColor)}
+      ${colorField('indicatorColor', 'Indicador', value.indicatorColor)}
     </div></fieldset>
     <div class="lyrics-background-fields"><label>Fondo de las letras<select data-lyrics-field="background">${option('original','Fondo original',value.background)}${option('solid','Color liso',value.background)}${assets.filter(a=>a.kind==='image').map(a=>option(a.id,a.name,value.background)).join('')}</select></label>
-      <label>Color de fondo<input data-lyrics-field="backgroundColor" type="color" value="${value.backgroundColor}"></label></div>
+      ${colorField('backgroundColor', 'Color de fondo', value.backgroundColor)}</div>
     <label class="song-checkbox"><input data-lyrics-field="showVerseNumber" type="checkbox"${value.showVerseNumber?' checked':''}>Mostrar número o nombre de estrofa</label>`)
     + `<label class="song-checkbox"><input data-lyrics-field="textShadow" type="checkbox"${value.textShadow?' checked':''}>Mostrar sombra del texto</label>`;
   fields.querySelector('#lyricsAppearanceType').addEventListener('change', async event => { type=event.target.value; sequence++; renderFields(); await loadSongs(); });
+  fields.querySelectorAll('.color-picker-wrapper').forEach(wrapper => {
+    wrapper.addEventListener('click', (e) => {
+      if (e.target !== wrapper.querySelector('input')) {
+        const inp = wrapper.querySelector('input');
+        if (inp && inp.showPicker) {
+          try { inp.showPicker(); } catch {}
+        } else if (inp) {
+          inp.click();
+        }
+      }
+    });
+  });
   fields.querySelectorAll('[data-lyrics-field]').forEach(input=>input.addEventListener('input',()=>{
+    if (input.type === 'color') {
+      const hexSpan = input.parentElement?.querySelector('.color-picker-hex');
+      if (hexSpan) hexSpan.textContent = input.value.toUpperCase();
+    }
     draft.lyrics[type][input.dataset.lyricsField] = input.type === 'checkbox' ? input.checked
       : input.type === 'number' ? input.valueAsNumber : input.value;
     clearTimeout(timer); timer=setTimeout(updatePreview,180);

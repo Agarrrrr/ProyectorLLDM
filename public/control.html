@@ -35,13 +35,12 @@
         <span id="status-text">REPOSO</span>
       </div>
 
-      <!-- IP PARA CONEXIÓN DE MÓVILES EN RED LOCAL (AL LADO DEL CUADRO DE REPOSO/EN PROYECCIÓN) -->
-      <div id="header-ip-badge" class="ip-badge-pill" title="Dirección local. Enlaza dispositivos desde Ajustes → Avanzado">
+      <!-- BOTÓN WI-FI: ENLAZAR CELULAR POR QR -->
+      <button type="button" id="header-ip-badge" class="ip-badge-pill" data-open-settings="wifi" title="Conectar celular por Wi-Fi (Código QR)">
         <svg class="icon-ip-svg" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-        <span class="ip-label-text">Wi-Fi:</span>
-        <span id="header-ip-address" class="ip-address-text">—</span>
-        <svg class="icon-copy-svg" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      </div>
+        <span class="ip-label-text">Wi-Fi (QR)</span>
+        <svg class="icon-qr-svg" viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: var(--gold-lldm); fill: none; stroke-width: 2;"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3" height="3"/><rect x="18" y="14" width="3" height="3"/><rect x="14" y="18" width="7" height="3"/></svg>
+      </button>
 
       <!-- BOTÓN ALTERNAR REPOSO / PROYECCIÓN -->
       <button id="btn-toggle-idle" class="btn-stage-toggle" title="Alternar entre Reposo y Proyección (Esc / F1)">
@@ -620,10 +619,7 @@
             <div><h2 class="tv-monitor-title">Salida a TV</h2></div>
           </div>
           <div style="display: flex; align-items: center; gap: 6px;">
-            <div id="monitor-ip-badge" class="monitor-ip-pill" title="IP de conexión en red local">
-              <span id="monitor-ip-text">—</span>
-            </div>
-            <div id="monitor-status-badge" class="status-badge status-idle" style="padding: 2px 6px; font-size: 11px;">
+                        <div id="monitor-status-badge" class="status-badge status-idle" style="padding: 2px 6px; font-size: 11px;">
               <span class="status-dot"></span>
               <span id="monitor-status-text">REPOSO</span>
             </div>
@@ -870,7 +866,7 @@
       <div class="settings-header">      <div class="settings-heading"><h2 id="settingsTitle">Ajustes</h2><button type="button" id="closeSettings" class="btn-modal-close" aria-label="Cerrar ajustes">×</button></div>
       <p class="settings-credits">Proyector LLDM<br>Desarrollado por <strong>Huri Tolentino</strong></p>
 </div>
-      <nav class="settings-tabs" role="tablist" aria-label="Secciones de ajustes"><button type="button" role="tab" id="settings-tab-church" aria-controls="settings-panel-church" aria-selected="true" tabindex="0" data-settings-section="church">Iglesia</button><button type="button" role="tab" id="settings-tab-lyrics" aria-controls="settings-panel-lyrics" aria-selected="false" tabindex="-1" data-settings-section="lyrics">Letras</button><button type="button" role="tab" id="settings-tab-background" aria-controls="settings-panel-background" aria-selected="false" tabindex="-1" data-settings-section="background">Fondo de TV</button><button type="button" role="tab" id="settings-tab-obs" aria-controls="settings-panel-obs" aria-selected="false" tabindex="-1" data-settings-section="obs">OBS</button><button type="button" role="tab" id="settings-tab-keyboard" aria-controls="settings-panel-keyboard" aria-selected="false" tabindex="-1" data-settings-section="keyboard">Teclado</button><button type="button" role="tab" id="settings-tab-advanced" aria-controls="settings-panel-advanced" aria-selected="false" tabindex="-1" data-settings-section="advanced">Avanzado</button></nav>
+      <nav class="settings-tabs" role="tablist" aria-label="Secciones de ajustes"><button type="button" role="tab" id="settings-tab-church" aria-controls="settings-panel-church" aria-selected="true" tabindex="0" data-settings-section="church">Iglesia</button><button type="button" role="tab" id="settings-tab-lyrics" aria-controls="settings-panel-lyrics" aria-selected="false" tabindex="-1" data-settings-section="lyrics">Letras</button><button type="button" role="tab" id="settings-tab-background" aria-controls="settings-panel-background" aria-selected="false" tabindex="-1" data-settings-section="background">Fondo de TV</button><button type="button" role="tab" id="settings-tab-obs" aria-controls="settings-panel-obs" aria-selected="false" tabindex="-1" data-settings-section="obs">OBS</button><button type="button" role="tab" id="settings-tab-keyboard" aria-controls="settings-panel-keyboard" aria-selected="false" tabindex="-1" data-settings-section="keyboard">Teclado</button><button type="button" role="tab" id="settings-tab-wifi" aria-controls="settings-panel-wifi" aria-selected="false" tabindex="-1" data-settings-section="wifi">Wi-Fi</button><button type="button" role="tab" id="settings-tab-advanced" aria-controls="settings-panel-advanced" aria-selected="false" tabindex="-1" data-settings-section="advanced">Avanzado</button></nav>
       <div class="settings-body" id="settingsBody"><section role="tabpanel" id="settings-panel-church" aria-labelledby="settings-tab-church" data-settings-panel="church">      <fieldset class="settings-section"><legend>Datos de la iglesia</legend>
         <p class="settings-church-name">La Luz del Mundo</p>
         <label>Colonia o dirección<input id="churchAddress" name="churchAddress" type="text" maxlength="160" autocomplete="street-address"></label>
@@ -926,17 +922,58 @@
         <div id="settingsControls"></div>
         <button type="button" id="resetControls" class="btn-secondary">Restablecer controles</button>
       </fieldset></section>
+<section role="tabpanel" id="settings-panel-wifi" aria-labelledby="settings-tab-wifi" data-settings-panel="wifi" hidden>      <fieldset class="settings-section"><legend>Conexión Wi-Fi para celulares (QR)</legend>
+        <div class="wifi-guide-card">
+          <div class="wifi-guide-steps">
+            <div class="wifi-step">
+              <span class="wifi-step-num">1</span>
+              <div>
+                <strong>Conéctate a la misma red Wi-Fi</strong>
+                <p>El celular y esta computadora deben estar en el mismo Wi-Fi. <em>(Desactiva datos móviles 4G/5G en el celular si no enlaza)</em>.</p>
+              </div>
+            </div>
+            <div class="wifi-step">
+              <span class="wifi-step-num">2</span>
+              <div>
+                <strong>Apunta la cámara al código QR</strong>
+                <p>Escanea el código generado abajo para abrir la cabina en tu celular. El código es de un solo uso por seguridad.</p>
+              </div>
+            </div>
+            <div class="wifi-step">
+              <span class="wifi-step-num">3</span>
+              <div>
+                <strong>¡Conexión automática!</strong>
+                <p>Al escanearlo, esta ventana se actualiza sola y verás tu celular en la lista de abajo.</p>
+              </div>
+            </div>
+          </div>
+          <div class="wifi-hotspot-hint">
+            <div>
+              <strong>¿No hay módem o router Wi-Fi en el templo?</strong>
+              <p>Puedes compartir Wi-Fi directamente desde esta computadora para que el celular se conecte a ella sin internet.</p>
+            </div>
+            <button type="button" id="openHotspotButton" class="btn-secondary">📶 Compartir Wi-Fi desde esta PC (Hotspot)</button>
+          </div>
+        </div>
+
+        <div class="settings-actions" style="justify-content: flex-start; gap: 10px; margin-top: 14px;">
+          <button type="button" id="createMobileQr" class="btn-gold">Generar QR</button>
+          <button type="button" id="revokeMobileSessions" class="btn-danger">Desconectar todos</button>
+        </div>
+        <div class="wifi-qr-card">
+          <img id="mobileQrImage" alt="QR para conectar un celular a esta cabina" width="240" height="240" style="background: #ffffff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); object-fit: contain;" hidden>
+          <p id="mobileQrStatus" class="settings-message" role="status" style="font-weight: 700; font-size: 14px; text-align: center; color: var(--gold-light, #f1d58c); margin: 0;"></p>
+        </div>
+        <div style="margin-top: 24px; border-top: 1px solid #304156; padding-top: 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #edf3fb;">Dispositivos enlazados</h3>
+            <button type="button" id="refreshMobileSessions" class="btn-secondary" style="font-size: 12px; padding: 6px 12px; min-height: 32px;">Actualizar lista</button>
+          </div>
+          <ul id="mobileSessions" class="mobile-sessions-list"></ul>
+        </div>
+      </fieldset></section>
 <section role="tabpanel" id="settings-panel-advanced" aria-labelledby="settings-tab-advanced" data-settings-panel="advanced" hidden>
-      <details class="settings-section mobile-access">
-        <summary>Conectar celular por QR</summary>
-        <p class="settings-note">Genera el QR en el navegador de la PC. Conecta el celular a la misma red del templo. El código se usa una vez y vence en cinco minutos.</p>
-        <div class="settings-actions"><button type="button" id="createMobileQr">Generar QR</button><button type="button" id="revokeMobileSessions">Desconectar todos</button></div>
-        <img id="mobileQrImage" alt="QR para conectar un celular a esta cabina" width="240" height="240" hidden>
-        <p id="mobileQrStatus" class="settings-message" role="status"></p>
-        <h3>Dispositivos enlazados</h3>
-        <ul id="mobileSessions"></ul>
-        <button type="button" id="refreshMobileSessions">Actualizar dispositivos</button>
-      </details>
+      
       <fieldset class="settings-section quick-editor-setting"><legend>Interfaz principal</legend><label class="settings-toggle"><input id="showQuickLyricsEditor" type="checkbox" role="switch"><span>Mostrar «Editar letra» en Himnario y Coro</span></label><p class="settings-note">Muestra el botón junto a las acciones del canto seleccionado. Guarda los ajustes para aplicar el cambio.</p></fieldset>
       <details class="settings-advanced update-settings"><summary>Actualizaciones de GitHub</summary><div class="settings-section">
         <p id="updatesCurrent" class="settings-note">Sin consulta de versión todavía.</p>
