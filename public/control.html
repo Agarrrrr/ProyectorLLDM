@@ -391,105 +391,174 @@
       </div>
 
       <!-- ==============================================================
-           PESTAÑA 4: TEMAS Y TRANSMISIÓN OBS (CORO / DRON)
+           PESTAÑA 4: CENTRO DE TRANSMISIÓN OBS (BANNERS Y OVERLAYS)
            ============================================================== -->
       <div id="tab-overlay" class="tab-pane">
-        <section class="control-card transmission-preview-card">
-          <h2 class="card-title">Transmisión</h2>
-          <div id="overlay-preview-container" class="overlay-preview-frame">
-            <iframe id="preview-overlay-iframe" src="/overlay?obs=1" title="Vista de gráficos para transmisión OBS"></iframe>
-          </div>
-        </section>
 
-        <!-- SECCIÓN ESPECIAL TRANSMISIÓN OBS (CÁMARAS: CORO / DRON / BANNERS ANIMADOS) -->
-        <section class="control-card">
-          <h2 class="card-title">
-            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-            <span>Cámaras Transmisión OBS (Banners y Logo sobre Fondo Transparente)</span>
-          </h2>
-
-          <div class="search-inputs">
-            <input type="text" id="customTextInput" class="search-input" style="flex: 1;" placeholder="Escribe el canto del coro, texto del banner o ubicación del dron..." autocomplete="off">
-            
-            <!-- BOTÓN CANTO CORO -> BANNER ANIMADO EN CÁMARAS OBS (/overlay) -->
-            <button id="generateChoirButton" class="choir-btn" title="Mostrar banner animado de El Coro Canta en Cámaras OBS (/overlay)">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <span>Canto Coro (OBS)</span>
-            </button>
-
-            <!-- BOTÓN CUADRO DRON -> BANNER ANIMADO CENTRADO EN CÁMARAS OBS (/overlay) -->
-            <button id="generateDroneButton" class="drone-btn" title="Mostrar cuadro animado de ubicación de Dron en Cámaras OBS (/overlay)">
-              <svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg>
-              <span>Cuadro Dron (OBS)</span>
-            </button>
-
-            <!-- BOTÓN GENERAR BANNER / TEXTO EN CÁMARAS OBS (/overlay) -->
-            <button id="broadcastCustomOverlayButton" class="btn-overlay-obs" title="Mostrar texto o aviso como banner animado en Cámaras OBS (/overlay)">
-              <svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-              <span>Generar Banner (OBS)</span>
-            </button>
-
-            <button id="btnHideOverlay" class="btn-danger" style="background: linear-gradient(135deg, #b91c1c, #7f1d1d); border: 1px solid #ef4444;" title="Ocultar banner animado activo en Cámaras OBS (/overlay)">
-              <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              <span>Ocultar Banner</span>
-            </button>
-
-            <button id="clearCustomButton" class="btn-danger" style="grid-column: span 2;" title="Limpiar campo de texto">
-              <svg class="icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-              <span>Limpiar Campo</span>
-            </button>
-          </div>
-
-          <!-- APARTADO EXCLUSIVO: MINISTRO Y UBICACIÓN (BANNER INFERIOR CENTRADO EN OBS) -->
-          <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-soft);">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;">
-              <label for="ministerInput" style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
-                <svg class="icon" viewBox="0 0 24 24" style="width: 15px; height: 15px; stroke: var(--gold-light);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>Ministro y Ubicación (Banner Inferior OBS)</span>
-              </label>
-              <span style="font-size: 11px; color: #94a3b8;">Se guarda automáticamente · Toma la ubicación de Ajustes → Iglesia</span>
+        <!-- 1. MONITOR EN VIVO Y BARRA DE ESTADO DE OBS -->
+        <section class="control-card transmission-monitor-card">
+          <div class="transmission-monitor-header">
+            <div class="transmission-monitor-title-group">
+              <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
+              <h2>Monitor de Transmisión OBS</h2>
             </div>
-            <div class="search-inputs">
-              <input type="text" id="ministerInput" class="search-input" style="flex: 1;" placeholder="Rango y nombre del ministro (ej: P.E. ELIAS DÍAZ, D.E. ..., E.E. ...)..." autocomplete="off">
-              <button type="button" id="generateMinisterButton" class="btn-gold" title="Mostrar banner inferior centrado con el rango/nombre del ministro y la ubicación en Cámaras OBS (/overlay)">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>Ministro (OBS)</span>
+            
+            <div class="transmission-monitor-actions">
+              <!-- BADGE DE ESTADO EN EL AIRE -->
+              <div id="obsLiveStatusBadge" class="obs-status-pill idle" title="Estado de los gráficos en cámaras de OBS">
+                <span class="status-dot"></span>
+                <span id="obsLiveStatusText">EN REPOSO (Solo Logo)</span>
+              </div>
+
+              <!-- BOTÓN DE ACCIÓN RÁPIDA: OCULTAR GRÁFICOS -->
+              <button type="button" id="btnHideOverlay" class="btn-danger btn-hide-overlay" title="Ocultar inmediatamente el banner activo en cámaras de OBS">
+                <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <span>Ocultar Banner</span>
               </button>
             </div>
           </div>
 
-          <!-- ENLACES SEPARADOS: 1) PANTALLAS DEL TEMPLO (/pantalla) Y 2) CÁMARAS OBS FONDO TRANSPARENTE (/overlay) -->
-          <div style="margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px;">
-            <!-- SALIDA 1: PANTALLAS DEL TEMPLO -->
-            <div style="padding: 12px 14px; background: rgba(17, 31, 64, 0.6); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
-              <div>
-                <div style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase;">1. Pantallas del Templo (Solo Proyecciones):</div>
-                <div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">Cantos del himnario, citas bíblicas y temas en grande (sin banners ni logo de cámara).</div>
-                <div style="font-size: 12px; font-family: monospace; color: #ffffff; margin-top: 4px;"><span data-output-url="/pantalla">/pantalla</span></div>
+          <!-- PREVIEW DEL OVERLAY EN TIEMPO REAL -->
+          <div id="overlay-preview-container" class="overlay-preview-frame">
+            <iframe id="preview-overlay-iframe" src="/overlay?obs=1" title="Vista de gráficos para transmisión OBS"></iframe>
+          </div>
+          <p class="transmission-monitor-hint">
+            <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            <span>Los gráficos se muestran sobre fondo transparente encima de las cámaras. Se ocultan solos tras su duración (Ajustes → OBS) o manualmente con el botón «Ocultar Banner».</span>
+          </p>
+        </section>
+
+        <!-- 2. CENTRO DE CONTROL DE BANNERS POR MÓDULOS -->
+        <div class="transmission-modules-grid">
+
+          <!-- MÓDULO 1: MINISTRO Y UBICACIÓN -->
+          <div class="control-card transmission-module-card">
+            <div class="module-header">
+              <div class="module-title-wrap">
+                <span class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                <div>
+                  <h3 class="module-title">Ministro y Ubicación</h3>
+                  <span class="module-badge">Banner Inferior Centrado</span>
+                </div>
               </div>
-              <a href="/pantalla" target="_blank" class="btn-gold-outline" style="padding: 7px 12px; font-size: 12px; text-decoration: none; justify-content: center;">
-                <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                <span>Abrir Pantallas (/pantalla)</span>
-              </a>
+            </div>
+            <p class="module-description">Muestra el rango y nombre del ministro junto a la ubicación configurada en Ajustes → Iglesia.</p>
+            <div class="module-body">
+              <input type="text" id="ministerInput" class="search-input" placeholder="Ej: P.E. ELIAS DÍAZ, D.E. ..., E.E. ..." autocomplete="off">
+              <div class="module-actions">
+                <button type="button" id="generateMinisterButton" class="btn-gold">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Lanzar a OBS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÓDULO 2: CANTO DEL CORO -->
+          <div class="control-card transmission-module-card">
+            <div class="module-header">
+              <div class="module-title-wrap">
+                <span class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                <div>
+                  <h3 class="module-title">El Coro Canta</h3>
+                  <span class="module-badge">Canto Especial</span>
+                </div>
+              </div>
+            </div>
+            <p class="module-description">Identifica al coro y opcionalmente el título del canto que están entonando.</p>
+            <div class="module-body">
+              <input type="text" id="choirCustomInput" class="search-input" placeholder="Título del canto (o dejar vacío para «El Coro Canta»)..." autocomplete="off">
+              <div class="module-actions">
+                <button type="button" id="generateChoirButton" class="btn-gold">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Lanzar a OBS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÓDULO 3: UBICACIÓN Y DRON -->
+          <div class="control-card transmission-module-card">
+            <div class="module-header">
+              <div class="module-title-wrap">
+                <span class="module-icon"><svg class="icon" viewBox="0 0 24 24"><polygon points="12 2 19 21 12 17 5 21 12 2"/></svg></span>
+                <div>
+                  <h3 class="module-title">Ubicación y Dron</h3>
+                  <span class="module-badge">Tomas Aéreas</span>
+                </div>
+              </div>
+            </div>
+            <p class="module-description">Cuadro animado con el nombre del templo o colonia para tomas exteriores y vistas de dron.</p>
+            <div class="module-body">
+              <input type="text" id="droneCustomInput" class="search-input" placeholder="Ubicación personalizada (o dejar vacío para usar Ajustes)..." autocomplete="off">
+              <div class="module-actions">
+                <button type="button" id="generateDroneButton" class="btn-gold">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Lanzar a OBS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÓDULO 4: AVISO O TITULAR LIBRE -->
+          <div class="control-card transmission-module-card">
+            <div class="module-header">
+              <div class="module-title-wrap">
+                <span class="module-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg></span>
+                <div>
+                  <h3 class="module-title">Aviso o Titular Especial</h3>
+                  <span class="module-badge">Texto Libre</span>
+                </div>
+              </div>
+            </div>
+            <p class="module-description">Muestra un banner animado con cualquier anuncio breve, bienvenida o mención en pantalla.</p>
+            <div class="module-body">
+              <input type="text" id="customTextInput" class="search-input" placeholder="Escribe el texto del anuncio o titular..." autocomplete="off">
+              <div class="module-actions">
+                <button type="button" id="broadcastCustomOverlayButton" class="btn-gold">
+                  <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  <span>Lanzar a OBS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 3. PANEL DE ENLACES DE SALIDA PARA OBS -->
+        <section class="control-card transmission-outputs-card">
+          <h3 class="outputs-title">Enlaces de Salida de Video</h3>
+          <p class="outputs-subtitle">Fuentes de navegador para agregar en OBS Studio o pantallas locales:</p>
+          <div class="outputs-grid">
+            <div class="output-item">
+              <div class="output-info">
+                <div class="output-badge">Salida 1 · TVs y Proyectores</div>
+                <strong class="output-name">Pantallas del Templo (/pantalla)</strong>
+                <p class="output-desc">Proyecciones completas (letras de himnos, citas bíblicas, temas y diapositivas) sin logo ni banners de cámara.</p>
+                <div class="output-url-box"><span data-output-url="/pantalla">/pantalla</span></div>
+              </div>
+              <div class="output-buttons">
+                <button type="button" class="btn-secondary btn-copy-url" data-copy-target="/pantalla" title="Copiar URL para OBS">Copiar enlace</button>
+                <a href="/pantalla" target="_blank" class="btn-gold-outline" style="text-decoration:none; justify-content:center;">Abrir</a>
+              </div>
             </div>
 
-            <!-- SALIDA 2: CÁMARAS TRANSMISIÓN OBS -->
-            <div style="padding: 12px 14px; background: rgba(17, 31, 64, 0.6); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 8px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
-              <div>
-                <div style="font-size: 12px; font-weight: 800; color: var(--gold-light); text-transform: uppercase;">2. Cámaras Transmisión OBS (Fondo Transparente):</div>
-                <div style="font-size: 11px; color: #cbd5e1; margin-top: 2px;">Logo en esquina + Banners animados (Biblia, Cantos, El Coro Canta, Dron) sobre cámaras.</div>
-                <div style="font-size: 12px; font-family: monospace; color: #ffffff; margin-top: 4px;"><span data-output-url="/overlay">/overlay</span></div>
+            <div class="output-item">
+              <div class="output-info">
+                <div class="output-badge">Salida 2 · Transmisión en Vivo</div>
+                <strong class="output-name">Cámaras en OBS (/overlay)</strong>
+                <p class="output-desc">Fondo 100% transparente con logo en esquina y banners animados sobre las cámaras de transmisión.</p>
+                <div class="output-url-box"><span data-output-url="/overlay">/overlay</span></div>
               </div>
-              <a href="/overlay" target="_blank" class="btn-gold-outline" style="padding: 7px 12px; font-size: 12px; text-decoration: none; justify-content: center;">
-                <svg class="icon" viewBox="0 0 24 24" style="width: 14px; height: 14px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                <span>Abrir Cámaras OBS (/overlay)</span>
-              </a>
+              <div class="output-buttons">
+                <button type="button" class="btn-secondary btn-copy-url" data-copy-target="/overlay" title="Copiar URL para OBS">Copiar enlace</button>
+                <a href="/overlay" target="_blank" class="btn-gold-outline" style="text-decoration:none; justify-content:center;">Abrir</a>
+              </div>
             </div>
           </div>
         </section>
 
       </div>
-
       <!-- ==============================================================
            PESTAÑA 5: PRESENTACIONES POWERPOINT Y PDF
            ============================================================== -->

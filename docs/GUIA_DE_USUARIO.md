@@ -1274,52 +1274,40 @@ Eliminar una presentación retira su registro y sus archivos importados de esa i
 
 <a id="17-usar-los-graficos-de-transmision"></a>
 
-## 17. Usar los gráficos de transmisión
+## 17. Centro de Control de Transmisión (OBS Lower Thirds y Overlays)
 
-Al enviar contenido a TV, su identificación se muestra automáticamente en OBS. Los botones exclusivos de OBS permiten enviarla de nuevo sin cambiar las pantallas. Avanzar entre cuadros o estrofas del mismo canto no repite el banner; los botones **Enviar título a TV** y **Enviar letra a TV** sí permiten volver a mostrarlo. Se utiliza la duración guardada en **Ajustes → OBS**.
+La pestaña **Transmisión** funciona como un centro de control integral para los gráficos que se superponen a las cámaras en OBS Studio sobre fondo 100% transparente (`/overlay`).
 
-### 17.1 Revisar la salida correcta
+### 17.1 Monitor en vivo y estado «En el Aire»
 
-Abre **Transmisión** para revisar la salida de gráficos vinculada al overlay.
+1. **Monitor en tiempo real**: En la parte superior se previsualiza la salida exacta de OBS.
+2. **Badge de estado dinámico**:
+   - `○ EN REPOSO (Solo Logo)`: Cuando las cámaras están libres de banners.
+   - `● EN EL AIRE: [Texto]`: Alarma visual con pulso rojo que indica qué gráfico específico está saliendo al aire en la transmisión (ministro, coro, dron, cita bíblica, etc.).
+3. **Botón de acción rápida «Ocultar Banner»**: Ubicado junto al monitor para retirar inmediatamente cualquier banner al aire sin necesidad de buscar controles secundarios.
 
-En OBS debe estar cargada y visible la fuente con `/overlay?obs=1`, situada sobre la cámara.
+### 17.2 Módulos dedicados de banners
 
-![Vista del overlay y controles para banners, coro y ubicación en OBS.](capturas/21-transmision.png)
+La cabina organiza los gráficos en cuatro tarjetas independientes para evitar confusiones de campos de texto:
 
-**Figura 32.** La pestaña Transmisión controla los gráficos reales de OBS. Comprueba el ejemplo de salida y utiliza Ocultar Banner cuando corresponda.
+1. **Ministro y Ubicación (Banner Inferior Centrado)**:
+   - Permite escribir el rango y nombre del ministro (ej. `P.E. ELIAS DÍAZ`, `D.E. ...`, `E.E. ...`).
+   - Se guarda de forma persistente (no se borra al reiniciar ni al pulsar **Esc** o **Fondo**).
+   - Proyecta en la parte inferior centrada el nombre del ministro y la ciudad/colonia configurada en **Ajustes → Iglesia**.
+2. **El Coro Canta (Canto Especial)**:
+   - Permite escribir el título del canto especial que entonará el coro, o dejarlo vacío para proyectar el clásico «El Coro Canta».
+3. **Ubicación y Dron (Tomas Aéreas)**:
+   - Cuadro animado de ubicación exterior para tomas de dron o cámaras generales. Puedes ingresar una ubicación específica o dejarlo en blanco para tomar los datos de la iglesia.
+4. **Aviso o Titular Especial (Texto Libre)**:
+   - Banner libre para anuncios especiales, bienvenidas o menciones en vivo.
 
-### 17.2 Mostrar el canto del coro
+### 17.3 Enlaces de salida y fuentes para OBS
 
-1. En el campo de transmisión escribe el título si quieres identificar un canto concreto.
-2. Pulsa **Canto Coro (OBS)**.
-3. Comprueba el banner sobre la cámara.
+En la parte inferior de la pestaña se presentan las dos salidas de video con botones para copiar la URL con un clic:
+- **Pantallas del Templo (`/pantalla`)**: Para televisiones y proyectores locales (letras, temas y citas a pantalla completa sin logo ni banners de cámara).
+- **Cámaras en OBS (`/overlay`)**: Fuente de navegador para OBS con fondo transparente que incluye el logo oficial en esquina y todos los banners animados.
 
-También puedes usar el botón **Banner en OBS** desde un canto seleccionado en el catálogo del coro.
-
-### 17.3 Mostrar un aviso
-
-1. Escribe el texto en el campo de transmisión.
-2. Pulsa **Generar Banner (OBS)**.
-3. Revisa el resultado.
-
-Utiliza textos que puedan leerse como identificación o aviso. Un texto muy largo puede necesitar más líneas o ajuste de tamaño.
-
-### 17.4 Mostrar el cuadro de ubicación
-
-1. Escribe la ubicación que quieres mostrar, si corresponde.
-2. Pulsa **Cuadro Dron (OBS)**.
-3. Revisa la ubicación y los datos de iglesia.
-
-El nombre del control identifica un gráfico de ubicación; no conecta ni pilota un dron.
-
-### 17.4.1 Mostrar el banner inferior de ministro y ubicación
-
-1. En la pestaña **Transmisión**, ubica el apartado **Ministro y Ubicación (Banner Inferior OBS)**.
-2. Escribe el rango y nombre del ministro (por ejemplo, `P.E. ELIAS DÍAZ`, `D.E. ...` o `E.E. ...`). Este campo se guarda automáticamente de forma persistente en la cabina para que no tengas que volver a escribirlo en cada culto ni se borre al pulsar **Esc** o **Fondo**.
-3. Pulsa **Ministro (OBS)** (o presiona **Enter** dentro del campo).
-4. En la parte inferior centrada de `/overlay` aparecerá el banner con el rango y nombre del ministro en la línea principal y la ubicación de **Ajustes → Iglesia (Ciudad y ubicación)** en la línea inferior, respetando el estilo elegido (**Clásico** o **Paneles angulares**).
-
-### 17.5 Ocultar o reemplazar un banner
+### 17.4 Ocultar o reemplazar un banner
 
 **Ocultar Banner** retira el gráfico activo. La tecla original para esa acción es O, salvo que se haya personalizado.
 

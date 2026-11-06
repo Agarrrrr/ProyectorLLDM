@@ -62,9 +62,14 @@ document.getElementById("clearThemeButton").addEventListener("click", () => {
   }
 });
 
-// BOTÓN CANTO CORO -> BANNER ANIMADO EN CÁMARAS OBS (/overlay)
-document.getElementById("generateChoirButton").addEventListener("click", () => {
-  const rawInput = document.getElementById("customTextInput").value.trim();
+// ==============================================================
+// CENTRO DE TRANSMISIÓN OBS: MÓDULOS DE BANNERS Y ESTADO EN VIVO
+// ==============================================================
+
+// MÓDULO 2: CANTO DEL CORO
+const choirInput = document.getElementById("choirCustomInput");
+document.getElementById("generateChoirButton")?.addEventListener("click", () => {
+  const rawInput = (choirInput?.value || document.getElementById("customTextInput")?.value || "").trim();
   let songTitle = rawInput.replace(/^(?:(?:el\s+)?coro(?:\s+canta)?|canto\s*(?:de|del)?\s*coro|himno\s*(?:de|del)?\s*coro)\s*[:-]?\s*/i, '').trim();
   if (/^[a-z]/i.test(songTitle)) {
     songTitle = songTitle.charAt(0).toUpperCase() + songTitle.slice(1);
@@ -84,9 +89,19 @@ document.getElementById("generateChoirButton").addEventListener("click", () => {
   showToast(`Banner en Cámaras OBS: ${obsText}`);
 });
 
-// BOTÓN CUADRO DRON -> BANNER ANIMADO CENTRADO EN CÁMARAS OBS (/overlay)
-document.getElementById("generateDroneButton").addEventListener("click", () => {
-  const customLoc = document.getElementById("customTextInput").value.trim();
+if (choirInput) {
+  choirInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("generateChoirButton")?.click();
+    }
+  });
+}
+
+// MÓDULO 3: UBICACIÓN Y DRON (TOMAS AÉREAS)
+const droneInput = document.getElementById("droneCustomInput");
+document.getElementById("generateDroneButton")?.addEventListener("click", () => {
+  const customLoc = (droneInput?.value || document.getElementById("customTextInput")?.value || "").trim();
   const church = getSettings()?.church;
   const locationText = customLoc || church?.city || '';
   const headerTag = [church?.name, church?.address].filter(Boolean).join(' • ');
@@ -101,15 +116,20 @@ document.getElementById("generateDroneButton").addEventListener("click", () => {
   showToast(`Banner en Cámaras OBS: Dron - ${locationText}`);
 });
 
-// BOTÓN GENERAR BANNER / AVISO EN CÁMARAS OBS (/overlay)
-document.getElementById("broadcastCustomOverlayButton").addEventListener("click", () => {
-  const rawText = document.getElementById("customTextInput").value.trim();
+if (droneInput) {
+  droneInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      document.getElementById("generateDroneButton")?.click();
+    }
+  });
+}
+
+// MÓDULO 4: AVISO O TITULAR ESPECIAL
+document.getElementById("broadcastCustomOverlayButton")?.addEventListener("click", () => {
+  const rawText = (document.getElementById("customTextInput")?.value || "").trim();
   if (!rawText) {
     showToast("Escribe un aviso o texto para el banner de Cámaras OBS");
-    return;
-  }
-  if (/^(?:(?:el\s+)?coro(?:\s+canta)?|canto\s*(?:de|del)?\s*coro|himno\s*(?:de|del)?\s*coro)/i.test(rawText)) {
-    document.getElementById("generateChoirButton").click();
     return;
   }
   let formattedText = rawText;
@@ -124,23 +144,55 @@ document.getElementById("broadcastCustomOverlayButton").addEventListener("click"
   showToast(`Banner en Cámaras OBS: ${formattedText}`);
 });
 
-document.getElementById("customTextInput").addEventListener("keypress", (e) => {
+document.getElementById("customTextInput")?.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    const val = e.target.value.trim().toLowerCase();
-    if (val.includes("coro") || !val) {
-      document.getElementById("generateChoirButton").click();
-    } else {
-      document.getElementById("broadcastCustomOverlayButton").click();
-    }
+    e.preventDefault();
+    document.getElementById("broadcastCustomOverlayButton")?.click();
   }
 });
 
-document.getElementById("btnHideOverlay").addEventListener("click", () => {
+// ACCIÓN RÁPIDA: OCULTAR GRÁFICOS
+document.getElementById("btnHideOverlay")?.addEventListener("click", () => {
   hideOverlay();
 });
 
-document.getElementById("clearCustomButton").addEventListener("click", () => {
-  document.getElementById("customTextInput").value = "";
+// INDICADOR DINÁMICO DE ESTADO EN EL AIRE
+window.addEventListener('overlay-active', (event) => {
+  const badge = document.getElementById('obsLiveStatusBadge');
+  const badgeText = document.getElementById('obsLiveStatusText');
+  if (badge && badgeText) {
+    badge.classList.remove('idle');
+    badge.classList.add('active');
+    const p = event.detail || {};
+    let desc = p.fullText || p.text || p.minister || p.location || p.theme || 'Banner activo';
+    if (desc.length > 32) desc = desc.slice(0, 30) + '…';
+    badgeText.textContent = `EN EL AIRE: ${desc}`;
+  }
+});
+
+window.addEventListener('overlay-hidden', () => {
+  const badge = document.getElementById('obsLiveStatusBadge');
+  const badgeText = document.getElementById('obsLiveStatusText');
+  if (badge && badgeText) {
+    badge.classList.remove('active');
+    badge.classList.add('idle');
+    badgeText.textContent = 'EN REPOSO (Solo Logo)';
+  }
+});
+
+// COPIAR ENLACES DE SALIDA AL PORTAPAPELES
+document.querySelectorAll('.btn-copy-url').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const target = btn.dataset.copyTarget;
+    if (!target) return;
+    const fullUrl = window.location.origin + target;
+    try {
+      await navigator.clipboard.writeText(fullUrl);
+      showToast(`Enlace copiado: ${target}`);
+    } catch {
+      prompt('Copia esta URL:', fullUrl);
+    }
+  });
 });
 
 // ==============================================================

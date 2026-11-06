@@ -540,24 +540,26 @@ http://localhost:4000/overlay?obs=1</code></pre>
 <p>Las presentaciones importadas quedan registradas en la instalación. Puedes filtrarlas por su nombre.</p>
 <p>Eliminar una presentación retira su registro y sus archivos importados de esa instalación. Conserva el documento original o un respaldo si lo vas a necesitar de nuevo.</p>
 <a id="17-usar-los-graficos-de-transmision"></a>
-<h2 id="17-usar-los-gráficos-de-transmisión">17. Usar los gráficos de transmisión</h2>
-<p>Al enviar contenido a TV, su identificación se muestra automáticamente en OBS. Los botones exclusivos de OBS permiten enviarla de nuevo sin cambiar las pantallas. Avanzar entre cuadros o estrofas del mismo canto no repite el banner; los botones <strong>Enviar título a TV</strong> y <strong>Enviar letra a TV</strong> sí permiten volver a mostrarlo. Se utiliza la duración guardada en <strong>Ajustes → OBS</strong>.</p>
-<h3 id="171-revisar-la-salida-correcta">17.1 Revisar la salida correcta</h3>
-<p>Abre <strong>Transmisión</strong> para revisar la salida de gráficos vinculada al overlay.</p>
-<p>En OBS debe estar cargada y visible la fuente con <code>/overlay?obs=1</code>, situada sobre la cámara.</p>
-<figure class="manual-shot" id="captura-32"><a class="manual-shot-open" href="capturas/21-transmision.png" target="_blank" aria-label="Ampliar: Vista del overlay y controles para banners, coro y ubicación en OBS." data-caption="Figura 32. La pestaña Transmisión controla los gráficos reales de OBS. Comprueba el ejemplo de salida y utiliza Ocultar Banner cuando corresponda."><img src="capturas/21-transmision.png" width="785" height="856" loading="eager" decoding="async" alt="Vista del overlay y controles para banners, coro y ubicación en OBS."></a><figcaption><strong>Figura 32.</strong> La pestaña Transmisión controla los gráficos reales de OBS. Comprueba el ejemplo de salida y utiliza Ocultar Banner cuando corresponda.</figcaption></figure>
-<h3 id="172-mostrar-el-canto-del-coro">17.2 Mostrar el canto del coro</h3>
-<ol><li>En el campo de transmisión escribe el título si quieres identificar un canto concreto.</li><li>Pulsa <strong>Canto Coro (OBS)</strong>.</li><li>Comprueba el banner sobre la cámara.</li></ol>
-<p>También puedes usar el botón <strong>Banner en OBS</strong> desde un canto seleccionado en el catálogo del coro.</p>
-<h3 id="173-mostrar-un-aviso">17.3 Mostrar un aviso</h3>
-<ol><li>Escribe el texto en el campo de transmisión.</li><li>Pulsa <strong>Generar Banner (OBS)</strong>.</li><li>Revisa el resultado.</li></ol>
-<p>Utiliza textos que puedan leerse como identificación o aviso. Un texto muy largo puede necesitar más líneas o ajuste de tamaño.</p>
-<h3 id="174-mostrar-el-cuadro-de-ubicación">17.4 Mostrar el cuadro de ubicación</h3>
-<ol><li>Escribe la ubicación que quieres mostrar, si corresponde.</li><li>Pulsa <strong>Cuadro Dron (OBS)</strong>.</li><li>Revisa la ubicación y los datos de iglesia.</li></ol>
-<p>El nombre del control identifica un gráfico de ubicación; no conecta ni pilota un dron.</p>
-<h3 id="1741-mostrar-el-banner-inferior-de-ministro-y-ubicación">17.4.1 Mostrar el banner inferior de ministro y ubicación</h3>
-<ol><li>En la pestaña <strong>Transmisión</strong>, ubica el apartado <strong>Ministro y Ubicación (Banner Inferior OBS)</strong>.</li><li>Escribe el rango y nombre del ministro (por ejemplo, <code>P.E. ELIAS DÍAZ</code>, <code>D.E. ...</code> o <code>E.E. ...</code>). Este campo se guarda automáticamente de forma persistente en la cabina para que no tengas que volver a escribirlo en cada culto ni se borre al pulsar <strong>Esc</strong> o <strong>Fondo</strong>.</li><li>Pulsa <strong>Ministro (OBS)</strong> (o presiona <strong>Enter</strong> dentro del campo).</li><li>En la parte inferior centrada de <code>/overlay</code> aparecerá el banner con el rango y nombre del ministro en la línea principal y la ubicación de <strong>Ajustes → Iglesia (Ciudad y ubicación)</strong> en la línea inferior, respetando el estilo elegido (<strong>Clásico</strong> o <strong>Paneles angulares</strong>).</li></ol>
-<h3 id="175-ocultar-o-reemplazar-un-banner">17.5 Ocultar o reemplazar un banner</h3>
+<h2 id="17-centro-de-control-de-transmisión-obs-lower-thirds-y-overlays">17. Centro de Control de Transmisión (OBS Lower Thirds y Overlays)</h2>
+<p>La pestaña <strong>Transmisión</strong> funciona como un centro de control integral para los gráficos que se superponen a las cámaras en OBS Studio sobre fondo 100% transparente (<code>/overlay</code>).</p>
+<h3 id="171-monitor-en-vivo-y-estado-en-el-aire">17.1 Monitor en vivo y estado «En el Aire»</h3>
+<ol><li><strong>Monitor en tiempo real</strong>: En la parte superior se previsualiza la salida exacta de OBS.</li><li><strong>Badge de estado dinámico</strong>:</li></ol>
+<p>   - <code>○ EN REPOSO (Solo Logo)</code>: Cuando las cámaras están libres de banners.    - <code>● EN EL AIRE: [Texto]</code>: Alarma visual con pulso rojo que indica qué gráfico específico está saliendo al aire en la transmisión (ministro, coro, dron, cita bíblica, etc.).</p>
+<ol start="3"><li><strong>Botón de acción rápida «Ocultar Banner»</strong>: Ubicado junto al monitor para retirar inmediatamente cualquier banner al aire sin necesidad de buscar controles secundarios.</li></ol>
+<h3 id="172-módulos-dedicados-de-banners">17.2 Módulos dedicados de banners</h3>
+<p>La cabina organiza los gráficos en cuatro tarjetas independientes para evitar confusiones de campos de texto:</p>
+<ol><li><strong>Ministro y Ubicación (Banner Inferior Centrado)</strong>:</li></ol>
+<p>   - Permite escribir el rango y nombre del ministro (ej. <code>P.E. ELIAS DÍAZ</code>, <code>D.E. ...</code>, <code>E.E. ...</code>).    - Se guarda de forma persistente (no se borra al reiniciar ni al pulsar <strong>Esc</strong> o <strong>Fondo</strong>).    - Proyecta en la parte inferior centrada el nombre del ministro y la ciudad/colonia configurada en <strong>Ajustes → Iglesia</strong>.</p>
+<ol start="2"><li><strong>El Coro Canta (Canto Especial)</strong>:</li></ol>
+<p>   - Permite escribir el título del canto especial que entonará el coro, o dejarlo vacío para proyectar el clásico «El Coro Canta».</p>
+<ol start="3"><li><strong>Ubicación y Dron (Tomas Aéreas)</strong>:</li></ol>
+<p>   - Cuadro animado de ubicación exterior para tomas de dron o cámaras generales. Puedes ingresar una ubicación específica o dejarlo en blanco para tomar los datos de la iglesia.</p>
+<ol start="4"><li><strong>Aviso o Titular Especial (Texto Libre)</strong>:</li></ol>
+<p>   - Banner libre para anuncios especiales, bienvenidas o menciones en vivo.</p>
+<h3 id="173-enlaces-de-salida-y-fuentes-para-obs">17.3 Enlaces de salida y fuentes para OBS</h3>
+<p>En la parte inferior de la pestaña se presentan las dos salidas de video con botones para copiar la URL con un clic:</p>
+<ul><li><strong>Pantallas del Templo (<code>/pantalla</code>)</strong>: Para televisiones y proyectores locales (letras, temas y citas a pantalla completa sin logo ni banners de cámara).</li><li><strong>Cámaras en OBS (<code>/overlay</code>)</strong>: Fuente de navegador para OBS con fondo transparente que incluye el logo oficial en esquina y todos los banners animados.</li></ul>
+<h3 id="174-ocultar-o-reemplazar-un-banner">17.4 Ocultar o reemplazar un banner</h3>
 <p><strong>Ocultar Banner</strong> retira el gráfico activo. La tecla original para esa acción es O, salvo que se haya personalizado.</p>
 <p>Al enviar otro gráfico mientras hay uno visible, el sistema puede completar la salida anterior antes de mostrar el nuevo. No pulses repetidamente el botón solo porque la transición no termina de inmediato.</p>
 <p>La duración se configura en <strong>Ajustes → OBS</strong>. Los valores iniciales son <strong>30 segundos</strong> para banners y <strong>75 segundos</strong> para el cuadro de ubicación. Cada campo admite de <strong>0 a 3600 segundos</strong>: <strong>0</strong> mantiene el gráfico hasta que lo ocultes. Pulsa <strong>Guardar ajustes</strong> para aplicar los tiempos a los siguientes envíos. El gráfico que ya esté visible conserva su tiempo anterior. La duración de las listas se configura por separado.</p>

@@ -17,7 +17,7 @@ const monitorStatusBadge = document.getElementById('monitor-status-badge');
 const monitorStatusText = document.getElementById('monitor-status-text');
 
 function clearSearchDraftsOnIdle() {
-  const fields = ['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput', 'customTextInput'];
+  const fields = ['themeInput', 'searchBook', 'chapter', 'verse', 'bibleTextSearchInput', 'hymnSearchInput', 'choirSearchInput', 'presentationSearchInput', 'customTextInput', 'choirCustomInput', 'droneCustomInput'];
   for (const id of fields) {
     const input = document.getElementById(id);
     if (!input || input.value === '') continue;

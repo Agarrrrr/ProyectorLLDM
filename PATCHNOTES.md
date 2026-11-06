@@ -13,9 +13,16 @@
 
 - En **Ajustes → Letras en las TV**, todos los controles de color (estrofas, coro, indicador, fondo y citas bíblicas) son ahora selectores nativos estilizados. Cuentan con un marco oscuro integrado, muestra de color de alta definición, efecto luminoso dorado y el valor HEX visible en mayúsculas (`#FFFFFF`), abriendo la paleta nativa del sistema operativo con un solo clic.
 
-### Banner Inferior de Ministro y Ubicación (OBS)
+### Rediseño integral de la pestaña Transmisión (Centro de Control OBS)
 
-- Nuevo control persistente en la pestaña **Transmisión** para definir el rango y nombre del ministro (ej. `P.E. ELIAS DÍAZ`, `D.E.`, `E.E.`) con su botón para enviar a OBS, proyectándose centrado en la parte inferior de `/overlay` con la colonia y ciudad de la congregación.
+- **Monitor en vivo y alarma de estado «En el Aire»**: el monitor superior ahora incorpora un badge dinámico con pulso visual (`● EN EL AIRE: [Texto]` frente a `○ EN REPOSO (Solo Logo)`) que indica en tiempo real qué gráfico está superpuesto sobre las cámaras en OBS.
+- **Acción rápida de ocultar banner**: botón de emergencia `Ocultar Banner` situado junto al monitor para retirar el banner al aire con un solo clic.
+- **Centro de control por módulos independientes**: se reemplazó el campo genérico compartido por cuatro módulos dedicados con su propio campo, descripción y botón de lanzamiento directo:
+  1. **Ministro y Ubicación**: persistente, proyecta centrado abajo el rango, nombre y ciudad.
+  2. **El Coro Canta**: identifica al coro y opcionalmente el título del canto especial.
+  3. **Ubicación y Dron**: cuadro animado para tomas aéreas y exteriores.
+  4. **Aviso o Titular Especial**: banner libre para anuncios especiales, bienvenidas o menciones.
+- **Panel de enlaces de salida de video**: tarjetas rediseñadas con botones de un clic para copiar la URL al portapapeles (`/pantalla` y `/overlay`) o abrirlas directamente en el navegador.
 
 ### Buscador de texto bíblico
 

@@ -24,6 +24,10 @@ export function connectProjection({ onState, onConnection }) {
         window.dispatchEvent(new CustomEvent('lists-updated', { detail: message }));
       } else if (message.type === 'MOBILE_DEVICE_JOINED') {
         window.dispatchEvent(new CustomEvent('mobile-device-joined', { detail: message.device }));
+      } else if (message.type === 'OVERLAY_EVENT') {
+        window.dispatchEvent(new CustomEvent('overlay-active', { detail: message.payload }));
+      } else if (message.type === 'OVERLAY_HIDE') {
+        window.dispatchEvent(new CustomEvent('overlay-hidden'));
       }
     } catch (error) {
       console.error('No se pudo sincronizar la cabina:', error);
