@@ -1,5 +1,11 @@
 # Notas de cambios
 
+## Versión 1.4.5
+
+### PDF sin instalar nada a mano
+
+- Si Python ya está en la PC, PyMuPDF se instala automáticamente al abrir la cabina (con internet) y se reintenta si un PDF lo necesita. Sin Python no se pueden importar PDF, pero todo lo demás funciona; las diapositivas también se pueden subir como imágenes PNG/JPG.
+
 ## Versión 1.4.4
 
 ### Dispositivos conectados que se actualizan solos

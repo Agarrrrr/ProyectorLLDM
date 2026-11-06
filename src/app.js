@@ -113,6 +113,8 @@ function createApplication(options = {}) {
   if (hosted) app.use('/uploads/presentations', express.static(uploadsDir, { index: false, dotfiles: 'deny' }));
   const multer = require('multer');
   const presentationService = require('./presentations/service').createPresentationService({ dataDir: DATA_DIR, uploadsDir });
+  // Al iniciar la cabina real (no en pruebas) se deja listo el soporte de PDF en segundo plano.
+  if (options.watchFiles !== false) presentationService.preparePdfSupport().catch(() => {});
   const tempUploadDir = hosted ? path.join(DATA_DIR, 'upload-temp') : path.join(ROOT_DIR, 'public', 'uploads', 'temp');
   if (!fs.existsSync(tempUploadDir)) fs.mkdirSync(tempUploadDir, { recursive: true });
   const upload = multer({

@@ -125,7 +125,39 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     }
   }
 
-  async function convertPdfWithPython(filePath, outDir) {
+  const pythonCandidates = () => process.env.PYTHON_PATH
+    ? [process.env.PYTHON_PATH]
+    : (process.platform === 'win32' ? ['python', 'python3'] : ['python3', 'python']);
+  let pdfSupport;
+
+  // Deja listo PyMuPDF (necesario para PDF) sin que el usuario tenga que instalar nada si Python ya existe.
+  async function installPdfSupport() {
+    const candidates = pythonCandidates();
+    try {
+      await runFirstAvailable(candidates, ['-c', 'import fitz'], { timeout: 30000, windowsHide: true });
+      return true;
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        console.warn('[PDF] Python no está instalado: se podrán importar imágenes y PowerPoint (en Windows), pero no PDF.');
+        return false;
+      }
+    }
+    console.log('[PDF] Instalando PyMuPDF automáticamente para poder importar PDF…');
+    try {
+      await runFirstAvailable(candidates, ['-m', 'pip', 'install', '--user', '--upgrade', 'pymupdf'],
+        { timeout: 300000, windowsHide: true });
+      console.log('[PDF] PyMuPDF listo.');
+      return true;
+    } catch (error) {
+      console.warn('[PDF] No se pudo instalar PyMuPDF automáticamente:', String(error.stderr || error.message).trim().split('\n').pop());
+      return false;
+    }
+  }
+  function preparePdfSupport() {
+    return pdfSupport ??= installPdfSupport();
+  }
+
+  async function convertPdfWithPython(filePath, outDir, retried = false) {
     const pyScriptPath = path.join(outDir, 'convert_temp.py');
     const pyContent = `
   import fitz, os, sys
@@ -143,21 +175,22 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
   print(f"COUNT:{len(doc)}")
   `;
     fs.writeFileSync(pyScriptPath, pyContent.replace(/^ {2}/gm, '').trimStart(), 'utf8');
-    const pythonCandidates = process.env.PYTHON_PATH
-      ? [process.env.PYTHON_PATH]
-      : (process.platform === 'win32' ? ['python', 'python3'] : ['python3', 'python']);
 
     try {
-      const { stdout: res } = await runFirstAvailable(pythonCandidates,
+      const { stdout: res } = await runFirstAvailable(pythonCandidates(),
         [pyScriptPath, filePath, outDir], { encoding: 'utf8', timeout: 120000, windowsHide: true });
       console.log('[PDF CONVERT OUTPUT]', res.trim());
     } catch (error) {
       const detail = String(error.stderr || error.message || '');
       if (error.code === 'ENOENT') {
-        throw new Error('Para importar PDF (y PPT/PPTX en macOS o Linux) hace falta instalar Python en la PC de cabina; es opcional y solo se usa para esto. Si no lo quieres instalar, exporta las diapositivas como imágenes PNG o JPG y súbelas. Buscar cantos, proyectar temas y editar listas no necesitan Python.');
+        throw new Error('Para importar PDF (y PPT/PPTX en macOS o Linux) hace falta instalar Python en la PC de cabina; PyMuPDF se instala solo al abrir la cabina. Es opcional y solo se usa para esto. Si no lo quieres instalar, exporta las diapositivas como imágenes PNG o JPG y súbelas. Buscar cantos, proyectar temas y editar listas no necesitan Python.');
       }
       if (/No module named ['"]?fitz/i.test(detail)) {
-        throw new Error('Python está instalado, pero falta PyMuPDF para leer PDF. Abre Símbolo del sistema y ejecuta: python -m pip install --upgrade pymupdf. También puedes subir las diapositivas como imágenes PNG o JPG.');
+        if (!retried) {
+          pdfSupport = undefined;
+          if (await preparePdfSupport()) return convertPdfWithPython(filePath, outDir, true);
+        }
+        throw new Error('Python está instalado, pero no se pudo instalar PyMuPDF automáticamente (¿sin internet?). Conecta la PC a internet y vuelve a intentarlo, o ejecuta: python -m pip install --upgrade pymupdf. También puedes subir las diapositivas como imágenes PNG o JPG.');
       }
       throw error;
     } finally {
@@ -290,7 +323,8 @@ function createPresentationService({ dataDir, uploadsDir, maxEdge = Number(proce
     getPresentations,
     savePresentations,
     createPresentationFromUploads,
-    deletePresentation
+    deletePresentation,
+    preparePdfSupport
   };
 
 }

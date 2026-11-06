@@ -57,7 +57,7 @@ Conecta el celular y la PC a la misma red del templo. En la PC, abre **Ajustes �
 
 Abre [Proyector LLDM Lite](https://proyector.lldmcoro.com/) para proyectar cantos, citas, temas y listas desde el navegador. Guarda las listas en el navegador y sincroniza la TV entre ventanas del mismo perfil. La personalización avanzada, el enlace de celulares por QR, OBS y la conversión de presentaciones están en la edición de escritorio.
 
-La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Python es **opcional**: solo se necesita para importar PDF (y PowerPoint en macOS y Linux, junto con LibreOffice) mediante `pymupdf`. Sin Python todo lo demás funciona: cantos, Biblia, temas, listas, OBS e importar presentaciones como imágenes PNG/JPG/WebP (en Windows, PowerPoint también se importa con PowerPoint instalado).
+La edición de escritorio se distribuye como ZIP multiplataforma (Windows, macOS y Linux) en [GitHub Releases](https://github.com/HuriTolentino/ProyectorLLDM/releases/latest). Python es **opcional**: solo se necesita para importar PDF (y PowerPoint en macOS y Linux, junto con LibreOffice). Si Python ya está instalado, la cabina instala sola PyMuPDF al abrirse (con internet). Sin Python todo lo demás funciona: cantos, Biblia, temas, listas, OBS e importar presentaciones como imágenes PNG/JPG/WebP (en Windows, PowerPoint también se importa con PowerPoint instalado).
 
 Para ajustar cuánto duran las citas y los temas, abre **Ajustes → Fondo de TV → Duración en TV**. Ambos duran dos minutos por defecto y puedes retirarlos antes con **Fondo** o **Esc**.
 
