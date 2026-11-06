@@ -1322,6 +1322,13 @@ Utiliza textos que puedan leerse como identificación o aviso. Un texto muy larg
 
 El nombre del control identifica un gráfico de ubicación; no conecta ni pilota un dron.
 
+### 17.4.1 Mostrar el banner inferior de ministro y ubicación
+
+1. En la pestaña **Transmisión**, ubica el apartado **Ministro y Ubicación (Banner Inferior OBS)**.
+2. Escribe el rango y nombre del ministro (por ejemplo, `P.E. ELIAS DÍAZ`, `D.E. ...` o `E.E. ...`). Este campo se guarda automáticamente de forma persistente en la cabina para que no tengas que volver a escribirlo en cada culto ni se borre al pulsar **Esc** o **Fondo**.
+3. Pulsa **Ministro (OBS)** (o presiona **Enter** dentro del campo).
+4. En la parte inferior centrada de `/overlay` aparecerá el banner con el rango y nombre del ministro en la línea principal y la ubicación de **Ajustes → Iglesia (Ciudad y ubicación)** en la línea inferior, respetando el estilo elegido (**Clásico** o **Paneles angulares**).
+
 ### 17.5 Ocultar o reemplazar un banner
 
 **Ocultar Banner** retira el gráfico activo. La tecla original para esa acción es O, salvo que se haya personalizado.

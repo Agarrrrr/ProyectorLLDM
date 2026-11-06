@@ -45,7 +45,8 @@ function graphicSample() {
     theme: { type: 'theme', theme: church.name },
     choir: { type: 'choir', text: 'El coro canta' },
     special: { type: 'special', book: 'Carta Apostólica' },
-    drone: { type: 'drone', location: church.city, tag: [church.name, church.address].filter(Boolean).join(' • ') }
+    drone: { type: 'drone', location: church.city, tag: [church.name, church.address].filter(Boolean).join(' • ') },
+    minister: { type: 'minister', minister: document.getElementById('ministerInput')?.value.trim() || 'P.E. ELIAS DÍAZ', location: church.city || church.address || 'ECOSANTUARIO, ECUADOR' }
   }[sample.value];
 }
 function updatePreview(includeSample = false) {

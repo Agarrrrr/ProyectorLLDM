@@ -160,6 +160,10 @@ function createApplication(options = {}) {
       payload.location ||= church.city;
       payload.tag ||= [church.name, church.address].filter(Boolean).join(' • ');
     }
+    if (payload.type === 'minister') {
+      payload.minister ||= projectionState.workspace?.drafts?.ministerInput || '';
+      payload.location ||= church.city || church.address || '';
+    }
     if (updateObs) obsBridge?.show(payload);
     const msg = JSON.stringify({
       type: 'OVERLAY_EVENT',

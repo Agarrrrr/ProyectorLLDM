@@ -83,6 +83,15 @@ export function synchronizeWorkspace(state) {
     updateInputPlaceholders();
   }
 
+  // El nombre del ministro es persistente para toda la cabina y nunca se borra con Esc/Fondo.
+  const ministerEl = document.getElementById('ministerInput');
+  if (ministerEl && document.activeElement !== ministerEl) {
+    const savedMinister = state.workspace?.drafts?.ministerInput ?? (() => { try { return localStorage.getItem('lldm_minister_name'); } catch { return ''; } })() ?? '';
+    if (savedMinister && ministerEl.value !== savedMinister) {
+      ministerEl.value = savedMinister;
+    }
+  }
+
   initialized = true;
 }
 

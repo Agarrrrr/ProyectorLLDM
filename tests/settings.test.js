@@ -61,7 +61,7 @@ test('ajustes, preparación y posición sobreviven al reinicio; los datos de igl
   assert.equal((await get('/api/state')).displayPayload.subtitle, 'La Luz del Mundo • Colonia Central');
   await send('/api/control/selection', { type: 'hymn', id: '001' });
   await send('/api/control/selection', { type: 'choir', id: 'coro_001' });
-  await send('/api/control/drafts', { themeInput: 'Preparado para después', activeTab: 'tab-coro' }, 'PATCH');
+  await send('/api/control/drafts', { themeInput: 'Preparado para después', activeTab: 'tab-coro', ministerInput: 'P.E. ELIAS DÍAZ' }, 'PATCH');
   await send('/api/project/choir', { choirId: 'coro_001', startIndex: 1 });
   const { appearance } = (await get('/api/state')).displayPayload;
   assert.equal(appearance.lineGap, 12);
@@ -74,6 +74,9 @@ test('ajustes, preparación y posición sobreviven al reinicio; los datos de igl
   assert.equal(restored.workspace.selections.choir.item.id, 'coro_001');
   assert.equal(restored.workspace.drafts.themeInput, 'Preparado para después');
   assert.equal(restored.workspace.drafts.activeTab, 'tab-coro');
+  assert.equal(restored.workspace.drafts.ministerInput, 'P.E. ELIAS DÍAZ');
+  await send('/api/control/action', { action: 'SET_IDLE' });
+  assert.equal((await get('/api/state')).workspace.drafts.ministerInput, 'P.E. ELIAS DÍAZ');
   assert.equal(restored.currentSlideIndex, 1);
   assert.equal(restored.contentType, 'choir');
   assert.equal(restored.phase, 'idle');
